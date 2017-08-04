@@ -56,7 +56,7 @@ public class TestUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] generateRandomArray(int size, int seed, ElementGenerator<T> generator, Class<T> clazz) {
+    private static <T> T[] generateRandomArray(int size, int seed, ElementGenerator<T> generator, Class<T> clazz) {
         Random random = new Random(seed);
         T[] array = (T[]) Array.newInstance(clazz, size);
         for (int i = 0; i < size; i++)
@@ -64,7 +64,7 @@ public class TestUtils {
         return array;
     }
 
-    public static <T> List<T> generateRandomList(int size, int seed, ElementGenerator<T> generator) {
+    private static <T> List<T> generateRandomList(int size, int seed, ElementGenerator<T> generator) {
         Random random = new Random(seed);
         List<T> list = new ArrayList<>();
         for (int i = 0; i < size; i++)
@@ -72,7 +72,7 @@ public class TestUtils {
         return list;
     }
 
-    public interface ElementGenerator<T> {
+    private interface ElementGenerator<T> {
         T generateElement(Random random);
     }
 }
