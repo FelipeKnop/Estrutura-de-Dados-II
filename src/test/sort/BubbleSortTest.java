@@ -11,14 +11,36 @@ import static org.junit.Assert.fail;
 public class BubbleSortTest {
 
     @Test
+    public void sortRandomIntegerArray() {
+        Integer[] array = TestUtils.getRandomIntegerArray(100);
+        BubbleSort bubbleSort = new BubbleSort();
+        Integer[] sorted = bubbleSort.sort(array);
+        for (int i = 1; i < sorted.length - 1; i++)
+            if (sorted[i - 1].compareTo(sorted[i]) > 0)
+                fail(String.format("A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1], i, sorted[i]));
+        System.out.println("Array de inteiros aleatórios ordenada corretamente");
+    }
+
+    @Test
     public void sortRandomIntegerList() {
         List<Integer> list = TestUtils.getRandomIntegerList(100);
         BubbleSort bubbleSort = new BubbleSort();
         List<Integer> sorted = bubbleSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
             if (sorted.get(i - 1).compareTo(sorted.get(i)) > 0)
-                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, list.get(i - 1), i, list.get(i)));
+                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted.get(i - 1), i, sorted.get(i)));
         System.out.println("Lista de inteiros aleatórios ordenada corretamente");
+    }
+
+    @Test
+    public void sortRandomStringArray() {
+        String[] array = TestUtils.getRandomStringArray(100);
+        BubbleSort bubbleSort = new BubbleSort();
+        String[] sorted = bubbleSort.sort(array);
+        for (int i = 1; i < sorted.length - 1; i++)
+            if (sorted[i - 1].compareTo(sorted[i]) > 0)
+                fail(String.format("A array não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted[i - 1], i, sorted[i]));
+        System.out.println("Array de strings aleatórias ordenada corretamente");
     }
 
     @Test
@@ -28,7 +50,7 @@ public class BubbleSortTest {
         List<String> sorted = bubbleSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
             if (sorted.get(i - 1).compareTo(sorted.get(i)) > 0)
-                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, list.get(i - 1), i, list.get(i)));
+                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted.get(i - 1), i, sorted.get(i)));
         System.out.println("Lista de strings aleatórias ordenada corretamente");
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface SortingAlgorithm {
 
+    <T extends Comparable<? super T>> T[] sort(T[] array);
+    <T> T[] sort(T[] array, Comparator<? super T> comparator);
     <T extends Comparable<? super T>> List<T> sort(List<T> list);
     <T> List<T> sort(List<T> list, Comparator<? super T> comparator);
 }
