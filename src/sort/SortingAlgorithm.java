@@ -1,8 +1,10 @@
 package sort;
 
+import java.util.Comparator;
 import java.util.List;
 
 public interface SortingAlgorithm {
 
-    List<Integer> sort(List<Integer> list);
+    <T extends Comparable<? super T>> List<T> sort(List<T> list);
+    <T> List<T> sort(List<T> list, Comparator<? super T> comparator);
 }
