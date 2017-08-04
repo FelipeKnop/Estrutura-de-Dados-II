@@ -17,7 +17,9 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da array com seus elementos ordenados de acordo
      * com a implementação da interface Comparable definida na classe T
      */
-    <T extends Comparable<? super T>> T[] sort(T[] array);
+    default <T extends Comparable<? super T>> T[] sort(T[] array) {
+        return sortArray(array, T::compareTo);
+    }
 
     /**
      * Ordena uma array de um tipo genérico utilizando um Comparator definido.
@@ -28,7 +30,9 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da array com seus elementos ordenados de acordo com
      * a implementação da interface Comparator recebida como argumento
      */
-    <T> T[] sort(T[] array, Comparator<? super T> comparator);
+    default <T> T[] sort(T[] array, Comparator<? super T> comparator) {
+        return sortArray(array, comparator);
+    }
 
     /**
      * Ordena uma lista de um tipo genérico que implementa a interface Comparable.
@@ -37,7 +41,9 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da lista com seus elementos ordenados de acordo
      * com a implementação da interface Comparable definida na classe T
      */
-    <T extends Comparable<? super T>> List<T> sort(List<T> list);
+    default <T extends Comparable<? super T>> List<T> sort(List<T> list) {
+        return sortList(list, T::compareTo);
+    }
 
     /**
      * Ordena uma lista de um tipo genérico utilizando um Comparator definido.
@@ -48,5 +54,31 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da lista com seus elementos ordenados de acordo com
      * a implementação da interface Comparator recebida como argumento
      */
-    <T> List<T> sort(List<T> list, Comparator<? super T> comparator);
+    default <T> List<T> sort(List<T> list, Comparator<? super T> comparator) {
+        return sortList(list, comparator);
+    }
+
+    /**
+     * Declaração do método que implementa a ordenação de arrays. A implementação
+     * varia para cada algoritmo.
+     * @param array Array a ser ordenada
+     * @param comparator Implementação da interface Comparator que define como um
+     *                   elemento do tipo T deve ser comparado a outro
+     * @param <T> Tipo da array
+     * @return Retorna uma cópia da array com seus elementos ordenados de acordo com
+     * a implementação da interface Comparator recebida como argumento
+     */
+    <T> T[] sortArray(T[] array, Comparator<? super T> comparator);
+
+    /**
+     * Declaração do método que implementa a ordenação de listas. A implementação
+     * varia para cada algoritmo.
+     * @param list Lista a ser ordenada
+     * @param comparator Implementação da interface Comparator que define como um
+     *                   elemento do tipo T deve ser comparado a outro
+     * @param <T> Tipo dos elementos da lista
+     * @return Retorna uma cópia da lista com seus elementos ordenados de acordo com
+     * a implementação da interface Comparator recebida como argumento
+     */
+    <T> List<T> sortList(List<T> list, Comparator<? super T> comparator);
 }
