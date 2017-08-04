@@ -8,8 +8,17 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
+/**
+ * Classe de testes para os métodos da classe {@link BubbleSort}
+ */
 public class BubbleSortTest {
 
+    /**
+     * Testa a ordenação de uma array de inteiros aleatórios gerada pela classe
+     * {@link TestUtils}. Caso algum elemento da array seja maior que o elemento
+     * anterior, o teste falha, imprimindo quais são os elementos que falharam.
+     * Caso isso não aconteça, a array está ordenada e essa informção é impressa.
+     */
     @Test
     public void sortRandomIntegerArray() {
         Integer[] array = TestUtils.getRandomIntegerArray(100);
@@ -21,6 +30,12 @@ public class BubbleSortTest {
         System.out.println("Array de inteiros aleatórios ordenada corretamente");
     }
 
+    /**
+     * Testa a ordenação de uma lista de inteiros aleatórios gerada pela classe
+     * {@link TestUtils}. Caso algum elemento da lista seja maior que o elemento
+     * anterior, o teste falha, imprimindo quais são os elementos que falharam.
+     * Caso isso não aconteça, a lista está ordenada e essa informção é impressa.
+     */
     @Test
     public void sortRandomIntegerList() {
         List<Integer> list = TestUtils.getRandomIntegerList(100);
@@ -32,6 +47,12 @@ public class BubbleSortTest {
         System.out.println("Lista de inteiros aleatórios ordenada corretamente");
     }
 
+    /**
+     * Testa a ordenação de uma array de strings aleatórias gerada pela classe
+     * {@link TestUtils}. Caso algum elemento da array seja maior que o elemento
+     * anterior, o teste falha, imprimindo quais são os elementos que falharam.
+     * Caso isso não aconteça, a array está ordenada e essa informção é impressa.
+     */
     @Test
     public void sortRandomStringArray() {
         String[] array = TestUtils.getRandomStringArray(100);
@@ -43,6 +64,12 @@ public class BubbleSortTest {
         System.out.println("Array de strings aleatórias ordenada corretamente");
     }
 
+    /**
+     * Testa a ordenação de uma lista de strings aleatórias gerada pela classe
+     * {@link TestUtils}. Caso algum elemento da lista seja maior que o elemento
+     * anterior, o teste falha, imprimindo quais são os elementos que falharam.
+     * Caso isso não aconteça, a lista está ordenada e essa informção é impressa.
+     */
     @Test
     public void sortRandomStringList() {
         List<String> list = TestUtils.getRandomStringList(100);

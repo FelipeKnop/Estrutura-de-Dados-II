@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Classe que implementa a interface {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * <a href="https://en.wikipedia.org/wiki/Bubble_sort">BubbleSort</a>
+ */
 public class BubbleSort implements SortingAlgorithm {
 
     @Override
