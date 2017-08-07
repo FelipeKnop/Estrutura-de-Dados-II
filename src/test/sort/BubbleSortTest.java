@@ -14,6 +14,11 @@ import static org.junit.Assert.fail;
 public class BubbleSortTest {
 
     /**
+     * Tamanho padrão das arrays/listas de teste.
+     */
+    private static final int DEFAULT_SIZE = 10000;
+
+    /**
      * Testa a ordenação de uma array de inteiros aleatórios gerada pela classe
      * {@link TestUtils}. Caso algum elemento da array seja maior que o elemento
      * anterior, o teste falha, imprimindo quais são os elementos que falharam.
@@ -21,7 +26,7 @@ public class BubbleSortTest {
      */
     @Test
     public void sortRandomIntegerArray() {
-        Integer[] array = TestUtils.getRandomIntegerArray(100);
+        Integer[] array = TestUtils.getRandomIntegerArray(DEFAULT_SIZE);
         BubbleSort bubbleSort = new BubbleSort();
         Integer[] sorted = bubbleSort.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -38,7 +43,7 @@ public class BubbleSortTest {
      */
     @Test
     public void sortRandomIntegerList() {
-        List<Integer> list = TestUtils.getRandomIntegerList(100);
+        List<Integer> list = TestUtils.getRandomIntegerList(DEFAULT_SIZE);
         BubbleSort bubbleSort = new BubbleSort();
         List<Integer> sorted = bubbleSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
@@ -55,7 +60,7 @@ public class BubbleSortTest {
      */
     @Test
     public void sortRandomStringArray() {
-        String[] array = TestUtils.getRandomStringArray(100);
+        String[] array = TestUtils.getRandomStringArray(DEFAULT_SIZE);
         BubbleSort bubbleSort = new BubbleSort();
         String[] sorted = bubbleSort.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -72,7 +77,7 @@ public class BubbleSortTest {
      */
     @Test
     public void sortRandomStringList() {
-        List<String> list = TestUtils.getRandomStringList(100);
+        List<String> list = TestUtils.getRandomStringList(DEFAULT_SIZE);
         BubbleSort bubbleSort = new BubbleSort();
         List<String> sorted = bubbleSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)

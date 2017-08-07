@@ -20,7 +20,7 @@ public class MergeSort implements SortingAlgorithm {
                 int right = Math.min(left + width, a.length), end = Math.min(left + (width << 1), a.length);
                 int i = left, j = right;
                 for (int k = left; k < end; k++)
-                    if (i < right && (j >= end || comparator.compare(a[i], a[j]) <= 0)) {
+                    if (i < right && (j >= end || comparator.compare(a[i], a[j]) < 0)) {
                         a2[k] = a[i];
                         i++;
                     } else {
@@ -42,7 +42,7 @@ public class MergeSort implements SortingAlgorithm {
                 int right = Math.min(left + width, l.size()), end = Math.min(left + (width << 1), l.size());
                 int i = left, j = right;
                 for (int k = left; k < end; k++)
-                    if (i < right && (j >= end || comparator.compare(l.get(i), l.get(j)) <= 0)) {
+                    if (i < right && (j >= end || comparator.compare(l.get(i), l.get(j)) < 0)) {
                         l2.set(k, l.get(i));
                         i++;
                     } else {

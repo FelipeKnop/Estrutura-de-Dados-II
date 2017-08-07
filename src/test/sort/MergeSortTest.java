@@ -14,6 +14,11 @@ import static org.junit.Assert.fail;
 public class MergeSortTest {
 
     /**
+     * Tamanho padrão das arrays/listas de teste.
+     */
+    private static final int DEFAULT_SIZE = 1000000;
+
+    /**
      * Testa a ordenação de uma array de inteiros aleatórios gerada pela classe
      * {@link TestUtils}. Caso algum elemento da array seja maior que o elemento
      * anterior, o teste falha, imprimindo quais são os elementos que falharam.
@@ -21,7 +26,7 @@ public class MergeSortTest {
      */
     @Test
     public void sortRandomIntegerArray() {
-        Integer[] array = TestUtils.getRandomIntegerArray(100);
+        Integer[] array = TestUtils.getRandomIntegerArray(DEFAULT_SIZE);
         MergeSort mergeSort = new MergeSort();
         Integer[] sorted = mergeSort.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -38,7 +43,7 @@ public class MergeSortTest {
      */
     @Test
     public void sortRandomIntegerList() {
-        List<Integer> list = TestUtils.getRandomIntegerList(100);
+        List<Integer> list = TestUtils.getRandomIntegerList(DEFAULT_SIZE);
         MergeSort mergeSort = new MergeSort();
         List<Integer> sorted = mergeSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
@@ -55,7 +60,7 @@ public class MergeSortTest {
      */
     @Test
     public void sortRandomStringArray() {
-        String[] array = TestUtils.getRandomStringArray(100);
+        String[] array = TestUtils.getRandomStringArray(DEFAULT_SIZE);
         MergeSort mergeSort = new MergeSort();
         String[] sorted = mergeSort.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -72,7 +77,7 @@ public class MergeSortTest {
      */
     @Test
     public void sortRandomStringList() {
-        List<String> list = TestUtils.getRandomStringList(100);
+        List<String> list = TestUtils.getRandomStringList(DEFAULT_SIZE);
         MergeSort mergeSort = new MergeSort();
         List<String> sorted = mergeSort.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
