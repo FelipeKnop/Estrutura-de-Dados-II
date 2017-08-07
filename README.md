@@ -4,7 +4,7 @@ Repositório para implementações referentes à disciplina DCC012 - Estrutura d
 
 ## Algoritmos de ordenação
 - [x] InsertionSort
-- [ ] MergeSort
+- [x] MergeSort
 - [ ] QuickSort
 - [x] BubbleSort
 - [ ] HeapSort
