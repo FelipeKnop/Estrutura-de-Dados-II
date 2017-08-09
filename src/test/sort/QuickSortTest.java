@@ -1,7 +1,7 @@
 package test.sort;
 
 import org.junit.Test;
-import sort.MergeSort;
+import sort.QuickSort;
 import sort.SortingAlgorithm;
 import test.TestUtils;
 
@@ -10,9 +10,9 @@ import java.util.List;
 import static org.junit.Assert.fail;
 
 /**
- * Classe de testes para os métodos da classe {@link sort.MergeSort}
+ * Classe de testes para os métodos da classe {@link sort.QuickSort}
  */
-public class MergeSortTest {
+public class QuickSortTest {
 
     /**
      * Tamanho padrão das arrays/listas de teste.
@@ -22,7 +22,7 @@ public class MergeSortTest {
     /**
      * Instância do algoritmo de sort a ser utilizado.
      */
-    private static final SortingAlgorithm sortingAlgorithm = new MergeSort();
+    private static final SortingAlgorithm sortingAlgorithm = new QuickSort();
 
     /**
      * Testa a ordenação de uma array de inteiros aleatórios gerada pela classe
