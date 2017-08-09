@@ -1,9 +1,6 @@
 package sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Interface que contém os métodos de ordenação de arrays e listas de tipo genérico,
@@ -44,6 +41,9 @@ public interface SortingAlgorithm {
 
     /**
      * Invoca o método de sort interno para ordenar a lista recebida.
+     * Para isso, utiliza o método {@link List#toArray()} para
+     * converter a lista recebida para uma array e, após o sort
+     * ser realizado, percorre a array preenchendo a lista de volta.
      * Aceita como argumento somente listas de tipo T que implementam
      * a interface {@link Comparable} e utiliza o próprio método
      * {@link Comparable#compareTo(Object)} da classe de tipo T como
@@ -53,17 +53,25 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da lista com seus elementos ordenados de acordo
      * com a implementação da interface {@link Comparable} definida na classe T
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     default <T extends Comparable<? super T>> List<T> sort(List<T> list) {
-        return sortList(new ArrayList<>(list), T::compareTo);
+        List<T> l = new ArrayList<>(list);
+        Comparator<? super T> comparator = T::compareTo;
+        Object[] array = l.toArray();
+        array = sortArray(array, (Comparator) comparator);
+        ListIterator<T> it = l.listIterator();
+        for (Object object : array) {
+            it.next();
+            it.set((T) object);
+        }
+        return l;
     }
 
     /**
      * Invoca o método de sort interno para ordenar a lista recebida.
      * Para isso, utiliza o método {@link List#toArray()} para
      * converter a lista recebida para uma array e, após o sort
-     * ser realizado, o método {@link Arrays#asList(Object[])} para
-     * convertê-la de volta para uma lista.
+     * ser realizado, percorre a array preenchendo a lista de volta.
      * Aceita como argumento uma implementação da interface {@link Comparator}
      * para definir o critério de comparação a ser utilizado na ordenação.
      * @param list Lista de tipo genérico
@@ -73,9 +81,17 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da lista com seus elementos ordenados de acordo com
      * a implementação da interface {@link Comparator} recebida como argumento
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     default <T> List<T> sort(List<T> list, Comparator<? super T> comparator) {
-        return sortList(new ArrayList<>(list), comparator);
+        List<T> l = new ArrayList<>(list);
+        Object[] array = l.toArray();
+        array = sortArray(array, (Comparator) comparator);
+        ListIterator<T> it = l.listIterator();
+        for (Object object : array) {
+            it.next();
+            it.set((T) object);
+        }
+        return l;
     }
 
     /**
@@ -85,20 +101,8 @@ public interface SortingAlgorithm {
      * @param comparator Implementação da interface {@link Comparator} que define como um
      *                   elemento do tipo T deve ser comparado a outro
      * @param <T> Tipo da array
-     * @return Retorna uma cópia da array com seus elementos ordenados de acordo com
+     * @return Retorna a array com seus elementos ordenados de acordo com
      * a implementação da interface {@link Comparator} recebida como argumento
      */
     <T> T[] sortArray(T[] array, Comparator<? super T> comparator);
-
-    /**
-     * Declaração do método que implementa a ordenação de listas. A implementação
-     * varia para cada algoritmo.
-     * @param list Lista a ser ordenada
-     * @param comparator Implementação da interface {@link Comparator} que define como um
-     *                   elemento do tipo T deve ser comparado a outro
-     * @param <T> Tipo da lista
-     * @return Retorna uma cópia da lista com seus elementos ordenados de acordo com
-     * a implementação da interface {@link Comparator} recebida como argumento
-     */
-    <T> List<T> sortList(List<T> list, Comparator<? super T> comparator);
 }
