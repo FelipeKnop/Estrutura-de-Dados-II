@@ -14,44 +14,42 @@ public class MergeSort implements SortingAlgorithm {
     @Override
     public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
         T[] a = Arrays.copyOf(array, array.length);
-        T[] a2 = Arrays.copyOf(array, array.length);
-        for (int width = 1; width < a.length; width <<= 1) {
-            for (int left = 0; left < a.length; left += width << 1) {
-                int right = Math.min(left + width, a.length), end = Math.min(left + (width << 1), a.length);
+        for (int width = 1; width < array.length; width <<= 1) {
+            for (int left = 0; left < array.length; left += width << 1) {
+                int right = Math.min(left + width, array.length), end = Math.min(left + (width << 1), array.length);
                 int i = left, j = right;
                 for (int k = left; k < end; k++)
-                    if (i < right && (j >= end || comparator.compare(a[i], a[j]) < 0)) {
-                        a2[k] = a[i];
+                    if (i < right && (j >= end || comparator.compare(array[i], array[j]) < 0)) {
+                        a[k] = array[i];
                         i++;
                     } else {
-                        a2[k] = a[j];
+                        a[k] = array[j];
                         j++;
                     }
             }
-            a = Arrays.copyOf(a2, a2.length);
+            array = Arrays.copyOf(a, a.length);
         }
-        return a;
+        return array;
     }
 
     @Override
     public <T> List<T> sortList(List<T> list, Comparator<? super T> comparator) {
         List<T> l = new ArrayList<>(list);
-        List<T> l2 = new ArrayList<>(list);
-        for (int width = 1; width < l.size(); width <<= 1) {
-            for (int left = 0; left < l.size(); left += width << 1) {
-                int right = Math.min(left + width, l.size()), end = Math.min(left + (width << 1), l.size());
+        for (int width = 1; width < list.size(); width <<= 1) {
+            for (int left = 0; left < list.size(); left += width << 1) {
+                int right = Math.min(left + width, list.size()), end = Math.min(left + (width << 1), list.size());
                 int i = left, j = right;
                 for (int k = left; k < end; k++)
-                    if (i < right && (j >= end || comparator.compare(l.get(i), l.get(j)) < 0)) {
-                        l2.set(k, l.get(i));
+                    if (i < right && (j >= end || comparator.compare(list.get(i), list.get(j)) < 0)) {
+                        l.set(k, list.get(i));
                         i++;
                     } else {
-                        l2.set(k, l.get(j));
+                        l.set(k, list.get(j));
                         j++;
                     }
             }
-            l = new ArrayList<>(l2);
+            list = new ArrayList<>(l);
         }
-        return l;
+        return list;
     }
 }

@@ -1,7 +1,5 @@
 package sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,20 +11,19 @@ public class QuickSort implements SortingAlgorithm {
 
     @Override
     public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
-        T[] a = Arrays.copyOf(array, array.length);
-        quickArray(a, 0, a.length - 1, comparator);
-        return a;
+        quickSort(array, 0, array.length - 1, comparator);
+        return array;
     }
 
-    private <T> void quickArray(T[] array, int left, int right, Comparator<? super T> comparator) {
+    private <T> void quickSort(T[] array, int left, int right, Comparator<? super T> comparator) {
         if (left < right) {
-            int pi = partitionArray(array, left, right, comparator);
-            quickArray(array, left, pi - 1, comparator);
-            quickArray(array, pi + 1, right, comparator);
+            int pi = partition(array, left, right, comparator);
+            quickSort(array, left, pi - 1, comparator);
+            quickSort(array, pi + 1, right, comparator);
         }
     }
 
-    private <T> int partitionArray(T[] array, int left, int right, Comparator<? super T> comparator) {
+    private <T> int partition(T[] array, int left, int right, Comparator<? super T> comparator) {
         int i = left - 1;
         for (int j = left; j < right; j++)
             if (comparator.compare(array[j], array[right]) <= 0) {
@@ -44,20 +41,19 @@ public class QuickSort implements SortingAlgorithm {
 
     @Override
     public <T> List<T> sortList(List<T> list, Comparator<? super T> comparator) {
-        List<T> l = new ArrayList<>(list);
-        quickList(l, 0, l.size() - 1, comparator);
-        return l;
+        quickSort(list, 0, list.size() - 1, comparator);
+        return list;
     }
 
-    private <T> void quickList(List<T> list, int left, int right, Comparator<? super T> comparator) {
+    private <T> void quickSort(List<T> list, int left, int right, Comparator<? super T> comparator) {
         if (left < right) {
-            int pi = partitionList(list, left, right, comparator);
-            quickList(list, left, pi - 1, comparator);
-            quickList(list, pi + 1, right, comparator);
+            int pi = partition(list, left, right, comparator);
+            quickSort(list, left, pi - 1, comparator);
+            quickSort(list, pi + 1, right, comparator);
         }
     }
 
-    private <T> int partitionList(List<T> list, int left, int right, Comparator<? super T> comparator) {
+    private <T> int partition(List<T> list, int left, int right, Comparator<? super T> comparator) {
         int i = left - 1;
         for (int j = left; j < right; j++)
             if (comparator.compare(list.get(j), list.get(right)) <= 0) {

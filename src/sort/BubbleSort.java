@@ -1,7 +1,5 @@
 package sort;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,24 +11,22 @@ public class BubbleSort implements SortingAlgorithm {
 
     @Override
     public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
-        T[] a = Arrays.copyOf(array, array.length);
-        for (int i = 0; i < a.length - 1; i++)
-            for (int j = i + 1; j < a.length; j++)
-                if (comparator.compare(a[j], a[i]) < 0) {
-                    T temp = a[i];
-                    a[i] = a[j];
-                    a[j] = temp;
+        for (int i = 0; i < array.length - 1; i++)
+            for (int j = i + 1; j < array.length; j++)
+                if (comparator.compare(array[j], array[i]) < 0) {
+                    T temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
                 }
-        return a;
+        return array;
     }
 
     @Override
     public <T> List<T> sortList(List<T> list, Comparator<? super T> comparator) {
-        List<T> l = new ArrayList<>(list);
-        for (int i = 0; i < l.size() - 1; i++)
-            for (int j = i + 1; j < l.size(); j++)
-                if (comparator.compare(l.get(j), l.get(i)) < 0)
-                    l.set(i, l.set(j, l.get(i)));
-        return l;
+        for (int i = 0; i < list.size() - 1; i++)
+            for (int j = i + 1; j < list.size(); j++)
+                if (comparator.compare(list.get(j), list.get(i)) < 0)
+                    list.set(i, list.set(j, list.get(i)));
+        return list;
     }
 }
