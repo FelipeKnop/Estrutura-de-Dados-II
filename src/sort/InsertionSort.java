@@ -11,61 +11,38 @@ public class InsertionSort implements SortingAlgorithm {
 
     @Override
     public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
-        for (int i = 1; i < array.length; ++i) {
-            int j = i - 1;
-            T selected = array[i];
-            int loc = binarySearch(array, selected, 0, j, comparator);
-            while (j >= loc) {
-                array[j + 1] = array[j];
-                j--;
+        for (int i = 1; i < array.length; i++) {
+            T pivot = array[i];
+            int left = 0, right = i;
+            while (left < right) {
+                int mid = (left + right) >>> 1;
+                if (comparator.compare(pivot, array[mid]) < 0)
+                    right = mid;
+                else
+                    left = mid + 1;
             }
-            array[j + 1] = selected;
+            System.arraycopy(array, left, array, left + 1, i - left);
+            array[left] = pivot;
         }
         return array;
     }
 
-    private <T> int binarySearch(T[] array, T selected, int left, int right, Comparator<? super T> comparator) {
-        if (right <= left)
-            return comparator.compare(selected, array[left]) > 0 ? left + 1 : left;
-
-        int mid = (left + right) / 2;
-
-        if (comparator.compare(selected, array[mid]) == 0)
-            return mid + 1;
-
-        if (comparator.compare(selected, array[mid]) > 0)
-            return binarySearch(array, selected, mid + 1, right, comparator);
-
-        return binarySearch(array, selected, left, mid - 1, comparator);
-    }
-
     @Override
     public <T> List<T> sortList(List<T> list, Comparator<? super T> comparator) {
-        for (int i = 1; i < list.size(); ++i) {
-            int j = i - 1;
-            T selected = list.get(i);
-            int loc = binarySearch(list, selected, 0, j, comparator);
-            while (j >= loc) {
-                list.set(j + 1, list.get(j));
-                j--;
+        for (int i = 1; i < list.size(); i++) {
+            T pivot = list.get(i);
+            int left = 0, right = i;
+            while (left < right) {
+                int mid = (left + right) >>> 1;
+                if (comparator.compare(pivot, list.get(mid)) < 0)
+                    right = mid;
+                else
+                    left = mid + 1;
             }
-            list.set(j + 1, selected);
+            for (int j = i; j > left; j--)
+                list.set(j, list.get(j - 1));
+            list.set(left, pivot);
         }
         return list;
-    }
-
-    private <T> int binarySearch(List<T> list, T selected, int left, int right, Comparator<? super T> comparator) {
-        if (right <= left)
-            return comparator.compare(selected, list.get(left)) > 0 ? left + 1 : left;
-
-        int mid = (left + right) / 2;
-
-        if (comparator.compare(selected, list.get(mid)) == 0)
-            return mid + 1;
-
-        if (comparator.compare(selected, list.get(mid)) > 0)
-            return binarySearch(list, selected, mid + 1, right, comparator);
-
-        return binarySearch(list, selected, left, mid - 1, comparator);
     }
 }
