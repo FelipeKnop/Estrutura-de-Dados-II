@@ -1,5 +1,7 @@
 package test;
 
+import models.Tweet;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +135,29 @@ public class TestUtils {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Utiliza o método {@link #getRandomTweetArray(int, int)} para retornar
+     * uma array de Tweets aleatórios.
+     * @param size Tamanho da array
+     * @return Retorna o resultado do método {@link #getRandomTweetArray(int, int)},
+     * que é uma array de tweets gerados aleatoriamente
+     */
+    public static Tweet[] getRandomTweetArray(int size) {
+        return getRandomTweetArray(size, DEFAULT_SEED);
+    }
+
+    /**
+     * Utiliza o método genérico {@link #generateRandomArray(int, int, ElementGenerator, Class)}
+     * para retornar uma array de tweets aleatórios.
+     * @param size Tamanho da array
+     * @param seed Seed a ser utilizado para a geração dos números aleatórios
+     * @return Retorna o resultado do método {@link #generateRandomArray(int, int, ElementGenerator, Class)},
+     * que é uma array de tweets gerados aleatoriamente
+     */
+    public static Tweet[] getRandomTweetArray(int size, int seed) {
+        return generateRandomArray(size, seed, random -> new Tweet(Math.abs(random.nextInt()), Math.abs(random.nextInt()), "Lorem Ipsum", "2009-12-03 18:41:07"), Tweet.class);
     }
 
     /**
