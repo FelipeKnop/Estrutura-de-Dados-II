@@ -8,6 +8,16 @@ import java.util.Comparator;
  */
 public class BubbleSort implements SortingAlgorithm {
 
+    /**
+     * Implementação padrão do BubbleSort.
+     *
+     * @param array Array a ser ordenada
+     * @param comparator Implementação da interface {@link Comparator} que define como um
+     *                   elemento do tipo T deve ser comparado a outro
+     * @param <T> Tipo da array
+     * @return Retorna a array com seus elementos ordenados de acordo
+     * com a implementação da interface {@link Comparator} recebida como argumento
+     */
     @Override
     public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
         for (int i = 0; i < array.length - 1; i++)
