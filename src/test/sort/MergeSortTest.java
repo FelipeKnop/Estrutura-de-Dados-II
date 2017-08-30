@@ -36,8 +36,8 @@ public class MergeSortTest {
         Integer[] sorted = sortingAlgorithm.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
             if (sorted[i - 1].compareTo(sorted[i]) > 0)
-                fail(String.format("A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1], i, sorted[i]));
-        System.out.println("Array de inteiros aleatórios ordenada corretamente");
+                fail(String.format("[" + getClass().getSimpleName() + "] - A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1], i, sorted[i]));
+        System.out.println("[" + getClass().getSimpleName() + "] - Array de inteiros aleatórios ordenada corretamente");
     }
 
     /**
@@ -52,8 +52,8 @@ public class MergeSortTest {
         List<Integer> sorted = sortingAlgorithm.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
             if (sorted.get(i - 1).compareTo(sorted.get(i)) > 0)
-                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted.get(i - 1), i, sorted.get(i)));
-        System.out.println("Lista de inteiros aleatórios ordenada corretamente");
+                fail(String.format("[" + getClass().getSimpleName() + "] - A lista não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted.get(i - 1), i, sorted.get(i)));
+        System.out.println("[" + getClass().getSimpleName() + "] - Lista de inteiros aleatórios ordenada corretamente");
     }
 
     /**
@@ -68,8 +68,8 @@ public class MergeSortTest {
         String[] sorted = sortingAlgorithm.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
             if (sorted[i - 1].compareTo(sorted[i]) > 0)
-                fail(String.format("A array não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted[i - 1], i, sorted[i]));
-        System.out.println("Array de strings aleatórias ordenada corretamente");
+                fail(String.format("[" + getClass().getSimpleName() + "] - A array não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted[i - 1], i, sorted[i]));
+        System.out.println("[" + getClass().getSimpleName() + "] - Array de strings aleatórias ordenada corretamente");
     }
 
     /**
@@ -84,7 +84,7 @@ public class MergeSortTest {
         List<String> sorted = sortingAlgorithm.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
             if (sorted.get(i - 1).compareTo(sorted.get(i)) > 0)
-                fail(String.format("A lista não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted.get(i - 1), i, sorted.get(i)));
-        System.out.println("Lista de strings aleatórias ordenada corretamente");
+                fail(String.format("[" + getClass().getSimpleName() + "] - A lista não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted.get(i - 1), i, sorted.get(i)));
+        System.out.println("[" + getClass().getSimpleName() + "] - Lista de strings aleatórias ordenada corretamente");
     }
 }

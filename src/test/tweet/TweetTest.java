@@ -36,7 +36,7 @@ public class TweetTest {
         Tweet[] sorted = sortingAlgorithm.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
             if (sorted[i - 1].compareTo(sorted[i]) > 0)
-                fail(String.format("A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1].getTweetId(), i, sorted[i].getTweetId()));
-        System.out.println("Array de tweets aleatórios ordenada corretamente");
+                fail(String.format("[" + getClass().getSimpleName() + "] - A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1].getTweetId(), i, sorted[i].getTweetId()));
+        System.out.println("[" + getClass().getSimpleName() + "] - Array de tweets aleatórios ordenada corretamente");
     }
 }

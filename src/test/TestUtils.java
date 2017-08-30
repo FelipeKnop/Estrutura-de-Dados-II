@@ -47,6 +47,18 @@ public class TestUtils {
     }
 
     /**
+     * Utiliza o método genérico {@link #generateRandomArray(int, int, ElementGenerator, Class)}
+     * para retornar uma array de inteiros aleatórios.
+     * @param size Tamanho da array
+     * @param generator Função que define a regra de geração de elementos aleatórios
+     * @return Retorna o resultado do método {@link #generateRandomArray(int, int, ElementGenerator, Class)},
+     * que é uma array de números inteiros gerados aleatoriamente
+     */
+    public static Integer[] getRandomIntegerArray(int size, ElementGenerator<Integer> generator) {
+        return generateRandomArray(size, DEFAULT_SEED, generator, Integer.class);
+    }
+
+    /**
      * Utiliza o método {@link #getRandomIntegerList(int, int)} para retornar
      * uma lista de inteiros aleatórios.
      * @param size Tamanho da lista
@@ -200,7 +212,7 @@ public class TestUtils {
      * Interface funcional a ser usada para definir a regra de geração de um novo elemento.
      * @param <T>
      */
-    private interface ElementGenerator<T> {
+    public interface ElementGenerator<T> {
 
         /**
          * Método que possui a implementação de geração de um elemento aleatório.
