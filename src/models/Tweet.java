@@ -41,4 +41,9 @@ public class Tweet implements Comparable<Tweet> {
     public int compareTo(Tweet o) {
         return Math.toIntExact(this.tweetId - o.getTweetId());
     }
+
+    @Override
+    public String toString() {
+        return this.userId + "\t" + this.tweetId + "\t" + this.tweetText + "\t" + this.date;
+    }
 }
