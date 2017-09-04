@@ -138,13 +138,20 @@ public abstract class SortingAlgorithm {
         return lastRunTimeFinished - lastRunTimeStarted;
     }
 
-    void setup() {
+    final void setup() {
         this.lastRunComparisons = 0;
         this.lastRunCopies = 0;
         this.lastRunTimeStarted = System.currentTimeMillis();
     }
 
-    void end() {
+    final void end() {
         this.lastRunTimeFinished = System.currentTimeMillis();
+    }
+
+    public final void printResults() {
+        System.out.println("Algoritmo utilizado: " + getClass().getSimpleName());
+        System.out.println("Número de comparações: " + getLastRunComparisons());
+        System.out.println("Número de cópias de registros: " + getLastRunCopies());
+        System.out.println(String.format("Tempo gasto: %d milisegundos", getLastRunTimeSpent()));
     }
 }
