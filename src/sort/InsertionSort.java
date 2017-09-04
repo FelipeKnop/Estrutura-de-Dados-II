@@ -35,7 +35,8 @@ public class InsertionSort extends SortingAlgorithm {
      * com a implementação da interface {@link Comparator} recebida como argumento
      */
     @Override
-    public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+    <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+        setup();
         for (int i = 1; i < array.length; i++) {
             T pivot = array[i];
             int left = 0, right = i;
@@ -45,10 +46,12 @@ public class InsertionSort extends SortingAlgorithm {
                     right = mid;
                 else
                     left = mid + 1;
+                this.lastRunComparisons++;
             }
             System.arraycopy(array, left, array, left + 1, i - left); // Desloca todos os elementos da array a partir do índice left para a direita em 1 posição
             array[left] = pivot;
         }
+        end();
         return array;
     }
 }

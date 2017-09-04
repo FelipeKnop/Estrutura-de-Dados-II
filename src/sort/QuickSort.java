@@ -20,8 +20,10 @@ public class QuickSort extends SortingAlgorithm {
      * com a implementação da interface {@link Comparator} recebida como argumento
      */
     @Override
-    public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+    <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+        setup();
         quickSort(array, 0, array.length - 1, comparator);
+        end();
         return array;
     }
 
@@ -35,13 +37,15 @@ public class QuickSort extends SortingAlgorithm {
 
     private <T> int partition(T[] array, int left, int right, Comparator<? super T> comparator) {
         int i = left - 1;
-        for (int j = left; j < right; j++)
+        for (int j = left; j < right; j++) {
             if (comparator.compare(array[j], array[right]) <= 0) {
                 i++;
                 T temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }
+            this.lastRunComparisons++;
+        }
         T temp = array[i + 1];
         array[i + 1] = array[right];
         array[right] = temp;

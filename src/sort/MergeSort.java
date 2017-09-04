@@ -20,14 +20,15 @@ public class MergeSort extends SortingAlgorithm {
      * com a implementação da interface {@link Comparator} recebida como argumento
      */
     @Override
-    public <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+    <T> T[] sortArray(T[] array, Comparator<? super T> comparator) {
+        setup();
         T[] a = Arrays.copyOf(array, array.length);
         for (int width = 1; width < array.length; width <<= 1) {
             for (int left = 0; left < array.length; left += width << 1) {
                 int right = Math.min(left + width, array.length), end = Math.min(left + (width << 1), array.length);
                 // Início da função Merge
                 int i = left, j = right;
-                for (int k = left; k < end; k++)
+                for (int k = left; k < end; k++) {
                     if (i < right && (j >= end || comparator.compare(array[i], array[j]) < 0)) {
                         a[k] = array[i];
                         i++;
@@ -35,9 +36,12 @@ public class MergeSort extends SortingAlgorithm {
                         a[k] = array[j];
                         j++;
                     }
+                    this.lastRunComparisons++;
+                }
             }
             array = Arrays.copyOf(a, a.length);
         }
+        end();
         return array;
     }
 }
