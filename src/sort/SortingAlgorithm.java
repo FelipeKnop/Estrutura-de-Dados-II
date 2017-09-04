@@ -10,6 +10,26 @@ import java.util.*;
 public abstract class SortingAlgorithm {
 
     /**
+     * Número de comparações feitas na última vez que o algoritmo de sort foi executado.
+     */
+    long lastRunComparisons = 0;
+
+    /**
+     * Número de cópias de registros feitas na última vez que o algoritmo foi executado.
+     */
+    long lastRunCopies = 0;
+
+    /**
+     * Hora em que a última execução do algoritmo começou.
+     */
+    private long lastRunTimeStarted = 0;
+
+    /**
+     * Hora em que a última execução do algoritmo terminou.
+     */
+    private long lastRunTimeFinished = 0;
+
+    /**
      * Invoca o método de sort interno para ordenar a array recebida.
      * Aceita como argumento somente arrays de tipo T que implementam
      * a interface {@link Comparable} e utiliza o próprio método
@@ -105,4 +125,26 @@ public abstract class SortingAlgorithm {
      * a implementação da interface {@link Comparator} recebida como argumento
      */
     abstract <T> T[] sortArray(T[] array, Comparator<? super T> comparator);
+
+    public final long getLastRunComparisons() {
+        return lastRunComparisons;
+    }
+
+    public final long getLastRunCopies() {
+        return lastRunCopies;
+    }
+
+    public final long getLastRunTimeSpent() {
+        return lastRunTimeFinished - lastRunTimeStarted;
+    }
+
+    void setup() {
+        this.lastRunComparisons = 0;
+        this.lastRunCopies = 0;
+        this.lastRunTimeStarted = System.currentTimeMillis();
+    }
+
+    void end() {
+        this.lastRunTimeFinished = System.currentTimeMillis();
+    }
 }
