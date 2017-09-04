@@ -50,7 +50,7 @@ public abstract class SortingAlgorithmTest {
                 fail(String.format("[" + getClass().getSimpleName() + "] - A array não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted[i - 1], i, sorted[i]));
         System.out.println("[" + getClass().getSimpleName() + "] - Array de inteiros aleatórios ordenada corretamente");
         System.out.println("\tNúmero de comparações: " + sortingAlgorithm.getLastRunComparisons());
-        System.out.println("\tNúmero de cópias de reigistros: " + sortingAlgorithm.getLastRunCopies());
+        System.out.println("\tNúmero de cópias de registros: " + sortingAlgorithm.getLastRunCopies());
         System.out.println(String.format("\tTempo gasto: %d milisegundos\n", sortingAlgorithm.getLastRunTimeSpent()));
     }
 
@@ -69,7 +69,7 @@ public abstract class SortingAlgorithmTest {
                 fail(String.format("[" + getClass().getSimpleName() + "] - A lista não está ordenada corretamente. Índice [%d]: %d, índice [%d]: %d", i - 1, sorted.get(i - 1), i, sorted.get(i)));
         System.out.println("[" + getClass().getSimpleName() + "] - Lista de inteiros aleatórios ordenada corretamente");
         System.out.println("\tNúmero de comparações: " + sortingAlgorithm.getLastRunComparisons());
-        System.out.println("\tNúmero de cópias de reigistros: " + sortingAlgorithm.getLastRunCopies());
+        System.out.println("\tNúmero de cópias de registros: " + sortingAlgorithm.getLastRunCopies());
         System.out.println(String.format("\tTempo gasto: %d milisegundos\n", sortingAlgorithm.getLastRunTimeSpent()));
     }
 
@@ -88,7 +88,7 @@ public abstract class SortingAlgorithmTest {
                 fail(String.format("[" + getClass().getSimpleName() + "] - A array não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted[i - 1], i, sorted[i]));
         System.out.println("[" + getClass().getSimpleName() + "] - Array de strings aleatórias ordenada corretamente");
         System.out.println("\tNúmero de comparações: " + sortingAlgorithm.getLastRunComparisons());
-        System.out.println("\tNúmero de cópias de reigistros: " + sortingAlgorithm.getLastRunCopies());
+        System.out.println("\tNúmero de cópias de registros: " + sortingAlgorithm.getLastRunCopies());
         System.out.println(String.format("\tTempo gasto: %d milisegundos\n", sortingAlgorithm.getLastRunTimeSpent()));
     }
 
@@ -107,7 +107,7 @@ public abstract class SortingAlgorithmTest {
                 fail(String.format("[" + getClass().getSimpleName() + "] - A lista não está ordenada corretamente. Índice [%d]: %s, índice [%d]: %s", i - 1, sorted.get(i - 1), i, sorted.get(i)));
         System.out.println("[" + getClass().getSimpleName() + "] - Lista de strings aleatórias ordenada corretamente");
         System.out.println("\tNúmero de comparações: " + sortingAlgorithm.getLastRunComparisons());
-        System.out.println("\tNúmero de cópias de reigistros: " + sortingAlgorithm.getLastRunCopies());
+        System.out.println("\tNúmero de cópias de registros: " + sortingAlgorithm.getLastRunCopies());
         System.out.println(String.format("\tTempo gasto: %d milisegundos\n", sortingAlgorithm.getLastRunTimeSpent()));
     }
 }
