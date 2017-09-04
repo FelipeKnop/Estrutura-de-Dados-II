@@ -39,7 +39,7 @@ public class Tweet implements Comparable<Tweet> {
 
     @Override
     public int compareTo(Tweet o) {
-        return Math.toIntExact(this.tweetId - o.getTweetId());
+        return Long.compare(this.tweetId, o.getTweetId());
     }
 
     @Override
