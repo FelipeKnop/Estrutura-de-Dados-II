@@ -3,10 +3,10 @@ package sort;
 import java.util.Comparator;
 
 /**
- * Classe que implementa a interface {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * Classe que extende a classe abstrata {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
  * <a href="https://en.wikipedia.org/wiki/Insertion_sort">InsertionSort</a>
  */
-public class InsertionSort implements SortingAlgorithm {
+public class InsertionSort extends SortingAlgorithm {
 
     /**
      * Implementação modificada do InsertionSort.

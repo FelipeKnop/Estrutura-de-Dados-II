@@ -3,10 +3,10 @@ package sort;
 import java.util.Comparator;
 
 /**
- * Classe que implementa a interface {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * Classe que extende a classe abstrata {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
  * <a href="https://en.wikipedia.org/wiki/Quicksort">QuickSort</a>
  */
-public class QuickSort implements SortingAlgorithm {
+public class QuickSort extends SortingAlgorithm {
 
     /**
      * Implementação padrão do QuickSort recursivo utilizando o último elemento da array

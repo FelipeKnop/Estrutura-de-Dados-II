@@ -3,11 +3,11 @@ package sort;
 import java.util.*;
 
 /**
- * Interface que contém os métodos de ordenação de arrays e listas de tipo genérico,
+ * Classe abstrata que contém os métodos de ordenação de arrays e listas de tipo genérico,
  * permitindo também passar um Comparator como argumento para classes que não implementam
- * a interface Comparable
+ * a interface Comparable.
  */
-public interface SortingAlgorithm {
+public abstract class SortingAlgorithm {
 
     /**
      * Invoca o método de sort interno para ordenar a array recebida.
@@ -20,7 +20,7 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da array com seus elementos ordenados de acordo
      * com a implementação da interface {@link Comparable} definida na classe T
      */
-    default <T extends Comparable<? super T>> T[] sort(T[] array) {
+    public final <T extends Comparable<? super T>> T[] sort(T[] array) {
         return sortArray(Arrays.copyOf(array, array.length), T::compareTo);
     }
 
@@ -35,7 +35,7 @@ public interface SortingAlgorithm {
      * @return Retorna uma cópia da array com seus elementos ordenados de acordo
      * com a implementação da interface {@link Comparator} recebida como argumento
      */
-    default <T> T[] sort(T[] array, Comparator<? super T> comparator) {
+    public final <T> T[] sort(T[] array, Comparator<? super T> comparator) {
         return sortArray(Arrays.copyOf(array, array.length), comparator);
     }
 
@@ -54,7 +54,7 @@ public interface SortingAlgorithm {
      * com a implementação da interface {@link Comparable} definida na classe T
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    default <T extends Comparable<? super T>> List<T> sort(List<T> list) {
+    public final <T extends Comparable<? super T>> List<T> sort(List<T> list) {
         List<T> l = new ArrayList<>(list);
         Comparator<? super T> comparator = T::compareTo;
         Object[] array = l.toArray();
@@ -82,7 +82,7 @@ public interface SortingAlgorithm {
      * a implementação da interface {@link Comparator} recebida como argumento
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    default <T> List<T> sort(List<T> list, Comparator<? super T> comparator) {
+    public final <T> List<T> sort(List<T> list, Comparator<? super T> comparator) {
         List<T> l = new ArrayList<>(list);
         Object[] array = l.toArray();
         array = sortArray(array, (Comparator) comparator);
@@ -104,5 +104,5 @@ public interface SortingAlgorithm {
      * @return Retorna a array com seus elementos ordenados de acordo com
      * a implementação da interface {@link Comparator} recebida como argumento
      */
-    <T> T[] sortArray(T[] array, Comparator<? super T> comparator);
+    abstract <T> T[] sortArray(T[] array, Comparator<? super T> comparator);
 }

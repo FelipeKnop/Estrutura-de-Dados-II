@@ -3,10 +3,10 @@ package sort;
 import java.util.Comparator;
 
 /**
- * Classe que implementa a interface {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * Classe que extende a classe abstrata {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
  * <a href="https://en.wikipedia.org/wiki/Bubble_sort">BubbleSort</a>
  */
-public class BubbleSort implements SortingAlgorithm {
+public class BubbleSort extends SortingAlgorithm {
 
     /**
      * Implementação padrão do BubbleSort.

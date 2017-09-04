@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * Classe que implementa a interface {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * Classe que extende a classe abstrata {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
  * <a href="https://en.wikipedia.org/wiki/Merge_sort">MergeSort</a>
  */
-public class MergeSort implements SortingAlgorithm {
+public class MergeSort extends SortingAlgorithm {
 
     /**
      * Implementação iterativa do MergeSort.
