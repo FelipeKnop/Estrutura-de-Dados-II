@@ -42,9 +42,9 @@ public class HeapSort extends SortingAlgorithm {
         int r = raiz;
         T aux;
         //Modificar com comparator
-        if(esq<tam && array[esq] > array[r]) r = esq;
+        if(esq<tam && comparator.compare(array[esq], array[r]) > 0) r = esq;
         this.lastRunComparisons++;
-        if(dir<tam && array[dir]>  array[r]) r = dir;
+        if(dir<tam && comparator.compare(array[dir], array[r]) > 0) r = dir;
         this.lastRunComparisons++;
 
         if(raiz != r)
@@ -52,7 +52,7 @@ public class HeapSort extends SortingAlgorithm {
             aux = array[raiz];
             array[raiz] = array[r];
             array[r] = aux;
-
+            this.lastRunCopies++;
             heapify(array,r,tam,comparator);
         }
     }
