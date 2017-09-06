@@ -1,6 +1,8 @@
 import business.TweetFileReader;
 import sort.BenchmarkSortingAlgorithm;
 import sort.QuickSort;
+import sort.QuickSortInsercao;
+import sort.QuickSortMediana;
 
 import java.io.*;
 
@@ -20,6 +22,7 @@ public class Main {
         assert tweetFileReader != null;
         redirectOutput();
         cenario1(nValues, tweetFileReader);
+        cenario2(nValues, tweetFileReader);
     }
 
     /**
@@ -30,6 +33,17 @@ public class Main {
     private static void cenario1(int[] nValues, TweetFileReader tweetFileReader) {
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSort(), nValues, tweetFileReader);
         BenchmarkSortingAlgorithm.benchmarkTweets(new QuickSort(), nValues, tweetFileReader);
+    }
+
+    /**
+     * Executa as funções pedidas no Cenário 2 da especificação do trabalho.
+     * @param nValues Valores lidos do arquivo de entrada
+     * @param tweetFileReader TweetFileReader com lista de Tweets preenchida
+     */
+    private static void cenario2(int[] nValues, TweetFileReader tweetFileReader) {
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSort(), nValues, tweetFileReader);
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana(), nValues, tweetFileReader);
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao(), nValues, tweetFileReader);
     }
 
     /**
