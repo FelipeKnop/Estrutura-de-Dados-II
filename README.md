@@ -10,4 +10,4 @@ https://www.dropbox.com/s/07zflza2hj6njzj/tweets.txt?dl=0
 - [x] MergeSort
 - [x] QuickSort
 - [x] BubbleSort
-- [ ] HeapSort
+- [x] HeapSort

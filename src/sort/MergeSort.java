@@ -31,15 +31,18 @@ public class MergeSort extends SortingAlgorithm {
                 for (int k = left; k < end; k++) {
                     if (i < right && (j >= end || comparator.compare(array[i], array[j]) < 0)) {
                         a[k] = array[i];
+                        this.lastRunCopies++;
                         i++;
                     } else {
                         a[k] = array[j];
+                        this.lastRunCopies++;
                         j++;
                     }
                     this.lastRunComparisons++;
                 }
             }
             array = Arrays.copyOf(a, a.length);
+            this.lastRunCopies += a.length;
         }
         end();
         return array;

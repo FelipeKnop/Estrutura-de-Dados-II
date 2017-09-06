@@ -27,6 +27,7 @@ public class BubbleSort extends SortingAlgorithm {
                     T temp = array[i];
                     array[i] = array[j];
                     array[j] = temp;
+                    this.lastRunCopies++;
                 }
                 this.lastRunComparisons++;
             }

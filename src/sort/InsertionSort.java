@@ -49,6 +49,7 @@ public class InsertionSort extends SortingAlgorithm {
                 this.lastRunComparisons++;
             }
             System.arraycopy(array, left, array, left + 1, i - left); // Desloca todos os elementos da array a partir do índice left para a direita em 1 posição
+            this.lastRunCopies += i - left;
             array[left] = pivot;
         }
         end();

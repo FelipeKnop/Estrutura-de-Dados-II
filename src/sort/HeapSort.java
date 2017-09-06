@@ -1,8 +1,11 @@
 package sort;
 
-import java.lang.reflect.Array;
 import java.util.Comparator;
 
+/**
+ * Classe que extende a classe abstrata {@link SortingAlgorithm SortingAlgorithm} utilizando o algoritmo
+ * <a href="https://en.wikipedia.org/wiki/Heap_sort">HeapSort</a>
+ */
 public class HeapSort extends SortingAlgorithm {
 
     /**
@@ -20,40 +23,41 @@ public class HeapSort extends SortingAlgorithm {
         setup();
         T aux;
         int tam = array.length;
-        for(int i = (tam/2)-1; i>= 0; i--)
-            heapify(array,i,tam,comparator);
+        for(int i = (tam /2 ) -1 ; i >= 0; i--)
+            heapify(array, i, tam, comparator);
 
-        for(int i = tam-1; i>=0; i--)
-        {
+        for(int i = tam - 1; i >= 0; i--) {
             aux = array[i];
-            array[i] = array [0];
+            array[i] = array[0];
             array[0] = aux;
-
-            heapify(array,0,i,comparator);
+            this.lastRunCopies++;
+            heapify(array, 0, i, comparator);
         }
 
         end();
         return array;
     }
 
-    private <T> void heapify(T[] array, int raiz, int tam,Comparator<? super T> comparator){
-        int esq = (raiz*2)+1;
-        int dir = (raiz*2)+2;
+    private <T> void heapify(T[] array, int raiz, int tam, Comparator<? super T> comparator){
+        int esq = (raiz *2 ) + 1;
+        int dir = (raiz * 2) + 2;
         int r = raiz;
         T aux;
-        //Modificar com comparator
-        if(esq<tam && comparator.compare(array[esq], array[r]) > 0) r = esq;
-        this.lastRunComparisons++;
-        if(dir<tam && comparator.compare(array[dir], array[r]) > 0) r = dir;
+
+        if(esq < tam && comparator.compare(array[esq], array[r]) > 0)
+            r = esq;
         this.lastRunComparisons++;
 
-        if(raiz != r)
-        {
+        if(dir < tam && comparator.compare(array[dir], array[r]) > 0)
+            r = dir;
+        this.lastRunComparisons++;
+
+        if(raiz != r) {
             aux = array[raiz];
             array[raiz] = array[r];
             array[r] = aux;
             this.lastRunCopies++;
-            heapify(array,r,tam,comparator);
+            heapify(array, r, tam, comparator);
         }
     }
 

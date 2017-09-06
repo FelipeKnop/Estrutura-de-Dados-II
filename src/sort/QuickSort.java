@@ -43,13 +43,14 @@ public class QuickSort extends SortingAlgorithm {
                 T temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
+                this.lastRunCopies++;
             }
             this.lastRunComparisons++;
         }
         T temp = array[i + 1];
         array[i + 1] = array[right];
         array[right] = temp;
-
+        this.lastRunCopies++;
         return i + 1;
     }
 }
