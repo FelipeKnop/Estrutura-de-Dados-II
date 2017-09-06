@@ -89,6 +89,8 @@ public class QuickSortInsercao extends SortingAlgorithm {
      */
     private <T> void insertionSort(T[] array, int left, int right, Comparator<? super T> comparator) {
         T[] sortedArray = insertionSort.sort(Arrays.copyOfRange(array, left, right + 1), comparator);
+        this.lastRunComparisons += insertionSort.getLastRunComparisons();
+        this.lastRunCopies += insertionSort.getLastRunCopies();
         for (int i = 0; i <= right - left; i++)
             array[i + left] = sortedArray[i];
 //        System.arraycopy(sortedArray, 0, array, left, (right + 1) - left);
