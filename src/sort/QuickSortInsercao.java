@@ -1,5 +1,6 @@
 package sort;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -9,7 +10,17 @@ import java.util.Comparator;
  */
 public class QuickSortInsercao extends SortingAlgorithm {
 
-    private int m = 10;
+    /**
+     * Variável M que indica o tamanho máximo da partição a ser ordenada
+     * pelo método da inserção.
+     */
+    private int m = 100;
+
+    /**
+     * Instância da classe {@link InsertionSort} que será usada para
+     * ordenar as partições pelo método da inserção.
+     */
+    private InsertionSort insertionSort = new InsertionSort();
 
     /**
      * Implementação de uma variação do QuickSort recursivo que utiliza
@@ -32,7 +43,19 @@ public class QuickSortInsercao extends SortingAlgorithm {
     }
 
     private <T> void quickSort(T[] array, int left, int right, Comparator<? super T> comparator) {
-        //TODO: Implementar
+        if (left < right) {
+            int pi = partition(array, left, right, comparator);
+
+            if ((pi - 1) - left <= m)
+                insertionSort(array, left, pi - 1, comparator);
+            else
+                quickSort(array, left, pi - 1, comparator);
+
+            if (right - (pi + 1) <= m)
+                insertionSort(array, pi + 1, right, comparator);
+            else
+                quickSort(array, pi + 1, right, comparator);
+        }
     }
 
     private <T> int partition(T[] array, int left, int right, Comparator<? super T> comparator) {
@@ -54,7 +77,25 @@ public class QuickSortInsercao extends SortingAlgorithm {
         return i + 1;
     }
 
-    public void setM(int m) {
+    /**
+     * Método que utiliza a classe {@link InsertionSort} para ordenar a partição
+     * utilziando o método da inserção.
+     * @param array Array a ser ordenada
+     * @param left Índice de início da partição a ser ordenada
+     * @param right Índice de término da partição a ser ordenada
+     * @param comparator Implementação da interface {@link Comparator} que define como um
+     *                   elemento do tipo T deve ser comparado a outro
+     * @param <T> Tipo da array
+     */
+    private <T> void insertionSort(T[] array, int left, int right, Comparator<? super T> comparator) {
+        T[] sortedArray = insertionSort.sort(Arrays.copyOfRange(array, left, right + 1), comparator);
+        for (int i = 0; i <= right - left; i++)
+            array[i + left] = sortedArray[i];
+//        System.arraycopy(sortedArray, 0, array, left, (right + 1) - left);
+    }
+
+    public QuickSortInsercao setM(int m) {
         this.m = m;
+        return this;
     }
 }

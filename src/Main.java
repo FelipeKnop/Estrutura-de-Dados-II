@@ -31,6 +31,8 @@ public class Main {
      * @param tweetFileReader TweetFileReader com lista de Tweets preenchida
      */
     private static void cenario1(int[] nValues, TweetFileReader tweetFileReader) {
+        System.out.println("-------------- CENÁRIO 1 --------------");
+        System.out.println("\nQuickSort:\n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSort(), nValues, tweetFileReader);
         BenchmarkSortingAlgorithm.benchmarkTweets(new QuickSort(), nValues, tweetFileReader);
     }
@@ -41,9 +43,16 @@ public class Main {
      * @param tweetFileReader TweetFileReader com lista de Tweets preenchida
      */
     private static void cenario2(int[] nValues, TweetFileReader tweetFileReader) {
+        System.out.println("\n\n\n-------------- CENÁRIO 2 --------------");
+        System.out.println("\nQuickSort: \n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSort(), nValues, tweetFileReader);
-        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana(), nValues, tweetFileReader);
-        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao(), nValues, tweetFileReader);
+        System.out.println("\n\nQuickSortMediana: \n");
+//        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana(), nValues, tweetFileReader);
+        System.out.println("\n\nQuickSortInsercao: \n");
+        System.out.println("m = 10: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(10), nValues, tweetFileReader);
+        System.out.println("\nm = 100: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(100), nValues, tweetFileReader);
     }
 
     /**
