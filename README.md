@@ -11,5 +11,5 @@ https://www.dropbox.com/s/07zflza2hj6njzj/tweets.txt?dl=0
 - [x] QuickSort
 - [x] BubbleSort
 - [x] HeapSort
-- [ ] QuickSortMediana
+- [x] QuickSortMediana
 - [x] QuickSortInsercao
