@@ -1,8 +1,5 @@
 import business.TweetFileReader;
-import sort.BenchmarkSortingAlgorithm;
-import sort.QuickSort;
-import sort.QuickSortInsercao;
-import sort.QuickSortMediana;
+import sort.*;
 
 import java.io.*;
 
@@ -23,6 +20,7 @@ public class Main {
         redirectOutput();
         cenario1(nValues, tweetFileReader);
         cenario2(nValues, tweetFileReader);
+        cenario3(nValues, tweetFileReader);
     }
 
     /**
@@ -56,6 +54,32 @@ public class Main {
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(10), nValues, tweetFileReader);
         System.out.println("\nm = 100: \n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(100), nValues, tweetFileReader);
+    }
+
+    /**
+     * Executa as funções pedidas no Cenário 3 da especificação do trabalho.
+     *
+     * De acordo com os resultados do Cenário 2, a melhor variação do QuickSort
+     * foi o QuickSortMediana com m = 100, portanto essa variação será usada aqui.
+     *
+     * O outro algoritmo escolhido para a comparação foi o RadixSort, implementado
+     * na classe {@link sort.RadixSort}.
+     *
+     * @param nValues Valores lidos do arquivo de entrada
+     * @param tweetFileReader TweetFileReader com lista de Tweets preenchida
+     */
+    private static void cenario3(int[] nValues, TweetFileReader tweetFileReader) {
+        System.out.println("\n\n\n-------------- CENÁRIO 3 --------------");
+        System.out.println("\nQuickSort: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(100), nValues, tweetFileReader);
+        System.out.println("\n\nInsertionSort: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new InsertionSort(), nValues, tweetFileReader);
+        System.out.println("\n\nMergeSort: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new MergeSort(), nValues, tweetFileReader);
+        System.out.println("\n\nHeapSort: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new HeapSort(), nValues, tweetFileReader);
+        System.out.println("\n\nRadixSort: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new RadixSort(), nValues, tweetFileReader);
     }
 
     /**
