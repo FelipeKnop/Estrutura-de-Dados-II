@@ -2,11 +2,25 @@ package hash;
 
 import java.math.BigInteger;
 
-public class DivisionHash implements HashingAlgorithm {
+/**
+ * Classe que extende a classe abstrata {@link HashingAlgorithm HashingAlgorithm} utilizando o algoritmo
+ * da divisão visto em aula.
+ */
+public class DivisionHash extends HashingAlgorithm {
 
+    public DivisionHash(int tableSize) {
+        super(tableSize);
+    }
+
+    /**
+     * Implementação padrão do algoritmo da divisão visto em aula.
+
+     * @param value Valor a ser gerado o hash
+     * @return Hash gerado pela função de hashing a partir do valor recebido
+     */
     @Override
-    public int hashFunction(int value, int mod) {
-        int nextPrime = BigInteger.valueOf(mod).nextProbablePrime().intValue();
-        return (value % nextPrime) % mod;
+    int hashingFunction(Long value) {
+        int nextPrime = BigInteger.valueOf(tableSize).nextProbablePrime().intValue();
+        return (int) ((value % nextPrime) % tableSize);
     }
 }
