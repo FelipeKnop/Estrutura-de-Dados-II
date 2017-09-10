@@ -47,7 +47,10 @@ public class Main {
         System.out.println("\nQuickSort: \n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSort(), nValues, tweetFileReader);
         System.out.println("\n\nQuickSortMediana: \n");
-//        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana(), nValues, tweetFileReader);
+        System.out.println("k = 3: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana().setK(3), nValues, tweetFileReader);
+        System.out.println("\nk = 5: \n");
+        BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortMediana().setK(5), nValues, tweetFileReader);
         System.out.println("\n\nQuickSortInsercao: \n");
         System.out.println("m = 10: \n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new QuickSortInsercao().setM(10), nValues, tweetFileReader);

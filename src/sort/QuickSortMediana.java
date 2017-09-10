@@ -42,13 +42,11 @@ public class QuickSortMediana extends SortingAlgorithm {
     }
 
     private <T> int partition(T[] array, int left, int right, Comparator<? super T> comparator) {
-        T vet[],temp;
-        int i = left - 1, ale=left;
+        T vet[], temp;
+        int i = left - 1, ale = left;
         vet = Arrays.copyOf(array, k);
         for (int r = 0; r < k; r++) {
-            ale = new Random().nextInt() % right + 1;
-            while (ale < left || ale > right)
-                ale = new Random().nextInt() % (right + 1);
+            ale = new Random().nextInt((right + 1) - left) + left;
             vet[r] = array[ale];
         }
 
@@ -58,30 +56,28 @@ public class QuickSortMediana extends SortingAlgorithm {
                 ale = r;
                 break;
             }
-         temp = array[right];
+        temp = array[right];
         array[right] = array[ale];
         array[ale] = temp;
         for (int j = left; j < right; j++) {
             if (comparator.compare(array[j], array[right]) <= 0) {
                 i++;
-                 temp = array[i];
+                temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
                 this.lastRunCopies++;
             }
             this.lastRunComparisons++;
         }
-         temp = array[i + 1];
+        temp = array[i + 1];
         array[i + 1] = array[right];
         array[right] = temp;
         this.lastRunCopies++;
         return i + 1;
     }
 
-
-
-
-    public void setK(int k) {
+    public QuickSortMediana setK(int k) {
         this.k = k;
+        return this;
     }
 }
