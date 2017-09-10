@@ -42,7 +42,7 @@ public abstract class SortingAlgorithmTest {
      * Caso isso não aconteça, a array está ordenada e essa informção é impressa.
      */
     @Test
-    public final void sortRandomIntegerArray() {
+    public void sortRandomIntegerArray() {
         Integer[] array = TestUtils.getRandomIntegerArray(defaultSize);
         Integer[] sorted = sortingAlgorithm.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -61,7 +61,7 @@ public abstract class SortingAlgorithmTest {
      * Caso isso não aconteça, a lista está ordenada e essa informção é impressa.
      */
     @Test
-    public final void sortRandomIntegerList() {
+    public void sortRandomIntegerList() {
         List<Integer> list = TestUtils.getRandomIntegerList(defaultSize);
         List<Integer> sorted = sortingAlgorithm.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
@@ -80,7 +80,7 @@ public abstract class SortingAlgorithmTest {
      * Caso isso não aconteça, a array está ordenada e essa informção é impressa.
      */
     @Test
-    public final void sortRandomStringArray() {
+    public void sortRandomStringArray() {
         String[] array = TestUtils.getRandomStringArray(defaultSize);
         String[] sorted = sortingAlgorithm.sort(array);
         for (int i = 1; i < sorted.length - 1; i++)
@@ -99,7 +99,7 @@ public abstract class SortingAlgorithmTest {
      * Caso isso não aconteça, a lista está ordenada e essa informção é impressa.
      */
     @Test
-    public final void sortRandomStringList() {
+    public void sortRandomStringList() {
         List<String> list = TestUtils.getRandomStringList(defaultSize);
         List<String> sorted = sortingAlgorithm.sort(list);
         for (int i = 1; i < sorted.size() - 1; i++)
