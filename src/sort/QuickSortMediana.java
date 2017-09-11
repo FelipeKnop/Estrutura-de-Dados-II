@@ -48,17 +48,21 @@ public class QuickSortMediana extends SortingAlgorithm {
         for (int r = 0; r < k; r++) {
             ale = new Random().nextInt((right + 1) - left) + left;
             vet[r] = array[ale];
+            this.lastRunCopies++;
         }
 
         Arrays.sort(vet, comparator);
-        for (int r = left; r <= right; r++)
+        for (int r = left; r <= right; r++) {
+            this.lastRunComparisons++;
             if (array[r] == vet[(k - 1) / 2]) {
                 ale = r;
                 break;
             }
+        }
         temp = array[right];
         array[right] = array[ale];
-        array[ale] = temp;
+        this.lastRunCopies++;
+
         for (int j = left; j < right; j++) {
             if (comparator.compare(array[j], array[right]) <= 0) {
                 i++;
