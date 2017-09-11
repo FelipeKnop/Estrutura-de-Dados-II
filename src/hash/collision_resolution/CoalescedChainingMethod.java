@@ -38,11 +38,15 @@ public class CoalescedChainingMethod extends ChainingCollisionResolutionMethod {
      * @return Hash gerado pela função de tratamento
      */
     @Override
-    public int resolutionFunction(Long value, int lastTry, int iteration) { // TODO: Arrumar
+    public int resolutionFunction(Long value, int lastTry, int iteration) {
         LinearProbingMethod linearProbingMethod = new LinearProbingMethod(tableSize);
         int hash = lastTry;
         while (hashTable.get(hash) != null) {
-            hash = linearProbingMethod.resolutionFunction(value, hash, ++iteration);
+            lastTry = hash;
+            if (hashTable.get(hash).size() == 1)
+                hash = linearProbingMethod.resolutionFunction(value, hash, ++iteration);
+            else
+                hash = hashTable.get(hash).get(1).intValue();
         }
         ArrayList<Long> list = hashTable.get(lastTry);
         list.add((long) hash);
