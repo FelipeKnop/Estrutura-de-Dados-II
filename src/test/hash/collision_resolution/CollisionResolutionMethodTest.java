@@ -1,14 +1,14 @@
 package test.hash.collision_resolution;
 
-import hash.collision_resolution.AddressingCollisionResolutionMethod;
+import hash.collision_resolution.CollisionResolutionMethod;
 import org.junit.Test;
 import test.TestUtils;
 
 /**
  * Classe abstrata que implementa os métodos de teste de algoritmos de hashing
- * com tratamento de colisão do tipo Endereçamento.
+ * com tratamento de colisão.
  */
-public abstract class AddressingCollisionResolutionMethodTest {
+public abstract class CollisionResolutionMethodTest {
 
     /**
      * Método abstrato (deve ser implementado por cada classe) que retorna a quantidade
@@ -19,10 +19,10 @@ public abstract class AddressingCollisionResolutionMethodTest {
 
     /**
      * Método abstrato (deve ser implementado por casa classe) que retorna o algoritmo de hashing
-     * com tratamento de colisão do tipo Endereçamento a ser utilizado.
+     * com tratamento de colisão a ser utilizado.
      * @return Algoritmo de hashing com tratamento de colisão que será utilizado nos testes
      */
-    protected abstract AddressingCollisionResolutionMethod getCollisionResolutionMethod();
+    protected abstract CollisionResolutionMethod getCollisionResolutionMethod();
 
     /**
      * Variável que guarda a quantidade de valores a serem inseridos;
@@ -32,7 +32,7 @@ public abstract class AddressingCollisionResolutionMethodTest {
     /**
      * Variável que guarda o método de hashing com tratamento de colisão a ser utilizado.
      */
-    private final AddressingCollisionResolutionMethod collisionResolutionMethod = getCollisionResolutionMethod();
+    private final CollisionResolutionMethod collisionResolutionMethod = getCollisionResolutionMethod();
 
     /**
      * Testa a inserção de uma array de inteiros aleatórios gerada pela classe

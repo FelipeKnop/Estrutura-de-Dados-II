@@ -1,12 +1,12 @@
 package test.hash.collision_resolution;
 
-import hash.collision_resolution.AddressingCollisionResolutionMethod;
+import hash.collision_resolution.CollisionResolutionMethod;
 import hash.collision_resolution.QuadraticProbingMethod;
 
 /**
  * Classe de testes para os métodos da classe {@link QuadraticProbingMethod}
  */
-public class QuadraticProbingMethodTest extends AddressingCollisionResolutionMethodTest {
+public class QuadraticProbingMethodTest extends CollisionResolutionMethodTest {
 
     @Override
     protected int getAmountOfValues() {
@@ -14,7 +14,7 @@ public class QuadraticProbingMethodTest extends AddressingCollisionResolutionMet
     }
 
     @Override
-    protected AddressingCollisionResolutionMethod getCollisionResolutionMethod() {
+    protected CollisionResolutionMethod getCollisionResolutionMethod() {
         return new QuadraticProbingMethod(200);
     }
 }

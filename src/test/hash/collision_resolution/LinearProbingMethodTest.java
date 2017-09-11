@@ -1,12 +1,12 @@
 package test.hash.collision_resolution;
 
-import hash.collision_resolution.AddressingCollisionResolutionMethod;
+import hash.collision_resolution.CollisionResolutionMethod;
 import hash.collision_resolution.LinearProbingMethod;
 
 /**
  * Classe de testes para os métodos da classe {@link LinearProbingMethod}
  */
-public class LinearProbingMethodTest extends AddressingCollisionResolutionMethodTest {
+public class LinearProbingMethodTest extends CollisionResolutionMethodTest {
 
     @Override
     protected int getAmountOfValues() {
@@ -14,7 +14,7 @@ public class LinearProbingMethodTest extends AddressingCollisionResolutionMethod
     }
 
     @Override
-    protected AddressingCollisionResolutionMethod getCollisionResolutionMethod() {
+    protected CollisionResolutionMethod getCollisionResolutionMethod() {
         return new LinearProbingMethod(200);
     }
 }

@@ -34,6 +34,7 @@ public abstract class AddressingCollisionResolutionMethod extends CollisionResol
      *
      * @param value Valor a ser inserido na tabela hash.
      */
+    @Override
     public void insert(Long value) {
         int hash = hashingFunction(value);
         int iteration = 1;
@@ -48,16 +49,12 @@ public abstract class AddressingCollisionResolutionMethod extends CollisionResol
      * Calcula a quantidade de memória gasta pela tabela hash.
      *
      * Cada Long ocupa 16 bytes de memória, então o gasto total é a quantidade
-     * de elementos da tabela hash que não são nulos * 16.
+     * de elementos da tabela hash * 16.
      *
      * @return Quantidade total de memória gasta
      */
+    @Override
     public long getMemorySpent() {
-        long totalMemory = 0;
-        for (Long value : hashTable) {
-            if (value != null)
-                totalMemory += 16;
-        }
-        return totalMemory;
+        return hashTable.size() * 16;
     }
 }

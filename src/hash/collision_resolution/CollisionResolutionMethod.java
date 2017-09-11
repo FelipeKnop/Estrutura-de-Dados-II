@@ -12,6 +12,13 @@ public abstract class CollisionResolutionMethod {
     long comparisons = 0;
 
     /**
+     * Método abstrato de inserção de valores na tabela hash. Qualquer valor inserido
+     * deve ser um número capaz de ser representado em forma de Long.
+     * @param value Valor a ser inserido na tabela hash.
+     */
+    public abstract void insert(Long value);
+
+    /**
      * Método abstrato (deve ser implementado por cada classe) que retorna
      * um hash inteiro a partir de um valor Long recebido. É usado para a
      * inserção do valor na tabela hash na posição gerada por essa função.
@@ -34,4 +41,6 @@ public abstract class CollisionResolutionMethod {
     public final long getComparisons() {
         return comparisons;
     }
+
+    public abstract long getMemorySpent();
 }
