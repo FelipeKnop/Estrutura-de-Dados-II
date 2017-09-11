@@ -65,7 +65,7 @@ public class BenchmarkSortingAlgorithm {
      * Função que gera arrays de inteiros de acordo com os parâmetros recebidos.
      *
      * Utiliza as sementes definidas na array SEEDS para gerar números aleatórios
-     * que são utilziados para selecionar Tweets da lista recebida, os quais terão
+     * que são utilizados para selecionar Tweets da lista recebida, os quais terão
      * seu TweetID adicionados às listas de inteiros que serão retornadas.
      *
      * Gera AMOUNT_OF_SETS arrays com sementes diferentes.
@@ -125,7 +125,7 @@ public class BenchmarkSortingAlgorithm {
      * Função que gera arrays de Tweets de acordo com os parâmetros recebidos.
      *
      * Utiliza as sementes definidas na array SEEDS para gerar números aleatórios
-     * que são utilziados para selecionar Tweets da lista recebida, os quais serão
+     * que são utilizados para selecionar Tweets da lista recebida, os quais serão
      * adicionados às listas de Tweets que serão retornadas.
      *
      * Gera AMOUNT_OF_SETS arrays com sementes diferentes.

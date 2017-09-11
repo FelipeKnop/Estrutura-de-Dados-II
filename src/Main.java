@@ -1,4 +1,6 @@
 import business.TweetFileReader;
+import hash.BenchmarkCollisionResolutionMethod;
+import hash.collision_resolution.*;
 import sort.*;
 
 import java.io.*;
@@ -21,6 +23,7 @@ public class Main {
         cenario1(nValues, tweetFileReader);
         cenario2(nValues, tweetFileReader);
         cenario3(nValues, tweetFileReader);
+        cenario4(nValues, tweetFileReader);
     }
 
     /**
@@ -80,6 +83,25 @@ public class Main {
         BenchmarkSortingAlgorithm.benchmarkIntegers(new HeapSort(), nValues, tweetFileReader);
         System.out.println("\n\nRadixSort: \n");
         BenchmarkSortingAlgorithm.benchmarkIntegers(new RadixSort(), nValues, tweetFileReader);
+    }
+
+    /**
+     * Executa as funções pedidas no Cenário 4 da especificação do trabalho.
+     * @param nValues Valores lidos do arquivo de entrada
+     * @param tweetFileReader TweetFileReader com lista de Tweets preenchida
+     */
+    private static void cenario4(int[] nValues, TweetFileReader tweetFileReader) {
+        System.out.println("\n\n\n-------------- CENÁRIO 4 --------------");
+        System.out.println("\nEndereçamento - Sondagem Linear: \n");
+        BenchmarkCollisionResolutionMethod.benchmarkIntegers(new LinearProbingMethod(), nValues, tweetFileReader);
+        System.out.println("\n\nEndereçamento - Sondagem Quadrática: \n");
+        BenchmarkCollisionResolutionMethod.benchmarkIntegers(new QuadraticProbingMethod(), nValues, tweetFileReader);
+        System.out.println("\n\nEndereçamento - Duplo Hash: \n");
+        BenchmarkCollisionResolutionMethod.benchmarkIntegers(new DoubleHashingMethod(), nValues, tweetFileReader);
+        System.out.println("\n\nEncadeamento Separado: \n");
+        BenchmarkCollisionResolutionMethod.benchmarkIntegers(new SeparateChainingMethod(), nValues, tweetFileReader);
+        System.out.println("\n\nEncadeamento Coalescido: \n");
+        BenchmarkCollisionResolutionMethod.benchmarkIntegers(new CoalescedChainingMethod(), nValues, tweetFileReader);
     }
 
     /**
