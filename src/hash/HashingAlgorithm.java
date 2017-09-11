@@ -52,7 +52,7 @@ public abstract class HashingAlgorithm {
      * @param value Valor a ser gerado o hash
      * @return Hash gerado pela função de hashing a partir do valor recebido
      */
-    abstract int hashingFunction(Long value);
+    public abstract int hashingFunction(Long value);
 
     public final long getCollisions() {
         return collisions;

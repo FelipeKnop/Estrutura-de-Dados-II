@@ -19,7 +19,7 @@ public class DivisionHash extends HashingAlgorithm {
      * @return Hash gerado pela função de hashing a partir do valor recebido
      */
     @Override
-    int hashingFunction(Long value) {
+    public int hashingFunction(Long value) {
         int nextPrime = BigInteger.valueOf(tableSize).nextProbablePrime().intValue();
         return (int) ((value % nextPrime) % tableSize);
     }

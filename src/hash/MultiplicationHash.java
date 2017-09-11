@@ -22,7 +22,7 @@ public class MultiplicationHash extends HashingAlgorithm {
      * @return Hash gerado pela função de hashing a partir do valor recebido
      */
     @Override
-    int hashingFunction(Long value) {
+    public int hashingFunction(Long value) {
         return (int) Math.floor(tableSize * (value * phi - Math.floor(value * phi)));
     }
 }

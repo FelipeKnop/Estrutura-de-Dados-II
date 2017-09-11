@@ -17,7 +17,7 @@ public class DJB2Hash extends HashingAlgorithm {
      * @return Hash gerado pela função de hashing a partir do valor recebido
      */
     @Override
-    int hashingFunction(Long value) {
+    public int hashingFunction(Long value) {
         int hash = 5381;
         return (int) ((((hash << 5) + hash) + value) % tableSize);
     }
