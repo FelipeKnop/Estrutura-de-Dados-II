@@ -3,6 +3,9 @@ package test.hash;
 import hash.HashingAlgorithm;
 import hash.MultiplicationHash;
 
+/**
+ * Classe de testes para os métodos da classe {@link MultiplicationHash}
+ */
 public class MultiplicationHashTest extends HashingAlgorithmTest {
 
     @Override

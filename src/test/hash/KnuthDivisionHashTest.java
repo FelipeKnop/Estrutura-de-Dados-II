@@ -3,6 +3,9 @@ package test.hash;
 import hash.HashingAlgorithm;
 import hash.KnuthDivisionHash;
 
+/**
+ * Classe de testes para os métodos da classe {@link KnuthDivisionHash}
+ */
 public class KnuthDivisionHashTest extends HashingAlgorithmTest {
 
     @Override

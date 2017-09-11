@@ -14,7 +14,7 @@ public class DivisionHash extends HashingAlgorithm {
 
     /**
      * Implementação padrão do algoritmo da divisão visto em aula.
-
+     *
      * @param value Valor a ser gerado o hash
      * @return Hash gerado pela função de hashing a partir do valor recebido
      */

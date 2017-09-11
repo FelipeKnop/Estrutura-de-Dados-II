@@ -17,7 +17,7 @@ public abstract class HashingAlgorithmTest {
     protected abstract int getAmountOfValues();
 
     /**
-     * Método abstrato (deve ser implementado por casa classe) que retorna o algoritmo de hashing a ser uitilizado.
+     * Método abstrato (deve ser implementado por casa classe) que retorna o algoritmo de hashing a ser utilizado.
      * @return Algoritmo de hashing que será utilizado nos testes
      */
     protected abstract HashingAlgorithm getHashingAlgorithm();
