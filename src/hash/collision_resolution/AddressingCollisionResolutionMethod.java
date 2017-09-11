@@ -44,8 +44,9 @@ public abstract class AddressingCollisionResolutionMethod extends CollisionResol
         int iteration = 1;
         while (hashTable.get(hash) != null) {
             hash = resolutionFunction(value, hash, iteration++);
+            comparisons++;
         }
-        comparisons++;
+
         hashTable.set(hash, value);
     }
 

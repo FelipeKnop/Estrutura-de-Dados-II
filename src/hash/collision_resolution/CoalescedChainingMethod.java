@@ -42,6 +42,7 @@ public class CoalescedChainingMethod extends ChainingCollisionResolutionMethod {
         LinearProbingMethod linearProbingMethod = new LinearProbingMethod(tableSize);
         int hash = lastTry;
         while (hashTable.get(hash) != null) {
+            this.comparisons++;
             lastTry = hash;
             if (hashTable.get(hash).size() == 1)
                 hash = linearProbingMethod.resolutionFunction(value, hash, ++iteration);
