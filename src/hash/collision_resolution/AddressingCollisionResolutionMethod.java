@@ -17,7 +17,11 @@ public abstract class AddressingCollisionResolutionMethod extends CollisionResol
     /**
      * Tabela hash.
      */
-    private final ArrayList<Long> hashTable;
+    private ArrayList<Long> hashTable;
+
+    AddressingCollisionResolutionMethod() {
+        this(1);
+    }
 
     AddressingCollisionResolutionMethod(int tableSize) {
         this.tableSize = tableSize;
@@ -56,5 +60,20 @@ public abstract class AddressingCollisionResolutionMethod extends CollisionResol
     @Override
     public long getMemorySpent() {
         return hashTable.size() * 16;
+    }
+
+    /**
+     * Limpa a tabela hash e o contador de comparações.
+     */
+    @Override
+    public void clear() {
+        comparisons = 0;
+        hashTable = new ArrayList<>(Collections.nCopies(tableSize, null));
+    }
+
+    @Override
+    public final void setTableSize(int tableSize) {
+        this.tableSize = tableSize;
+        this.hashTable = new ArrayList<>(Collections.nCopies(tableSize, null));
     }
 }

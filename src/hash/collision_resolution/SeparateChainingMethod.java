@@ -10,6 +10,10 @@ import java.util.ArrayList;
  */
 public class SeparateChainingMethod extends ChainingCollisionResolutionMethod {
 
+    public SeparateChainingMethod() {
+        super();
+    }
+
     public SeparateChainingMethod(int tableSize) {
         super(tableSize);
     }

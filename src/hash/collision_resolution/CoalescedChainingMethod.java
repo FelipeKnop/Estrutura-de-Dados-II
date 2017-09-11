@@ -10,6 +10,10 @@ import java.util.ArrayList;
  */
 public class CoalescedChainingMethod extends ChainingCollisionResolutionMethod {
 
+    public CoalescedChainingMethod() {
+        super();
+    }
+
     public CoalescedChainingMethod(int tableSize) {
         super(tableSize);
     }

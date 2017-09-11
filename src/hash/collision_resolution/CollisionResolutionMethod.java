@@ -43,4 +43,8 @@ public abstract class CollisionResolutionMethod {
     }
 
     public abstract long getMemorySpent();
+
+    public abstract void clear();
+
+    public abstract void setTableSize(int tableSize);
 }

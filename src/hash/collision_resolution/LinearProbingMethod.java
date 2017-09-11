@@ -8,6 +8,10 @@ import hash.MultiplicationHash;
  */
 public class LinearProbingMethod extends AddressingCollisionResolutionMethod {
 
+    public LinearProbingMethod() {
+        super();
+    }
+
     public LinearProbingMethod(int tableSize) {
         super(tableSize);
     }

@@ -17,7 +17,11 @@ public abstract class ChainingCollisionResolutionMethod extends CollisionResolut
     /**
      * Tabela hash.
      */
-    final ArrayList<ArrayList<Long>> hashTable;
+    ArrayList<ArrayList<Long>> hashTable;
+
+    ChainingCollisionResolutionMethod() {
+        this(1);
+    }
 
     ChainingCollisionResolutionMethod(int tableSize) {
         this.tableSize = tableSize;
@@ -63,5 +67,20 @@ public abstract class ChainingCollisionResolutionMethod extends CollisionResolut
                 totalMemory += hashTable.get(i).size() * 16;
         }
         return totalMemory;
+    }
+
+    /**
+     * Limpa a tabela hash e o contador de comparações.
+     */
+    @Override
+    public void clear() {
+        comparisons = 0;
+        hashTable = new ArrayList<>(Collections.nCopies(tableSize, null));
+    }
+
+    @Override
+    public void setTableSize(int tableSize) {
+        this.tableSize = tableSize;
+        hashTable = new ArrayList<>(Collections.nCopies(tableSize, null));
     }
 }

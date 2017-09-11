@@ -8,6 +8,10 @@ import hash.MultiplicationHash;
  */
 public class DoubleHashingMethod extends AddressingCollisionResolutionMethod {
 
+    public DoubleHashingMethod() {
+        super();
+    }
+
     public DoubleHashingMethod(int tableSize) {
         super(tableSize);
     }
