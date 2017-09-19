@@ -63,7 +63,7 @@ public class Main {
      * Executa as funções pedidas no Cenário 3 da especificação do trabalho.
      *
      * De acordo com os resultados do Cenário 2, a melhor variação do QuickSort
-     * foi o QuickSortMediana com m = 100, portanto essa variação será usada aqui.
+     * foi o QuickSortInserção com m = 100, portanto essa variação será usada aqui.
      *
      * O outro algoritmo escolhido para a comparação foi o RadixSort, implementado
      * na classe {@link sort.RadixSort}.
