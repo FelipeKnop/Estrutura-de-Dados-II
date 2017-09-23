@@ -28,6 +28,16 @@ public class Parte2 {
         wordFrequencyCounter.printMostFrequentWords(numWords);
     }
 
+    /**
+     * Método que recebe a quantidade de Tweets a serem processados e o TweetFileReader
+     * que contém a lista de Tweets lidos do arquivo e cria uma instância da classe
+     * WordFrequencyCounter, chamando seu método <code>countWords</code> para fazer
+     * o processamento das palavras dos Tweets.
+     * @param numTweets Número de Tweets a serem processados
+     * @param tweetFileReader TweetFileReader com a lista de Tweets lidos do arquivo
+     * @return Retorna a instância do WordFrequencyCounter com todas as frequências
+     * já contadas.
+     */
     private static WordFrequencyCounter criaHashTable(int numTweets, TweetFileReader tweetFileReader) {
         WordFrequencyCounter wordFrequencyCounter = new WordFrequencyCounter();
         wordFrequencyCounter.countWords(tweetFileReader.getTweets().subList(0, numTweets));
