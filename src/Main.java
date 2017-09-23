@@ -1,6 +1,7 @@
 import business.TweetFileReader;
 import hash.BenchmarkCollisionResolutionMethod;
 import hash.collision_resolution.*;
+import models.frequentWords;
 import sort.*;
 
 import java.io.*;
@@ -24,6 +25,7 @@ public class Main {
         cenario2(nValues, tweetFileReader);
         cenario3(nValues, tweetFileReader);
         cenario4(nValues, tweetFileReader);
+        palavrasFrequentes(100,6,tweetFileReader);
     }
 
     /**
@@ -102,6 +104,10 @@ public class Main {
         BenchmarkCollisionResolutionMethod.benchmarkIntegers(new SeparateChainingMethod(), nValues, tweetFileReader);
         System.out.println("\n\nEncadeamento Coalescido: \n");
         BenchmarkCollisionResolutionMethod.benchmarkIntegers(new CoalescedChainingMethod(), nValues, tweetFileReader);
+    }
+
+    private static void palavrasFrequentes(int numTweets, int numPalavras, TweetFileReader tweetFileReader){
+        frequentWords.mostFrequentWords(numTweets,numPalavras,tweetFileReader);
     }
 
     /**
