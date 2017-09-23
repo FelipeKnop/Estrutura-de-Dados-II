@@ -1,12 +1,16 @@
+package trabalhos.trabalho1;
+
 import business.TweetFileReader;
 import hash.BenchmarkCollisionResolutionMethod;
 import hash.collision_resolution.*;
-import models.frequentWords;
 import sort.*;
 
 import java.io.*;
 
-public class Main {
+/**
+ * Classe para a execução das funções especificadas na Parte 1 do Trabalho 1.
+ */
+public class Parte1 {
 
     /**
      * Método main que lê os valores do arquivo de entrada, cria
@@ -18,15 +22,15 @@ public class Main {
     public static void main(String[] args) {
         int[] nValues = readInputFile();
         assert nValues != null;
-        TweetFileReader tweetFileReader = createTweetFileReader();
+        TweetFileReader tweetFileReader = TweetFileReader.create("tweets.txt");
         assert tweetFileReader != null;
         redirectOutput();
         cenario1(nValues, tweetFileReader);
         cenario2(nValues, tweetFileReader);
         cenario3(nValues, tweetFileReader);
         cenario4(nValues, tweetFileReader);
-        palavrasFrequentes(100,6,tweetFileReader);
     }
+
 
     /**
      * Executa as funções pedidas no Cenário 1 da especificação do trabalho.
@@ -106,10 +110,6 @@ public class Main {
         BenchmarkCollisionResolutionMethod.benchmarkIntegers(new CoalescedChainingMethod(), nValues, tweetFileReader);
     }
 
-    private static void palavrasFrequentes(int numTweets, int numPalavras, TweetFileReader tweetFileReader){
-        frequentWords.mostFrequentWords(numTweets,numPalavras,tweetFileReader);
-    }
-
     /**
      * Lê o arquivo de entrada no formato descrito no arquivo Trabalho1.pdf:
      *
@@ -157,23 +157,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("Não foi possível criar o arquivo de saída.\n" + e.getMessage());
             System.exit(0);
-        }
-    }
-
-    /**
-     * Cria TweetFileReader para arquivo tweets.txr, que contém uma lista de
-     * 1 milhão de Tweets obtidos no link contido no arquivo Trabalho1.pdf.
-     * @return Retorna uma instância de TweetFileReader com o arquivo
-     * de Tweets já lido a lista de Tweets já gerada e preenchida
-     */
-    private static TweetFileReader createTweetFileReader() {
-        try {
-            return TweetFileReader.create("tweets.txt");
-        } catch (IOException e) {
-            System.out.println("Não foi possível encontrar o arquivo de Tweets. Certifique-se" +
-                    " de que o nome dele é tweets.txt e que ele está na pasta base (Estrutura de Dados II)");
-            System.exit(0);
-            return null;
         }
     }
 }

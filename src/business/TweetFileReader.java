@@ -38,12 +38,16 @@ public final class TweetFileReader {
      * @param fileName Nome do arquivo.
      * @return Retorna uma instância do TweetFileReader com uma lista
      * já preenchida de Tweets, lidos do arquivo especificado.
-     * @throws IOException Joga uma exceção caso o arquivo com o nome
-     * especificado não seja encontrado ou não seja possível lê-lo.
      */
-    public static TweetFileReader create(String fileName) throws IOException {
+    public static TweetFileReader create(String fileName) {
         TweetFileReader tweetFileReader = new TweetFileReader(new File(fileName));
-        tweetFileReader.read();
+        try {
+            tweetFileReader.read();
+        } catch (IOException e) {
+            System.out.println("Não foi possível encontrar o arquivo de Tweets. Certifique-se" +
+                    " de que o nome dele é tweets.txt e que ele está na pasta base (Estrutura de Dados II)");
+            System.exit(0);
+        }
         return tweetFileReader;
     }
 
