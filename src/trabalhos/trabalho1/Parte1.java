@@ -5,7 +5,8 @@ import hash.BenchmarkCollisionResolutionMethod;
 import hash.collision_resolution.*;
 import sort.*;
 
-import java.io.*;
+import static business.FileManager.readInputFile;
+import static business.FileManager.redirectOutput;
 
 /**
  * Classe para a execução das funções especificadas na Parte 1 do Trabalho 1.
@@ -20,11 +21,11 @@ public class Parte1 {
      * @param args Parâmetros da linha de comando
      */
     public static void main(String[] args) {
-        int[] nValues = readInputFile();
+        int[] nValues = readInputFile("entrada.txt");
         assert nValues != null;
         TweetFileReader tweetFileReader = TweetFileReader.create("tweets.txt");
         assert tweetFileReader != null;
-        redirectOutput();
+        redirectOutput("saida.txt");
         cenario1(nValues, tweetFileReader);
         cenario2(nValues, tweetFileReader);
         cenario3(nValues, tweetFileReader);
@@ -108,55 +109,5 @@ public class Parte1 {
         BenchmarkCollisionResolutionMethod.benchmarkIntegers(new SeparateChainingMethod(), nValues, tweetFileReader);
         System.out.println("\n\nEncadeamento Coalescido: \n");
         BenchmarkCollisionResolutionMethod.benchmarkIntegers(new CoalescedChainingMethod(), nValues, tweetFileReader);
-    }
-
-    /**
-     * Lê o arquivo de entrada no formato descrito no arquivo Trabalho1.pdf:
-     *
-     * 7 -> número de valores de N que se seguem, por linha
-     * 1000
-     * 5000
-     * 10000
-     *  .
-     *  .
-     *  .
-     *
-     * @return Array de inteiros com os valores de N lidos
-     */
-    private static int[] readInputFile() {
-        File file = new File("entrada.txt");
-        try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int nAmount = Integer.parseInt(bufferedReader.readLine());
-            int[] nValues = new int[nAmount];
-            for (int i = 0; i < nAmount; i++)
-                nValues[i] = Integer.parseInt(bufferedReader.readLine());
-            bufferedReader.close();
-            return nValues;
-        } catch (FileNotFoundException e) {
-            System.out.println("Não foi possível encontrar o arquivo de entrada. Certifique-se" +
-                    " de que o nome dele é entrada.txt e que ele está na pasta base (Estrutura de Dados II)");
-            System.exit(0);
-            return null;
-        } catch (IOException e) {
-            System.out.println("Falha ao ler o arquivo de entrada.\n" + e.getMessage());
-            System.exit(0);
-            return null;
-        }
-    }
-
-    /**
-     * Redireciona para o arquivo saida.txt tudo que é passado à função
-     * {@link System#out#println()}.
-     */
-    private static void redirectOutput() {
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream("saida.txt");
-            System.setOut(new PrintStream(fileOutputStream));
-        } catch (FileNotFoundException e) {
-            System.out.println("Não foi possível criar o arquivo de saída.\n" + e.getMessage());
-            System.exit(0);
-        }
     }
 }
