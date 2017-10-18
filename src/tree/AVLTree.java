@@ -43,6 +43,8 @@ public class AVLTree<T extends Comparable<? super T>> {
         Node aux = head.rightChild;
         head.rightChild = head.rightChild.leftChild;
         aux.leftChild = head;
+
+        if (head.equals(root)) root = head.parent;
     }
 
     private void rotationRight(Node head) {
@@ -59,6 +61,8 @@ public class AVLTree<T extends Comparable<? super T>> {
         Node aux = head.leftChild;
         head.leftChild = head.leftChild.rightChild;
         aux.rightChild = head;
+
+        if (head.equals(root)) root = head.parent;
     }
 
     private void rotationLeftRight(Node head) {
