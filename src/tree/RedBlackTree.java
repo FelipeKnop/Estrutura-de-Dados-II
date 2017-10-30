@@ -1,5 +1,8 @@
 package tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RedBlackTree<T extends Comparable<? super T>> {
 
     private static final boolean RED = false;
@@ -18,6 +21,11 @@ public class RedBlackTree<T extends Comparable<? super T>> {
     }
 
     private Node root;
+
+    private int height(Node node) {
+        if (node == null) return 0;
+        return 1 + Math.max(height(node.leftChild), height(node.rightChild));
+    }
 
     private void rotationLeft(Node head) {
         if (!head.equals(root)) {
@@ -208,6 +216,24 @@ public class RedBlackTree<T extends Comparable<? super T>> {
 //            }
 //        }
         return false;
+    }
+
+    public List<T> levelOrderTraversal() {
+        List<T> elements = new ArrayList<>();
+        int height = height(root);
+        for (int i = 1; i <= height; i++)
+            traverseLevel(root, i, elements);
+        return elements;
+    }
+
+    private void traverseLevel(Node node, int level, List<T> elements) {
+        if (node != null) {
+            if (level == 1) elements.add(node.key);
+            else if (level > 1) {
+                traverseLevel(node.leftChild, level - 1, elements);
+                traverseLevel(node.rightChild, level - 1, elements);
+            }
+        }
     }
 
     private class Node {
