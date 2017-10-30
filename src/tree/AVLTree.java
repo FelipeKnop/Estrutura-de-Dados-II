@@ -1,26 +1,9 @@
 package tree;
 
-public class AVLTree<T extends Comparable<? super T>> {
+import java.util.ArrayList;
+import java.util.List;
 
-    public static void main(String[] args) {
-        AVLTree<Integer> avlTree = new AVLTree<>();
-        avlTree.insert(7);
-        avlTree.insert(14);
-        avlTree.insert(4);
-        avlTree.insert(12);
-        avlTree.insert(15);
-        avlTree.insert(2);
-        avlTree.insert(6);
-        avlTree.insert(11);
-        avlTree.insert(13);
-        avlTree.insert(1);
-        avlTree.insert(3);
-        avlTree.insert(5);
-        Integer result = avlTree.search(4);
-        avlTree.remove(4);
-        result = avlTree.search(4);
-        int i = 0;
-    }
+public class AVLTree<T extends Comparable<? super T>> {
 
     private Node root;
 
@@ -188,6 +171,24 @@ public class AVLTree<T extends Comparable<? super T>> {
                     parent = parent.parent;
                 }
                 return true;
+            }
+        }
+    }
+
+    public List<T> levelOrderTraversal() {
+        List<T> elements = new ArrayList<>();
+        int height = height(root);
+        for (int i = 1; i <= height; i++)
+            traverseLevel(root, i, elements);
+        return elements;
+    }
+
+    private void traverseLevel(Node node, int level, List<T> elements) {
+        if (node != null) {
+            if (level == 1) elements.add(node.key);
+            else if (level > 1) {
+                traverseLevel(node.leftChild, level - 1, elements);
+                traverseLevel(node.rightChild, level - 1, elements);
             }
         }
     }
