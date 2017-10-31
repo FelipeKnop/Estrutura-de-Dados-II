@@ -99,8 +99,11 @@ public class AVLTree<T extends Comparable<? super T>> {
                     aux = aux.rightChild;
         }
 
-        if (aux.parent != null)
-            rebalance(aux.parent);
+        aux = aux.parent;
+        while (aux != null) {
+            rebalance(aux);
+            aux = aux.parent;
+        }
     }
 
     public T search (T key) {
