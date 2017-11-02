@@ -2,6 +2,9 @@ package tree;
 
 public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchTree<T> {
 
+    /**
+     * Cores possíveis para os nós da árvore.
+     */
     private static final boolean RED = false;
     private static final boolean BLACK = true;
 
@@ -22,15 +25,16 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
         }
 
         RedBlackNode getGrandParent() {
+            // Se o nó não tem pai, não tem avô
             return parent == null || parent.parent == null ? null : (RedBlackNode) parent.parent;
         }
 
         RedBlackNode getUncle() {
             RedBlackNode grandParent = getGrandParent();
-            if (grandParent == null) return null;
-            if (grandParent.leftChild != null && grandParent.leftChild == parent)
+            if (grandParent == null) return null; // Se o nó não tem avô, não tem tio
+            if (grandParent.leftChild != null && grandParent.leftChild == parent) // Avô tem filho à esquerda, que é o pai do nó
                 return (RedBlackNode) grandParent.rightChild;
-            else if (grandParent.rightChild != null && grandParent.rightChild == parent)
+            else if (grandParent.rightChild != null && grandParent.rightChild == parent) // Avô tem filho à direita, que é o pai do nó
                 return (RedBlackNode) grandParent.leftChild;
             return null;
         }
