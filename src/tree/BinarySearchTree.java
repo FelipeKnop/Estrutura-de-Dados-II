@@ -27,7 +27,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
     /**
      * Nó raiz da árvore.
      */
-    private Node root;
+    Node root;
 
     final int height(Node node) {
         if (node == null) return 0; // Nós que não existem têm altura 0
@@ -109,7 +109,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
      * @return Elemento a ser buscado caso encontrado ou null caso contrário
      */
     @Override
-    public final T search(T key) {
+    public T search(T key) {
         Node foundNode = getNode(key); // Procura o nó que contém o valor recebido
         return foundNode != null ? foundNode.key : null;
     }
@@ -121,7 +121,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
      * @param value Chave do nó a ser encontrado
      * @return Nó que possui chave recebida
      */
-    private Node getNode(T value) {
+    final Node getNode(T value) {
         // Percorre a árvore procurando o nó
         Node aux = root;
         while (aux != null) {

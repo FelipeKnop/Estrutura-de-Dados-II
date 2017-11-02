@@ -1,146 +1,160 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.List;
+public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree<T> {
 
-public class SplayTree<T extends Comparable<? super T>> {
-
-    private Node root;
-
-    private int height(Node node) {
-        if (node == null) return 0;
-        return 1 + Math.max(height(node.leftChild), height(node.rightChild));
+    @Override
+    protected Node createNode(T key) {
+        return new Node(key);
     }
 
-    public void insert(T value) {
-//        if (root == null) {
-//            root = new AVLTree.Node(value);
-//            return;
-//        }
-//
-//        Node aux = root;
-//        while (true) {
-//            if (value.compareTo(aux.key) < 0)
-//                if (aux.leftChild == null) {
-//                    aux.leftChild = new AVLTree.Node(value);
-//                    aux.leftChild.parent = aux;
-//                    break;
-//                } else
-//                    aux = aux.leftChild;
-//            else
-//            if (aux.rightChild == null) {
-//                aux.rightChild = new AVLTree.Node(value);
-//                aux.rightChild.parent = aux;
-//                break;
-//            } else
-//                aux = aux.rightChild;
-//        }
-//
-//        if (aux.parent != null)
-//            rebalance(aux.parent);
+    @Override
+    protected Node addValue(T value) {
+        Node node = super.addValue(value);
+        if (node != null)
+            while (node.parent != null)
+                splay(node);
+        return node;
     }
 
-    public T search (T key) {
-//        Node aux = root;
-//        while (true) {
-//            if (aux == null)
-//                return null;
-//
-//            if (key.compareTo(aux.key) < 0) {
-//                aux = aux.leftChild;
-//            } else if (key.compareTo(aux.key) > 0) {
-//                aux = aux.rightChild;
-//            } else
-//                return aux.key;
-//        }
+    @Override
+    public T search(T key) {
+        Node node = getNode(key);
+        if (node != null) {
+            while (node.parent != null)
+                splay(node);
+            return node.key;
+        }
         return null;
     }
 
-    public boolean remove (T key) {
-//        Node aux = root;
-//        while (true) {
-//            if (aux == null)
-//                return false;
-//
-//            if (key.compareTo(aux.key) < 0) {
-//                aux = aux.leftChild;
-//            } else if (key.compareTo(aux.key) > 0) {
-//                aux = aux.rightChild;
-//            } else {
-//                Node parent = aux.parent;
-//                if (aux.leftChild == null && aux.rightChild == null) {
-//                    if (parent.leftChild.equals(aux)) parent.leftChild = null;
-//                    else parent.rightChild = null;
-//                } else if (aux.leftChild != null ^ aux.rightChild != null) {
-//                    if (parent.leftChild.equals(aux))
-//                        if (aux.leftChild != null) {
-//                            parent.leftChild = aux.leftChild;
-//                            aux.leftChild.parent = parent;
-//                        } else {
-//                            parent.leftChild = aux.rightChild;
-//                            aux.rightChild.parent = parent;
-//                        }
-//                    else
-//                    if (aux.leftChild != null) {
-//                        parent.rightChild = aux.leftChild;
-//                        aux.leftChild.parent = parent;
-//                    } else {
-//                        parent.rightChild = aux.rightChild;
-//                        aux.rightChild.parent = parent;
-//                    }
-//                } else {
-//                    Node aux2 = aux.leftChild;
-//                    while (aux2.rightChild != null)
-//                        aux2 = aux2.rightChild;
-//                    if (parent.leftChild.equals(aux)) aux.parent.leftChild = aux2;
-//                    else aux.parent.rightChild = aux2;
-//                    parent = aux2.parent;
-//                    aux2.parent = aux.parent;
-//                    if (!aux.leftChild.equals(aux2)) {
-//                        aux2.leftChild = aux.leftChild;
-//                        aux2.leftChild.parent = aux2;
-//                        parent.rightChild = null;
-//                    }
-//                    aux2.rightChild = aux.rightChild;
-//                    aux2.rightChild.parent = aux2;
-//                }
-//                while (parent != null) {
-//                    rebalance(parent);
-//                    parent = parent.parent;
-//                }
-//                return true;
-//            }
-//        }
-        return false;
-    }
-
-    public List<T> levelOrderTraversal() {
-        List<T> elements = new ArrayList<>();
-        int height = height(root);
-        for (int i = 1; i <= height; i++)
-            traverseLevel(root, i, elements);
-        return elements;
-    }
-
-    private void traverseLevel(Node node, int level, List<T> elements) {
-        if (node != null) {
-            if (level == 1) elements.add(node.key);
-            else if (level > 1) {
-                traverseLevel(node.leftChild, level - 1, elements);
-                traverseLevel(node.rightChild, level - 1, elements);
-            }
+    @Override
+    protected Node removeValue(Node nodeToRemove) {
+        nodeToRemove = super.removeValue(nodeToRemove);
+        if (nodeToRemove != null && nodeToRemove.parent != null) {
+            Node parent = nodeToRemove.parent;
+            while (parent.parent != null)
+                splay(parent);
         }
+        return nodeToRemove;
     }
 
-    private class Node {
+    // TODO: Arrumar splay para a remoção
+    private void splay(Node node) {
+        Node parent = node.parent;
+        Node grandParent = parent != null ? parent.parent : null;
 
-        private T key;
-        private Node parent;
-        private Node leftChild;
-        private Node rightChild;
+        if (parent != null && parent == root) {
+            // Zig
+            root = node;
+            node.parent = null;
 
-        private Node(T key) {
-            this.key = key;
+            if (node == parent.leftChild) {
+                parent.leftChild = node.rightChild;
+                if (node.rightChild != null)
+                    node.rightChild.parent = parent;
+                node.rightChild = parent;
+                parent.parent = node;
+            } else {
+                parent.rightChild = node.leftChild;
+                if (node.leftChild != null)
+                    node.leftChild.parent = parent;
+                node.leftChild = parent;
+                parent.parent = node;
+            }
+
+            return;
+        }
+
+        if (parent != null && grandParent != null) {
+            Node greatGrandParent = grandParent.parent;
+            if (greatGrandParent != null && greatGrandParent.leftChild == grandParent) {
+                greatGrandParent.leftChild = node;
+                node.parent = greatGrandParent;
+            } else if (greatGrandParent != null && greatGrandParent.rightChild == grandParent) {
+                greatGrandParent.rightChild = node;
+                node.parent = greatGrandParent;
+            } else {
+                root = node;
+                node.parent = null;
+            }
+
+            if ((node == parent.leftChild && parent == grandParent.leftChild)
+                    || (node == parent.rightChild && parent == grandParent.rightChild)) {
+                // Zig-Zig
+                if (node == parent.leftChild) {
+                    Node rightChild = node.rightChild;
+                    node.rightChild = parent;
+                    parent.parent = node;
+
+                    parent.leftChild = rightChild;
+                    if (rightChild != null)
+                        rightChild.parent = parent;
+
+                    Node parentRightChild = parent.rightChild;
+                    parent.rightChild = grandParent;
+                    grandParent.parent = parent;
+
+                    grandParent.leftChild = parentRightChild;
+                    if (parentRightChild != null)
+                        parentRightChild.parent = grandParent;
+                } else {
+                    Node leftChild = node.leftChild;
+                    node.leftChild = parent;
+                    parent.parent = node;
+
+                    parent.rightChild = leftChild;
+                    if (leftChild != null)
+                        leftChild.parent = parent;
+
+                    Node parentLeftChild = parent.leftChild;
+                    parent.leftChild = grandParent;
+                    grandParent.parent = parent;
+
+                    grandParent.rightChild = parentLeftChild;
+                    if (parentLeftChild != null)
+                        parentLeftChild.parent = grandParent;
+                }
+                return;
+            }
+
+            // Zig-Zag
+            if (node == parent.leftChild) {
+                Node leftChild = node.rightChild;
+                Node rightChild = node.leftChild;
+
+                node.rightChild = parent;
+                parent.parent = node;
+
+                node.leftChild = grandParent;
+                grandParent.parent = node;
+
+                parent.leftChild = leftChild;
+                if (leftChild != null)
+                    leftChild.parent = parent;
+
+                grandParent.rightChild = rightChild;
+                if (rightChild != null)
+                    rightChild.parent = grandParent;
+
+                return;
+            }
+
+            Node leftChild = node.leftChild;
+            Node rightChild = node.rightChild;
+
+            node.leftChild = parent;
+            parent.parent = node;
+
+            node.rightChild = grandParent;
+            grandParent.parent = node;
+
+            parent.rightChild = leftChild;
+            if (leftChild != null)
+                leftChild.parent = parent;
+
+            grandParent.leftChild = rightChild;
+            if (rightChild != null)
+                rightChild.parent = grandParent;
         }
     }
 }
