@@ -58,7 +58,7 @@ public abstract class BinarySearchTreeTest {
      * equivale à array guardada na variável {@link #LEVEL_ORDER_ARRAY}.
      */
     @Test
-    public void insertTest() {
+    public final void insertTest() {
         BinarySearchTree<Integer> binarySearchTree = getNewBinarySearchTree();
 
         for (Integer number : TEST_ARRAY)
@@ -82,7 +82,7 @@ public abstract class BinarySearchTreeTest {
      * a árvore possui todos esses números.
      */
     @Test
-    public void searchTest() {
+    public final void searchTest() {
         BinarySearchTree<Integer> binarySearchTree = getNewBinarySearchTree();
 
         for (Integer number : TEST_ARRAY)
@@ -118,7 +118,7 @@ public abstract class BinarySearchTreeTest {
      * por diante.
      */
     @Test
-    public void removeTest() {
+    public final void removeTest() {
         BinarySearchTree<Integer> binarySearchTree = getNewBinarySearchTree();
 
         for (Integer number : TEST_ARRAY)

@@ -3,6 +3,9 @@ package test.tree;
 import tree.BinarySearchTree;
 import tree.RedBlackTree;
 
+/**
+ * Classe de teste para as operações da classe {@link RedBlackTree}.
+ */
 public class RedBlackTreeTest extends BinarySearchTreeTest {
 
     @Override

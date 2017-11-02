@@ -3,6 +3,9 @@ package test.tree;
 import tree.AVLTree;
 import tree.BinarySearchTree;
 
+/**
+ * Classe de teste para as operações da classe {@link AVLTree}.
+ */
 public class AVLTreeTest extends BinarySearchTreeTest {
 
     @Override
