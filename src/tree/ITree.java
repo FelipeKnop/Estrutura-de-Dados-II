@@ -2,8 +2,9 @@ package tree;
 
 /**
  * Interface que deve ser implementada por todas as classes que tem o
- * comportamento de uma árvore (inserção, busca e remoção de elementos).
- * @param <T>
+ * comportamento de uma árvore (inserção, busca e remoção de elementos),
+ * assim como um método que limpa a árvore.
+ * @param <T> Tipo dos dados a serem guardados pelos nós da árvore
  */
 public interface ITree<T> {
 
@@ -28,4 +29,9 @@ public interface ITree<T> {
      * e for removido, false caso contrário
      */
     boolean remove(T value);
+
+    /**
+     * Limpa os dados da árvore.
+     */
+    void clear();
 }

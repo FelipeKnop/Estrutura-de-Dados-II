@@ -11,7 +11,7 @@ import java.util.List;
  *           em ordem crescente da esquerda para a direita dos nós, os elementos
  *           devem ser comparáveis, implementando a interface {@link Comparable}
  */
-public abstract class BinarySearchTree<T extends Comparable<? super T>> implements ITree<T> {
+public abstract class BinarySearchTree<T extends Comparable<? super T>> extends BenchmarkableTree<T> {
 
     /**
      * Método abstrato (deve ser implementado por cada classe) que retorna
@@ -83,6 +83,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
         // Percorre a árvore procurando onde o nó deve ser inserido
         Node aux = root;
         while (true) {
+            comparisons++;
             if (newNode.key.compareTo(aux.key) <= 0) { // Se chave é menor ou igual à do nó atual, continua à esquerda
                 if (aux.leftChild == null) { // Nó nulo foi encontrado, valor deve ser inserido nessa posição
                     aux.leftChild = newNode;
@@ -125,12 +126,16 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
         // Percorre a árvore procurando o nó
         Node aux = root;
         while (aux != null) {
+            comparisons++;
             if (value.compareTo(aux.key) < 0) // Se o valor é menor que a chave do nó atual, continua à esquerda
                 aux = aux.leftChild;
-            else if (value.compareTo(aux.key) > 0) // Se o valor é maior que a chave do nó atual, continua à esquerda
-                aux = aux.rightChild;
-            else
-                return aux; // Nó encontrado
+            else  {
+                comparisons++;
+                if (value.compareTo(aux.key) > 0) // Se o valor é maior que a chave do nó atual, continua à esquerda
+                    aux = aux.rightChild;
+                else
+                    return aux; // Nó encontrado
+            }
         }
         return null;
     }
@@ -155,6 +160,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
             leftChild.parent = head;
 
         if (parent != null) { // Nó não é raiz
+            comparisons++;
             if (head == parent.leftChild) // Nó é o filho à esquerda do pai
                 parent.leftChild = rightChild; // Atualiza ponteiro de filho do pai do nó
             else // Nó é o filho à direita do pai
@@ -186,6 +192,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
             rightChild.parent = head;
 
         if (parent != null) { // Nó não é raiz
+            comparisons++;
             if (head == parent.leftChild) // Nó é o filho à esquerda do pai
                 parent.leftChild = leftChild; // Atualiza ponteiro de filho do pai do nó
             else // Nó é o filho à direita do pai
@@ -236,10 +243,12 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
             replacementNode = getGreatestNode(nodeToRemove.leftChild); // Nesse caso, o nó que substitui é o filho com maior chave à esquerda
             if (replacementNode == null)
                 replacementNode = nodeToRemove.leftChild;
-        } else if (nodeToRemove.leftChild != null)  // Nó a ser removido só possui filho à esquerda
-            replacementNode = nodeToRemove.leftChild; // Nó que substitui é o filho à esquerda
-        else // Nó a ser removido só possui filho à direita
-            replacementNode = nodeToRemove.rightChild; // Nó que substitui é o filho à direita
+        } else  {
+            if (nodeToRemove.leftChild != null)  // Nó a ser removido só possui filho à esquerda
+                replacementNode = nodeToRemove.leftChild; // Nó que substitui é o filho à esquerda
+            else // Nó a ser removido só possui filho à direita
+                replacementNode = nodeToRemove.rightChild; // Nó que substitui é o filho à direita
+        }
         return replacementNode;
     }
 
@@ -256,6 +265,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
 
             // Troca a subárvore à esquerda de um nó para o outro
             Node nodeToRemoveLeftChild = nodeToRemove.leftChild;
+            comparisons++;
             if (nodeToRemoveLeftChild != null && nodeToRemoveLeftChild != replacementNode) {
                 replacementNode.leftChild = nodeToRemoveLeftChild;
                 nodeToRemoveLeftChild.parent = replacementNode;
@@ -263,6 +273,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
 
             // Troca a subárvore à direita de um nó para o outro
             Node nodeToRemoveRightChild = nodeToRemove.rightChild;
+            comparisons++;
             if (nodeToRemoveRightChild != null && nodeToRemoveRightChild != replacementNode) {
                 replacementNode.rightChild = nodeToRemoveRightChild;
                 nodeToRemoveRightChild.parent = replacementNode;
@@ -270,17 +281,22 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
 
             // Remove a ligação entre o nó a ser removido e seu pai
             Node replacementParent = replacementNode.parent;
+            comparisons++;
             if (replacementParent != null && replacementParent != nodeToRemove) {
                 Node replacementParentLeftChild = replacementParent.leftChild;
                 Node replacementParentRightChild = replacementParent.rightChild;
+                comparisons++;
                 if (replacementParentLeftChild != null && replacementParentLeftChild == replacementNode) {
                     replacementParent.leftChild = replacementRightChild;
                     if (replacementRightChild != null)
                         replacementRightChild.parent = replacementParent;
-                } else if (replacementParentRightChild != null && replacementParentRightChild == replacementNode) {
-                    replacementParent.rightChild = replacementLeftChild;
-                    if (replacementLeftChild != null)
-                        replacementLeftChild.parent = replacementParent;
+                } else {
+                    comparisons ++;
+                    if (replacementParentRightChild != null && replacementParentRightChild == replacementNode) {
+                        replacementParent.rightChild = replacementLeftChild;
+                        if (replacementLeftChild != null)
+                            replacementLeftChild.parent = replacementParent;
+                    }
                 }
             }
         }
@@ -291,15 +307,26 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> implemen
             root = replacementNode;
             if (root != null)
                 root.parent = null; // Atualiza o nó raiz
-        } else if (parent.leftChild != null && (parent.leftChild.key.compareTo(nodeToRemove.key) == 0)) {
-            parent.leftChild = replacementNode;
-            if (replacementNode != null)
-                replacementNode.parent = parent;
-        } else if (parent.rightChild != null && (parent.rightChild.key.compareTo(nodeToRemove.key) == 0)) {
-            parent.rightChild = replacementNode;
-            if (replacementNode != null)
-                replacementNode.parent = parent;
+        } else  {
+            comparisons++;
+            if (parent.leftChild != null && (parent.leftChild.key.compareTo(nodeToRemove.key) == 0)) {
+                parent.leftChild = replacementNode;
+                if (replacementNode != null)
+                    replacementNode.parent = parent;
+            } else {
+                comparisons++;
+                if (parent.rightChild != null && (parent.rightChild.key.compareTo(nodeToRemove.key) == 0)) {
+                    parent.rightChild = replacementNode;
+                    if (replacementNode != null)
+                        replacementNode.parent = parent;
+                }
+            }
         }
+    }
+
+    @Override
+    public void clear() {
+        root = null;
     }
 
     /**

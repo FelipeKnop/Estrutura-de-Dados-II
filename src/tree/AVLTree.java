@@ -54,12 +54,12 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
 
             switch (balance) {
                 case LR: // Left-Right: faz rotação para a esquerda e depois para a direita
-                    rotateLeft(head); // Falta de "break" para que caia no próximo case, com a rotação à direita
+                    rotateLeft(head.leftChild); // Falta de "break" para que caia no próximo case, com a rotação à direita
                 case LL: // Left-Left: faz rotação para a direita
                     rotateRight(head);
                     break;
                 case RL: // Right-Left: faz rotação para a direita e depois para a esquerda
-                    rotateRight(head); // Falta de "break" para que caia no próximo case, com a rotação à esquerda
+                    rotateRight(head.rightChild); // Falta de "break" para que caia no próximo case, com a rotação à esquerda
                 case RR: // Right-Right: faz rotação para a esquerda
                     rotateLeft(head);
                     break;
@@ -77,6 +77,7 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
             node = (AVLNode) replacementNode.parent;
         if (node == null)
             node = (AVLNode) nodeToRemove.parent;
+        comparisons++;
         if (node != null && node == nodeToRemove)
             node = (AVLNode) replacementNode;
 

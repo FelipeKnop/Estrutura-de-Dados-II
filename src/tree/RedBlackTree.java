@@ -13,74 +13,65 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
         return new RedBlackNode(key, RED);
     }
 
-
-    private void addHelper(RedBlackNode node)
-    {
-        if(node.parent==null)
-        {
+    private void addHelper(RedBlackNode node) {
+        if (node.parent == null) {
             node.color = BLACK;
             return;
         }
+
         RedBlackNode uncle =  node.getUncle();
         RedBlackNode grand = node.getGrandParent();
         RedBlackNode parent = (RedBlackNode) node.parent;
+
         if (node.color == RED && parent.color == RED) {
-            if (uncle != null && uncle.color == RED)
-            {
-                parent.color= !parent.color;
-                uncle.color = !uncle.color;
+            if (uncle != null && uncle.color == RED) {
+                parent.color = BLACK;
+                uncle.color = BLACK;
                 grand.color = !grand.color;
-            }
-            else
-            {
-                if(node==parent.leftChild && parent == grand.leftChild)
-                {
-                    parent.color = !parent.color;
-                    grand.color = !parent.color;
+            } else {
+                comparisons += 2; // Por causa do &&
+                if(node == parent.leftChild && parent == grand.leftChild) {
+                    parent.color = BLACK;
+                    grand.color = RED;
                     rotateRight(grand);
-                }
-
-                else if(node==parent.rightChild && parent == grand.rightChild)
-                {
-                    parent.color = !parent.color;
-                    grand.color = !parent.color;
-                    rotateLeft(grand);
-                }
-
-                else if (node==parent.leftChild && parent == grand.rightChild)
-                {
-                    node.color =!node.color;
-                    grand.color =!grand.color;
-                    rotateRight(parent);
-                    rotateLeft(grand);
-
-                }
-
-                else if (node==parent.rightChild && parent == grand.leftChild)
-                {
-                    node.color =!node.color;
-                    grand.color =!grand.color;
-                    rotateLeft(parent);
-                    rotateRight(grand);
+                } else{
+                    comparisons += 2; // Por causa do &&
+                    if(node == parent.rightChild && parent == grand.rightChild) {
+                        parent.color = BLACK;
+                        grand.color = RED;
+                        rotateLeft(grand);
+                    } else {
+                        comparisons += 2; // Por causa do &&
+                        if (node == parent.leftChild && parent == grand.rightChild) {
+                            node.color = BLACK;
+                            grand.color = !grand.color;
+                            rotateRight(parent);
+                            rotateLeft(grand);
+                        } else {
+                            comparisons += 2; // Por causa do &&
+                            if (node == parent.rightChild && parent == grand.leftChild) {
+                                node.color = BLACK;
+                                grand.color = !grand.color;
+                                rotateLeft(parent);
+                                rotateRight(grand);
+                            }
+                        }
+                    }
                 }
             }
-
-
-
         }
         addHelper(parent);
     }
+
     @Override
-    protected Node addValue (T value)
-    {
+    protected Node addValue (T value) {
         Node node = super.addValue(value);
         RedBlackNode newnode = (RedBlackNode) node;
 
         if (newnode.parent == null) {
             newnode.color = BLACK;
             return newnode;
-        }
-        else {
+        } else {
            addHelper(newnode);
            int i =0;
            return newnode;
@@ -108,10 +99,14 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
         RedBlackNode getUncle() {
             RedBlackNode grandParent = getGrandParent();
             if (grandParent == null) return null; // Se o nó não tem avô, não tem tio
+            comparisons++;
             if (grandParent.leftChild != null && grandParent.leftChild == parent) // Avô tem filho à esquerda, que é o pai do nó
                 return (RedBlackNode) grandParent.rightChild;
-            else if (grandParent.rightChild != null && grandParent.rightChild == parent) // Avô tem filho à direita, que é o pai do nó
-                return (RedBlackNode) grandParent.leftChild;
+            else {
+                comparisons ++;
+                if (grandParent.rightChild != null && grandParent.rightChild == parent) // Avô tem filho à direita, que é o pai do nó
+                    return (RedBlackNode) grandParent.leftChild;
+            }
             return null;
         }
     }
