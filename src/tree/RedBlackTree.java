@@ -13,7 +13,14 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
         return new RedBlackNode(key, RED);
     }
 
+    /**
+     * Função chamada após a inserção do nó para verificar recursivamente, da base até o topo, possíveis regras da
+     * RedBlackTree que tenham sido quebradas e então corrigílas.
+     * @param node Nó de verificação.
+     */
+
     private void addHelper(RedBlackNode node) {
+        //Correção da raiz para cor preta
         if (node.parent == null) {
             node.color = BLACK;
             return;
@@ -23,25 +30,33 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
         RedBlackNode grand = node.getGrandParent();
         RedBlackNode parent = (RedBlackNode) node.parent;
 
+        // Verificação do erro pai e filho vermelhos
         if (node.color == RED && parent.color == RED) {
+            //Correção caso o tio seja vermelho
             if (uncle != null && uncle.color == RED) {
                 parent.color = BLACK;
                 uncle.color = BLACK;
                 grand.color = !grand.color;
-            } else {
+
+            }
+            //Correção caso o tio seja preto
+            else {
                 comparisons += 2; // Por causa do &&
+                //Filho a esquerda de um pai a esquerda
                 if(node == parent.leftChild && parent == grand.leftChild) {
                     parent.color = BLACK;
                     grand.color = RED;
                     rotateRight(grand);
                 } else{
                     comparisons += 2; // Por causa do &&
+                    //Filho a direita de um pai a direita
                     if(node == parent.rightChild && parent == grand.rightChild) {
                         parent.color = BLACK;
                         grand.color = RED;
                         rotateLeft(grand);
                     } else {
                         comparisons += 2; // Por causa do &&
+                        //Filho a esquerda de um pai a direita
                         if (node == parent.leftChild && parent == grand.rightChild) {
                             node.color = BLACK;
                             grand.color = !grand.color;
@@ -49,6 +64,7 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
                             rotateLeft(grand);
                         } else {
                             comparisons += 2; // Por causa do &&
+                            //Filho a direita de um pai a esquerda
                             if (node == parent.rightChild && parent == grand.leftChild) {
                                 node.color = BLACK;
                                 grand.color = !grand.color;
@@ -73,7 +89,6 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
             return newnode;
         } else {
            addHelper(newnode);
-           int i =0;
            return newnode;
         }
 
@@ -90,12 +105,12 @@ public class RedBlackTree<T extends Comparable<? super T>> extends BinarySearchT
             super(key);
             this.color = color;
         }
-
+    /**Função que retorna o avô do nó caso ele exista ou null caso contrário*/
         RedBlackNode getGrandParent() {
             // Se o nó não tem pai, não tem avô
             return parent == null || parent.parent == null ? null : (RedBlackNode) parent.parent;
         }
-
+        /**Função que retorna o tio do nó caso ele exista ou null caso contrário*/
         RedBlackNode getUncle() {
             RedBlackNode grandParent = getGrandParent();
             if (grandParent == null) return null; // Se o nó não tem avô, não tem tio

@@ -133,8 +133,10 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
                 comparisons++;
                 if (value.compareTo(aux.key) > 0) // Se o valor é maior que a chave do nó atual, continua à esquerda
                     aux = aux.rightChild;
-                else
+                else {
+                    copies++;
                     return aux; // Nó encontrado
+                }
             }
         }
         return null;
@@ -154,7 +156,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
         rightChild.leftChild = head;
         head.parent = rightChild;
         head.rightChild = leftChild;
-
+        copies++;
         // Se filho à direita possui filho à esquerda, troca o ponteiro do pai
         if (leftChild != null)
             leftChild.parent = head;
@@ -186,7 +188,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
         leftChild.rightChild = head;
         head.parent = leftChild;
         head.leftChild = rightChild;
-
+        copies++;
         // Se filho à esquerda possui filho à direita, troca o ponteiro do pai
         if (rightChild != null)
             rightChild.parent = head;
@@ -249,6 +251,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             else // Nó a ser removido só possui filho à direita
                 replacementNode = nodeToRemove.rightChild; // Nó que substitui é o filho à direita
         }
+        copies++;
         return replacementNode;
     }
 
@@ -269,6 +272,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             if (nodeToRemoveLeftChild != null && nodeToRemoveLeftChild != replacementNode) {
                 replacementNode.leftChild = nodeToRemoveLeftChild;
                 nodeToRemoveLeftChild.parent = replacementNode;
+                copies++;
             }
 
             // Troca a subárvore à direita de um nó para o outro
@@ -277,6 +281,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             if (nodeToRemoveRightChild != null && nodeToRemoveRightChild != replacementNode) {
                 replacementNode.rightChild = nodeToRemoveRightChild;
                 nodeToRemoveRightChild.parent = replacementNode;
+                copies++;
             }
 
             // Remove a ligação entre o nó a ser removido e seu pai
@@ -285,6 +290,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             if (replacementParent != null && replacementParent != nodeToRemove) {
                 Node replacementParentLeftChild = replacementParent.leftChild;
                 Node replacementParentRightChild = replacementParent.rightChild;
+                copies++;
                 comparisons++;
                 if (replacementParentLeftChild != null && replacementParentLeftChild == replacementNode) {
                     replacementParent.leftChild = replacementRightChild;
