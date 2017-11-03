@@ -54,12 +54,14 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
                     node.rightChild.parent = parent;
                 node.rightChild = parent;
                 parent.parent = node;
+                copies++;
             } else {
                 parent.rightChild = node.leftChild;
                 if (node.leftChild != null)
                     node.leftChild.parent = parent;
                 node.leftChild = parent;
                 parent.parent = node;
+                copies++;
             }
 
             return;
@@ -70,6 +72,7 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
             if (greatGrandParent != null && greatGrandParent.leftChild == grandParent) {
                 greatGrandParent.leftChild = node;
                 node.parent = greatGrandParent;
+                copies++;
             } else if (greatGrandParent != null && greatGrandParent.rightChild == grandParent) {
                 greatGrandParent.rightChild = node;
                 node.parent = greatGrandParent;
@@ -93,7 +96,7 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
                     Node parentRightChild = parent.rightChild;
                     parent.rightChild = grandParent;
                     grandParent.parent = parent;
-
+                    copies++;
                     grandParent.leftChild = parentRightChild;
                     if (parentRightChild != null)
                         parentRightChild.parent = grandParent;
@@ -109,7 +112,7 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
                     Node parentLeftChild = parent.leftChild;
                     parent.leftChild = grandParent;
                     grandParent.parent = parent;
-
+                    copies++;
                     grandParent.rightChild = parentLeftChild;
                     if (parentLeftChild != null)
                         parentLeftChild.parent = grandParent;
@@ -127,7 +130,7 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
 
                 node.leftChild = grandParent;
                 grandParent.parent = node;
-
+                copies++;
                 parent.leftChild = leftChild;
                 if (leftChild != null)
                     leftChild.parent = parent;
@@ -147,7 +150,7 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
 
             node.rightChild = grandParent;
             grandParent.parent = node;
-
+            copies++;
             parent.rightChild = leftChild;
             if (leftChild != null)
                 leftChild.parent = parent;
