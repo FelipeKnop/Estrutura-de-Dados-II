@@ -186,7 +186,100 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     }
 
     private void combine(BNode node) {
-        // TODO:
+        BNode parent = node.parent;
+        int index = parent.children.indexOf(node);
+
+        BNode rightNeighbor = null;
+        int rightNeighborSize = -minChildrenSize;
+        if (index + 1 < parent.children.size()) {
+            rightNeighbor = parent.getChild(index + 1);
+            rightNeighborSize = rightNeighbor.keys.size();
+        }
+
+        if (rightNeighbor != null && rightNeighborSize > minKeySize) {
+            T removeValue = rightNeighbor.getKey(0);
+            int prev = getIndexOfPreviousValue(parent, removeValue);
+            T parentValue = parent.removeKey(prev);
+            T neighborValue = rightNeighbor.removeKey(0);
+            node.addKey(parentValue);
+            parent.addKey(neighborValue);
+            if (rightNeighbor.children.size() > 0)
+                node.addChild(rightNeighbor.removeChild(0));
+        } else {
+            BNode leftNeighbor = null;
+            int leftNeighborSize = -minChildrenSize;
+            if (index - 1 >= 0) {
+                leftNeighbor = parent.getChild(index - 1);
+                leftNeighborSize = leftNeighbor.keys.size();
+            }
+
+            if (leftNeighbor != null && leftNeighborSize > minKeySize) {
+                T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
+                int prev = getIndexOfNextValue(parent, removeValue);
+                T parentValue = parent.removeKey(prev);
+                T neighborValue = leftNeighbor.removeKey(leftNeighbor.keys.size() - 1);
+                node.addKey(parentValue);
+                parent.addKey(neighborValue);
+                if (leftNeighbor.children.size() > 0)
+                    node.addChild(leftNeighbor.removeChild(leftNeighbor.children.size() - 1));
+            } else if (rightNeighbor != null && parent.keys.size() > 0) {
+                T removeValue = rightNeighbor.getKey(0);
+                int prev = getIndexOfPreviousValue(parent, removeValue);
+                T parentValue = parent.removeKey(prev);
+                parent.removeChild(rightNeighbor);
+                node.addKey(parentValue);
+                for (int i = 0; i < rightNeighbor.keys.size(); i++) {
+                    T value = rightNeighbor.getKey(i);
+                    node.addKey(value);
+                }
+                for (int i = 0; i < rightNeighbor.children.size(); i++) {
+                    BNode child = rightNeighbor.getChild(i);
+                    node.addChild(child);
+                }
+                if (parent.parent != null && parent.keys.size() < minKeySize)
+                    combine(parent);
+                else if (parent.keys.size() == 0) {
+                    node.parent = null;
+                    root = node;
+                }
+            } else if (leftNeighbor != null && parent.keys.size() > 0) {
+                T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
+                int prev = getIndexOfNextValue(parent, removeValue);
+                T parentValue = parent.removeKey(prev);
+                parent.removeChild(leftNeighbor);
+                node.addKey(parentValue);
+                for (int i = 0; i < leftNeighbor.keys.size(); i++) {
+                    T value = leftNeighbor.getKey(i);
+                    node.addKey(value);
+                }
+                for (int i = 0; i < leftNeighbor.children.size(); i++) {
+                    BNode child = leftNeighbor.getChild(i);
+                    node.addChild(child);
+                }
+                if (parent.parent != null && parent.keys.size() < minKeySize)
+                    combine(parent);
+                else if (parent.keys.size() == 0) {
+                    node.parent = null;
+                    root = node;
+                }
+            }
+        }
+    }
+
+    private int getIndexOfPreviousValue(BNode node, T value) {
+        for (int i = 1; i < node.keys.size(); i++) {
+            if (node.getKey(i).compareTo(value) >= 0)
+                return i - 1;
+        }
+        return node.keys.size() - 1;
+    }
+
+    private int getIndexOfNextValue(BNode node, T value) {
+        for (int i = 0; i < node.keys.size(); i++) {
+            if (node.getKey(i).compareTo(value) >= 0)
+                return i;
+        }
+        return node.keys.size() - 1;
     }
 
     private BNode getGreatestNode(BNode node) {
