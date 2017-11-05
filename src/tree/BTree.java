@@ -166,12 +166,12 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     private boolean remove(T value, BNode node) {
         int index = node.keys.indexOf(value);
         T removed = node.removeKey(value);
-        if (node.children.size() == 0)
+        if (node.children.size() == 0) {
             if (node.parent != null && node.keys.size() < minKeySize)
                 combine(node);
             else if (node.parent == null && node.keys.size() == 0)
                 root = null;
-        else {
+        } else {
             BNode lesser = node.getChild(index);
             BNode greatest = getGreatestNode(lesser);
             T replaceValue = removeGreatestValue(greatest);
@@ -189,59 +189,39 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         BNode parent = node.parent;
         int index = parent.children.indexOf(node);
 
-        BNode rightNeighbor = null;
-        int rightNeighborSize = -minChildrenSize;
-        if (index + 1 < parent.children.size()) {
-            rightNeighbor = parent.getChild(index + 1);
-            rightNeighborSize = rightNeighbor.keys.size();
+        BNode leftNeighbor = null;
+        int leftNeighborSize = -minChildrenSize;
+        if (index - 1 >= 0) {
+            leftNeighbor = parent.getChild(index - 1);
+            leftNeighborSize = leftNeighbor.keys.size();
         }
 
-        if (rightNeighbor != null && rightNeighborSize > minKeySize) {
-            T removeValue = rightNeighbor.getKey(0);
-            int prev = getIndexOfPreviousValue(parent, removeValue);
+        if (leftNeighbor != null && leftNeighborSize > minKeySize) {
+            T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
+            int prev = getIndexOfNextValue(parent, removeValue);
             T parentValue = parent.removeKey(prev);
-            T neighborValue = rightNeighbor.removeKey(0);
+            T neighborValue = leftNeighbor.removeKey(leftNeighbor.keys.size() - 1);
             node.addKey(parentValue);
             parent.addKey(neighborValue);
-            if (rightNeighbor.children.size() > 0)
-                node.addChild(rightNeighbor.removeChild(0));
+            if (leftNeighbor.children.size() > 0)
+                node.addChild(leftNeighbor.removeChild(leftNeighbor.children.size() - 1));
         } else {
-            BNode leftNeighbor = null;
-            int leftNeighborSize = -minChildrenSize;
-            if (index - 1 >= 0) {
-                leftNeighbor = parent.getChild(index - 1);
-                leftNeighborSize = leftNeighbor.keys.size();
+            BNode rightNeighbor = null;
+            int rightNeighborSize = -minChildrenSize;
+            if (index + 1 < parent.children.size()) {
+                rightNeighbor = parent.getChild(index + 1);
+                rightNeighborSize = rightNeighbor.keys.size();
             }
-
-            if (leftNeighbor != null && leftNeighborSize > minKeySize) {
-                T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
-                int prev = getIndexOfNextValue(parent, removeValue);
-                T parentValue = parent.removeKey(prev);
-                T neighborValue = leftNeighbor.removeKey(leftNeighbor.keys.size() - 1);
-                node.addKey(parentValue);
-                parent.addKey(neighborValue);
-                if (leftNeighbor.children.size() > 0)
-                    node.addChild(leftNeighbor.removeChild(leftNeighbor.children.size() - 1));
-            } else if (rightNeighbor != null && parent.keys.size() > 0) {
+            if (rightNeighbor != null && rightNeighborSize > minKeySize) {
                 T removeValue = rightNeighbor.getKey(0);
                 int prev = getIndexOfPreviousValue(parent, removeValue);
                 T parentValue = parent.removeKey(prev);
-                parent.removeChild(rightNeighbor);
+                T neighborValue = rightNeighbor.removeKey(0);
                 node.addKey(parentValue);
-                for (int i = 0; i < rightNeighbor.keys.size(); i++) {
-                    T value = rightNeighbor.getKey(i);
-                    node.addKey(value);
-                }
-                for (int i = 0; i < rightNeighbor.children.size(); i++) {
-                    BNode child = rightNeighbor.getChild(i);
-                    node.addChild(child);
-                }
-                if (parent.parent != null && parent.keys.size() < minKeySize)
-                    combine(parent);
-                else if (parent.keys.size() == 0) {
-                    node.parent = null;
-                    root = node;
-                }
+                parent.addKey(neighborValue);
+                if (rightNeighbor.children.size() > 0)
+                    node.addChild(rightNeighbor.removeChild(0));
+
             } else if (leftNeighbor != null && parent.keys.size() > 0) {
                 T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
                 int prev = getIndexOfNextValue(parent, removeValue);
@@ -262,6 +242,27 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
                     node.parent = null;
                     root = node;
                 }
+            } else if (rightNeighbor != null && parent.keys.size() > 0) {
+                T removeValue = rightNeighbor.getKey(0);
+                int prev = getIndexOfPreviousValue(parent, removeValue);
+                T parentValue = parent.removeKey(prev);
+                parent.removeChild(rightNeighbor);
+                node.addKey(parentValue);
+                for (int i = 0; i < rightNeighbor.keys.size(); i++) {
+                    T value = rightNeighbor.getKey(i);
+                    node.addKey(value);
+                }
+                for (int i = 0; i < rightNeighbor.children.size(); i++) {
+                    BNode child = rightNeighbor.getChild(i);
+                    node.addChild(child);
+                }
+                if (parent.parent != null && parent.keys.size() < minKeySize)
+                    combine(parent);
+                else if (parent.keys.size() == 0) {
+                    node.parent = null;
+                    root = node;
+                }
+
             }
         }
     }
