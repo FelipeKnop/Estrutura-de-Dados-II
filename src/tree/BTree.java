@@ -353,6 +353,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         }
 
         private boolean addChild(BNode child) {
+            if (child == null) return false;
             child.parent = this;
             children.add(child);
             children.sort(BNode::compareTo);
