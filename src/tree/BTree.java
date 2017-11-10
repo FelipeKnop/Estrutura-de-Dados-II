@@ -83,7 +83,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         int keys = node.keys.size();
         int medianIndex = keys / 2;
         T medianValue = node.getKey(medianIndex);
-
+        copies++;
         BNode left = new BNode();
         for (int i = 0; i < medianIndex; i++)
             left.addKey(node.getKey(i));
@@ -107,6 +107,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
             node.addChild(left);
             node.addChild(right);
         } else {
+            copies++;
             BNode parent = node.parent;
             parent.addKey(medianValue);
             parent.removeChild(node);
@@ -183,6 +184,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
             BNode lesser = node.getChild(index);
             BNode greatest = getGreatestNode(lesser);
             T replaceValue = removeGreatestValue(greatest);
+            copies++;
             node.addKey(replaceValue);
             if (greatest.parent != null && greatest.keys.size() < minKeySize)
                 combine(greatest);
@@ -203,7 +205,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
             leftNeighbor = parent.getChild(index - 1);
             leftNeighborSize = leftNeighbor.keys.size();
         }
-
+        copies++;
         if (leftNeighbor != null && leftNeighborSize > minKeySize) {
             T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
             int prev = getIndexOfNextValue(parent, removeValue);
