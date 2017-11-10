@@ -3,6 +3,7 @@ package tree;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ConstantConditions")
 public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T> {
 
     /**
