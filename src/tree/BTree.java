@@ -54,12 +54,14 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
                 break;
             }
 
+            comparisons++;
             if (value.compareTo(node.getKey(0)) <= 0) {
                 node = node.getChild(0);
                 continue;
             }
 
             int last = node.keys.size() - 1;
+            comparisons++;
             if (value.compareTo(node.getKey(last)) > 0) {
                 node = node.getChild(last + 1);
                 continue;
@@ -68,6 +70,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
             for (int i = 1; i < node.keys.size(); i++)
                 if (value.compareTo(node.getKey(i - 1)) > 0
                         && value.compareTo(node.getKey(i)) <= 0) {
+                    comparisons += 2; // Por causa do &&
                     node = node.getChild(i);
                     break;
                 }
@@ -123,12 +126,14 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     private BNode getNode(T value) {
         BNode node = root;
         while (node != null) {
+            comparisons++;
             if (value.compareTo(node.getKey(0)) < 0) {
                 node = node.children.size() > 0 ? node.getChild(0) : null;
                 continue;
             }
 
             int keys = node.keys.size();
+            comparisons++;
             if (value.compareTo(node.getKey(keys - 1)) > 0) {
                 node = node.children.size() > keys ? node.getChild(keys) : null;
                 continue;
@@ -136,11 +141,13 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
 
             for (int i = 0; i < keys; i++) {
                 T currentValue = node.getKey(i);
+                comparisons++;
                 if (currentValue.compareTo(value) == 0)
                     return node;
 
                 int next = i + 1;
                 if (next <= keys - 1) {
+                    comparisons += 2; // Por causa do &&
                     if (currentValue.compareTo(value) < 0
                             && node.getKey(next).compareTo(value) > 0) {
                         if (next < node.children.size()) {
@@ -269,6 +276,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
 
     private int getIndexOfPreviousValue(BNode node, T value) {
         for (int i = 1; i < node.keys.size(); i++) {
+            comparisons++;
             if (node.getKey(i).compareTo(value) >= 0)
                 return i - 1;
         }
@@ -277,6 +285,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
 
     private int getIndexOfNextValue(BNode node, T value) {
         for (int i = 0; i < node.keys.size(); i++) {
+            comparisons++;
             if (node.getKey(i).compareTo(value) >= 0)
                 return i;
         }
