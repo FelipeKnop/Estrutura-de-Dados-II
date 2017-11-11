@@ -1,15 +1,22 @@
 package tree;
 
-public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree<T> {
+public class SplayTree<Key extends Comparable<? super Key>, Value> extends BinarySearchTree<Key, Value> {
 
     @Override
-    protected Node createNode(T key) {
-        return new Node(key);
+    protected Node createNode(Key key, Value value) {
+        return new Node(key, value);
     }
 
+    /**
+     * Função que sobrescreve a função {@link BinarySearchTree#addValue(Comparable, Object)}
+     * para definir as regras de inserção de um dado na árvore Splay.
+     * @param key Chave do dado a ser inserido
+     * @param value Dado a ser inserido
+     * @return Nó inserido
+     */
     @Override
-    protected Node addValue(T value) {
-        Node node = super.addValue(value);
+    protected Node addValue(Key key, Value value) {
+        Node node = super.addValue(key, value);
         if (node != null)
             while (node.parent != null)
                 splay(node);
@@ -17,19 +24,27 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
     }
 
     @Override
-    public T search(T key) {
+    public Value search(Key key) {
         Node node = getNode(key);
         if (node != null) {
             while (node.parent != null)
                 splay(node);
-            return node.key;
+            return node.value;
         }
         return null;
     }
 
+
+
+    /**
+     * Função que sobrescreve a função {@link BinarySearchTree#removeNode(Node)}
+     * para definir as regras de remoção de um nó na árvore Splay.
+     * @param nodeToRemove Nó a ser removido
+     * @return Nó que foi removido
+     */
     @Override
-    protected Node removeValue(Node nodeToRemove) {
-        nodeToRemove = super.removeValue(nodeToRemove);
+    protected Node removeNode(Node nodeToRemove) {
+        nodeToRemove = super.removeNode(nodeToRemove);
         if (nodeToRemove != null && nodeToRemove.parent != null) {
             Node parent = nodeToRemove.parent;
             while (parent.parent != null)
@@ -38,7 +53,12 @@ public class SplayTree<T extends Comparable<? super T>> extends BinarySearchTree
         return nodeToRemove;
     }
 
-    // TODO: Arrumar splay para a remoção
+    /**
+     * Método que faz o "splay" de um nó da árvore, que consiste em
+     * mover um nó acima na árvore realizando rotações do tipo Zig,
+     * Zig-Zig e Zig-Zag.
+     * @param node Nó a ser movido acima na árvore
+     */
     private void splay(Node node) {
         Node parent = node.parent;
         Node grandParent = parent != null ? parent.parent : null;

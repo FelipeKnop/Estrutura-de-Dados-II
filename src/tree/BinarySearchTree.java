@@ -1,45 +1,39 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Classe abstrata que contém os métodos principais para Árvores Binárias de Busca.
- * Implementa a interface {@link ITree} pois possui os comportamentos de uma árvore.
- * @param <T> Tipo dos elementos que serão guardados nos nós da árvore. Como as
- *           árvores binárias de busca têm como princípio a inserção dos elementos
- *           em ordem crescente da esquerda para a direita dos nós, os elementos
- *           devem ser comparáveis, implementando a interface {@link Comparable}
+ * Extende a classe {@link BenchmarkableTree} pois possui os comportamentos de uma
+ * árvore, e será analisada posteriormente quanto a suas operações.
+ * @param <Key>   Tipo das chaves que identificam os dados guardados. Como as
+ *                árvores binárias de busca têm como princípio a inserção dos elementos
+ *                em ordem crescente da esquerda para a direita dos nós, os elementos
+ *                devem ser comparáveis, implementando a interface {@link Comparable}
+ * @param <Value> Tipo dos dados a serem guardados pelos nós da árvore
  */
-public abstract class BinarySearchTree<T extends Comparable<? super T>> extends BenchmarkableTree<T> {
+public abstract class BinarySearchTree<Key extends Comparable<? super Key>, Value> extends BenchmarkableTree<Key, Value> {
 
     /**
      * Método abstrato (deve ser implementado por cada classe) que retorna
      * uma nova instância de nó da árvore à partir do dado a ser inserido.
-     *
+     * <p>
      * Garante a usabilidade do polimorfismo da classe {@link Node}.
-     *
-     * @param key Dado a ser inserido na árvore
+     * @param key   Chave do dado a ser inserido na árvore
+     * @param value Dado a ser inserido na árvore
      * @return Instância de {@link Node} criada
      */
-    protected abstract Node createNode(T key);
+    protected abstract Node createNode(Key key, Value value);
 
     /**
      * Nó raiz da árvore.
      */
-    Node root;
-
-    final int height(Node node) {
-        if (node == null) return 0; // Nós que não existem têm altura 0
-        return 1 + Math.max(height(node.leftChild), height(node.rightChild));
-    }
+    protected Node root;
 
     /**
-     * Função que retorna o nó com maior dado chave menor que a própria
+     * Função que retorna o nó com maior chave menor que a própria
      * que é filho de um nó recebido como parâmetro, ou seja, seu nó filho
      * mais à direita da subárvore à esquerda.
      * @param head Nó pai da subárvore
-     * @return Nó com maior dado chave dentro da subárvore à esquerda
+     * @return Nó com maior chave dentro da subárvore à esquerda
      */
     private Node getGreatestNode(Node head) {
         if (head == null)
@@ -57,23 +51,25 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
     }
 
     /**
-     * Chama a função {@link #addValue(Comparable)}, que define o comportamento
-     * de inserção de um elemento na árvore, passando o valor como parâmetro.
-     * @param value Elemento a ser inserido
+     * Chama a função {@link #addValue(Comparable, Object)}, que define o comportamento
+     * de inserção de um dado na árvore, passando a chave e o dado como parâmetros.
+     * @param key   Chave do dado a ser inserido
+     * @param value Dado a ser inserido
      */
     @Override
-    public final void insert(T value) {
-        addValue(value);
+    public final void insert(Key key, Value value) {
+        addValue(key, value);
     }
 
     /**
-     * Função que define o comportamento de inserção de um elemento na árvore.
-     * Pode ser sobreescrita para definir um comportamento diferente do padrão.
-     * @param value Valor a ser inserido na árvore
+     * Função que define o comportamento de inserção de um dado na árvore.
+     * Pode ser sobrescrita para definir um comportamento diferente do padrão.
+     * @param key Chave do dado a ser inserido
+     * @param value Dado a ser inserido
      * @return Nó inserido
      */
-    protected Node addValue(T value) {
-        Node newNode = createNode(value);
+    protected Node addValue(Key key, Value value) {
+        Node newNode = createNode(key, value);
 
         if (root == null) { // Árvore vazia, raiz vira o novo nó
             root = newNode;
@@ -85,53 +81,53 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
         while (true) {
             comparisons++;
             if (newNode.key.compareTo(aux.key) <= 0) { // Se chave é menor ou igual à do nó atual, continua à esquerda
-                if (aux.leftChild == null) { // Nó nulo foi encontrado, valor deve ser inserido nessa posição
+                if (aux.leftChild == null) { // Nó nulo foi encontrado, novo nó deve ser inserido nessa posição
                     aux.leftChild = newNode;
                     newNode.parent = aux;
                     return newNode;
                 }
-                aux = aux.leftChild;
+                aux = aux.leftChild; // Continua à esquerda
             } else { // Se chave é maior que a do nó atual, continua à esquerda
-                if (aux.rightChild == null) { // Nó nulo foi encontrado, valor deve ser inserido nessa posição
+                if (aux.rightChild == null) { // Nó nulo foi encontrado, novo nó deve ser inserido nessa posição
                     aux.rightChild = newNode;
                     newNode.parent = aux;
                     return newNode;
                 }
-                aux = aux.rightChild;
+                aux = aux.rightChild; // Continua à direita
             }
         }
     }
 
     /**
-     * Chama a função {@link #getNode(Comparable)} passando o valor a ser buscado
+     * Chama a função {@link #getNode(Comparable)} passando a chave do dado a ser buscado
      * como parâmetro. Se a função {@link #getNode(Comparable)} retornar um nó não
-     * nulo, o elemento foi encontrado é retornado, caso contrário o retorno é null.
-     * @param key Elemento a ser buscado
-     * @return Elemento a ser buscado caso encontrado ou null caso contrário
+     * nulo, o dado foi encontrado e é retornado, caso contrário o retorno é null.
+     * @param key Chave do dado a ser buscado
+     * @return Retorna o dado se for encontrado, null caso contrário
      */
     @Override
-    public T search(T key) {
-        Node foundNode = getNode(key); // Procura o nó que contém o valor recebido
-        return foundNode != null ? foundNode.key : null;
+    public Value search(Key key) {
+        Node foundNode = getNode(key); // Procura o nó que contém a chave recebida
+        return foundNode != null ? foundNode.value : null;
     }
 
     /**
      * Função que encontra um nó em uma árvore a partir de sua chave.
      * Utiliza a propriedade da Árvore Binária de Busca para fazer
      * essa busca em O(logN).
-     * @param value Chave do nó a ser encontrado
+     * @param key Chave do nó a ser encontrado
      * @return Nó que possui chave recebida
      */
-    final Node getNode(T value) {
+    final Node getNode(Key key) {
         // Percorre a árvore procurando o nó
         Node aux = root;
         while (aux != null) {
             comparisons++;
-            if (value.compareTo(aux.key) < 0) // Se o valor é menor que a chave do nó atual, continua à esquerda
+            if (key.compareTo(aux.key) < 0) // Se o valor é menor que a chave do nó atual, continua à esquerda
                 aux = aux.leftChild;
-            else  {
+            else {
                 comparisons++;
-                if (value.compareTo(aux.key) > 0) // Se o valor é maior que a chave do nó atual, continua à esquerda
+                if (key.compareTo(aux.key) > 0) // Se o valor é maior que a chave do nó atual, continua à esquerda
                     aux = aux.rightChild;
                 else {
                     copies++;
@@ -209,14 +205,15 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
     /**
      * Chama a função {@link #getNode(Comparable)} para obter o nó que possui
      * a chave recebida. Se o nó retornado for não nulo, chama a função
-     * {@link #removeValue(Node)} para removê-lo da árvore.
-     * @param value Elemento a ser removido
-     * @return Boolean que indica se o elemento foi encontrado e removido ou não
+     * {@link #removeNode(Node)} para removê-lo da árvore.
+     * @param key Chave do dado a ser removido
+     * @return Retorna true se o dado existir na árvore e for removido,
+     * false caso contrário
      */
     @Override
-    public final boolean remove(T value) {
-        Node nodeToRemove = getNode(value); // Procura o nó que contém o valor recebido
-        return nodeToRemove != null && removeValue(nodeToRemove) != null; // Se for encontrado, chama função que o remove
+    public final boolean remove(Key key) {
+        Node nodeToRemove = getNode(key); // Procura o nó que contém o valor recebido
+        return nodeToRemove != null && removeNode(nodeToRemove) != null; // Se for encontrado, chama função que o remove
     }
 
     /**
@@ -227,7 +224,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
      * @param nodeToRemove Nó a ser removido
      * @return Nó que foi removido
      */
-    protected Node removeValue(Node nodeToRemove) {
+    protected Node removeNode(Node nodeToRemove) {
         Node replacementNode = getReplacementNode(nodeToRemove); // Obtém o nó que substituirá o removido
         replaceNode(nodeToRemove, replacementNode); // Chama a função que substitui os nós
         return nodeToRemove;
@@ -245,7 +242,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             replacementNode = getGreatestNode(nodeToRemove.leftChild); // Nesse caso, o nó que substitui é o filho com maior chave à esquerda
             if (replacementNode == null)
                 replacementNode = nodeToRemove.leftChild;
-        } else  {
+        } else {
             if (nodeToRemove.leftChild != null)  // Nó a ser removido só possui filho à esquerda
                 replacementNode = nodeToRemove.leftChild; // Nó que substitui é o filho à esquerda
             else // Nó a ser removido só possui filho à direita
@@ -257,7 +254,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
 
     /**
      * Substitui um nó da árvore por outro.
-     * @param nodeToRemove Nó a ser removido
+     * @param nodeToRemove    Nó a ser removido
      * @param replacementNode Nó que tomará seu lugar
      */
     final void replaceNode(Node nodeToRemove, Node replacementNode) {
@@ -297,7 +294,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
                     if (replacementRightChild != null)
                         replacementRightChild.parent = replacementParent;
                 } else {
-                    comparisons ++;
+                    comparisons++;
                     if (replacementParentRightChild != null && replacementParentRightChild == replacementNode) {
                         replacementParent.rightChild = replacementLeftChild;
                         if (replacementLeftChild != null)
@@ -313,7 +310,7 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
             root = replacementNode;
             if (root != null)
                 root.parent = null; // Atualiza o nó raiz
-        } else  {
+        } else {
             comparisons++;
             if (parent.leftChild != null && (parent.leftChild.key.compareTo(nodeToRemove.key) == 0)) {
                 parent.leftChild = replacementNode;
@@ -330,55 +327,67 @@ public abstract class BinarySearchTree<T extends Comparable<? super T>> extends 
         }
     }
 
+    /**
+     * Limpa os dados da árvore.
+     */
     @Override
     public void clear() {
         root = null;
     }
 
     /**
-     * Retorna uma lista de elementos que corresponde ao percurso da árvore
-     * em ordem de nível, utilizando o método {@link #traverseLevel(Node, int, List)}
-     * para realizar tal percurso.
-     * @return Lista de elementos
+     * Valida a árvore de acordo com suas regras.
+     * @return True se todos os nós seguem as devidas
+     * regras, False caso contrário
      */
-    public final List<T> levelOrderTraversal() {
-        List<T> elements = new ArrayList<>();
-        if (root == null) return elements; // Árvore vazia, lista deve retornar vazia
-        int height = height(root); // Obtém altura da árvore calculando altura da raiz
-        for (int i = 1; i <= height; i++)
-            traverseLevel(root, i, elements); // Chama a função traverseLevel para cada nível da árvore
-        return elements;
+    @Override
+    public boolean validate() {
+        return root == null || validateNode(root);
     }
 
     /**
-     * Função recursiva que percorre a árvore por nível, adicionando os elementos
-     * de cada nível na lista que é repassada em cada chamada.
-     * @param node Nó raiz da subárvore a ser percorrida
-     * @param level Nível a ser analisado
-     * @param elements Lista de elementos encontrados
+     * Função que valida um nó da árvore de acordo
+     * com suas regras.
+     * @param node Nó a ser validado
+     * @return True se o nó segue as regras da árvore,
+     * False caso contrário
      */
-    private void traverseLevel(Node node, int level, List<T> elements) {
-        if (node != null) {
-            if (level == 1) elements.add(node.key);
-            else if (level > 1) {
-                traverseLevel(node.leftChild, level - 1, elements);
-                traverseLevel(node.rightChild, level - 1, elements);
-            }
+    protected boolean validateNode(Node node) {
+        Node leftChild = node.leftChild;
+        Node rightChild = node.rightChild;
+
+        boolean leftCheck = true;
+        if (leftChild != null) {
+            leftCheck = leftChild.key.compareTo(node.key) <= 0;
+            if (leftCheck)
+                leftCheck = validateNode(leftChild);
         }
+        if (!leftCheck)
+            return false;
+
+        boolean rightCheck = true;
+        if (rightChild != null) {
+            rightCheck = rightChild.key.compareTo(node.key) > 0;
+            if (rightCheck)
+                rightCheck = validateNode(rightChild);
+        }
+        return rightCheck;
     }
 
     /**
      * Classe que representa um nó de uma Árvore Binária de Busca
      */
-    class Node {
+    protected class Node {
 
-        T key; // Elemento a ser guardado pelo nó
-        Node parent; // Pai do nó
-        Node leftChild; // Filho à esquerda do nó (possui chave menor)
-        Node rightChild; // Filho à direita do nó (possui chave maior)
+        protected Key key; // Chave do dado a ser guardado pelo nó
+        protected Value value; // Dado a ser guardado pelo nó
+        protected Node parent; // Pai do nó
+        protected Node leftChild; // Filho à esquerda do nó (possui chave menor)
+        protected Node rightChild; // Filho à direita do nó (possui chave maior)
 
-        Node(T key) {
+        protected Node(Key key, Value value) {
             this.key = key;
+            this.value = value;
         }
     }
 }

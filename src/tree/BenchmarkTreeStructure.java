@@ -25,7 +25,7 @@ public class BenchmarkTreeStructure {
      * @param nValues Valores de N (tamanho da array)
      * @param tweetFileReader TweetFileReader com a lista de Tweets já gerada
      */
-    public static void benchmarkInsertTweets(BenchmarkableTree<Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
+    public static void benchmarkInsertTweets(BenchmarkableTree<Long, Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
         System.out.println("\n\n--- Inserção ---\n");
         assert tweetFileReader != null;
         for (int n : nValues) {
@@ -38,7 +38,7 @@ public class BenchmarkTreeStructure {
                 tree.clear();
                 tree.start();
                 for (Tweet tweet : tweets)
-                    tree.insert(tweet);
+                    tree.insert(tweet.getTweetId(), tweet);
                 comparisonsSum += tree.getComparisons();
                 copiesSum += tree.getCopies();
                 timeSpentSum += tree.getTimeSpent();
@@ -63,7 +63,7 @@ public class BenchmarkTreeStructure {
      * @param nValues Valores de N (tamanho da array)
      * @param tweetFileReader TweetFileReader com a lista de Tweets já gerada
      */
-    public static void benchmarkSearchTweets(BenchmarkableTree<Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
+    public static void benchmarkSearchTweets(BenchmarkableTree<Long, Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
         System.out.println("\n\n--- Busca ---\n");
         assert tweetFileReader != null;
         for (int n : nValues) {
@@ -75,10 +75,10 @@ public class BenchmarkTreeStructure {
             for (Tweet[] tweets : tweetArrays) {
                 tree.clear();
                 for (Tweet tweet : tweets)
-                    tree.insert(tweet);
+                    tree.insert(tweet.getTweetId(), tweet);
                 tree.start();
                 for (Tweet tweet : tweets)
-                    tree.search(tweet);
+                    tree.search(tweet.getTweetId());
                 comparisonsSum += tree.getComparisons();
                 copiesSum += tree.getCopies();
                 timeSpentSum += tree.getTimeSpent();
@@ -103,7 +103,7 @@ public class BenchmarkTreeStructure {
      * @param nValues Valores de N (tamanho da array)
      * @param tweetFileReader TweetFileReader com a lista de Tweets já gerada
      */
-    public static void benchmarkRemoveTweets(BenchmarkableTree<Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
+    public static void benchmarkRemoveTweets(BenchmarkableTree<Long, Tweet> tree, int[] nValues, TweetFileReader tweetFileReader) {
         System.out.println("\n\n--- Remoção ---\n");
         assert tweetFileReader != null;
         for (int n : nValues) {
@@ -115,10 +115,10 @@ public class BenchmarkTreeStructure {
             for (Tweet[] tweets : tweetArrays) {
                 tree.clear();
                 for (Tweet tweet : tweets)
-                    tree.insert(tweet);
+                    tree.insert(tweet.getTweetId(), tweet);
                 tree.start();
                 for (Tweet tweet : tweets)
-                    tree.remove(tweet);
+                    tree.remove(tweet.getTweetId());
                 comparisonsSum += tree.getComparisons();
                 copiesSum += tree.getCopies();
                 timeSpentSum += tree.getTimeSpent();

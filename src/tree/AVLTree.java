@@ -1,6 +1,6 @@
 package tree;
 
-public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T> {
+public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinarySearchTree<Key, Value> {
 
     /**
      * Casos de balanceamento dos nós da árvore.
@@ -12,19 +12,31 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
         RR // Right-Right, nó é filho à direita de um filho à direita
     }
 
+    private int height(Node node) {
+        if (node == null) return 0; // Nós que não existem têm altura 0
+        return 1 + Math.max(height(node.leftChild), height(node.rightChild));
+    }
+
     private int getBalanceFactor(AVLNode node) {
         if (node == null) return 0; // Nó folha tem altura 0
         return height(node.rightChild) - height(node.leftChild);
     }
 
     @Override
-    protected Node createNode(T key) {
-        return new AVLNode(key);
+    protected Node createNode(Key key, Value value) {
+        return new AVLNode(key, value);
     }
 
+    /**
+     * Função que sobrescreve a função {@link BinarySearchTree#addValue(Comparable, Object)}
+     * para definir as regras de inserção de um dado na árvore AVL.
+     * @param key Chave do dado a ser inserido
+     * @param value Dado a ser inserido
+     * @return Nó inserido
+     */
     @Override
-    protected Node addValue(T value) {
-        Node node = super.addValue(value); // Utiliza o método normal de Árvore Binária de Busca para inserir o elemento
+    protected Node addValue(Key key, Value value) {
+        Node node = super.addValue(key, value); // Utiliza o método normal de Árvore Binária de Busca para inserir o dado
         AVLNode newNode = (AVLNode) node;
         rebalance(newNode); // Rebalanceia a árvore a partir do novo nó inserido
 
@@ -37,6 +49,13 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
         return node;
     }
 
+    /**
+     * Função que faz o rebalanceamento de uma árvore ou subárvore a partir
+     * de seu nó raiz. Para saber se o rebalanceamente deve ser efetuado e
+     * como, é calculado o fator de balanceamento do nó recebido, assim
+     * enquadrando a situação em um dos casos de rebalanceamento da AVL;
+     * @param head Nó raiz da árvore ou subárvore
+     */
     private void rebalance(AVLNode head) {
         int balanceFactor = getBalanceFactor(head);
         if (balanceFactor > 1 || balanceFactor < -1) { // Nó não está balanceado
@@ -68,7 +87,7 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
     }
 
     @Override
-    protected Node removeValue(Node nodeToRemove) {
+    protected Node removeNode(Node nodeToRemove) {
         Node replacementNode = getReplacementNode(nodeToRemove); // Obtém nó que substituirá o nó a ser removido
 
         // Achar o pai do nó de substituição
@@ -91,10 +110,43 @@ public class AVLTree<T extends Comparable<? super T>> extends BinarySearchTree<T
         return nodeToRemove;
     }
 
+    @Override
+    protected boolean validateNode(Node node) {
+        boolean bst = super.validateNode(node);
+        if (!bst) // Não segue as regras da árvore binária de busca
+            return false;
+
+        AVLNode avlNode = (AVLNode) node;
+        int balanceFactor = getBalanceFactor(avlNode);
+        if (balanceFactor > 1 || balanceFactor < -1) // Fator de balanceamento não é -1, 0 ou 1
+            return false;
+
+        if (avlNode.leftChild == null && avlNode.rightChild == null) {// Nó é folha
+            if (height(avlNode) != 1)
+                return false;
+        } else {
+            int height = height(avlNode);
+
+            AVLNode leftChild = (AVLNode) avlNode.leftChild;
+            int leftHeight = 1;
+            if (leftChild != null)
+                leftHeight = height(leftChild);
+
+            AVLNode rightChild = (AVLNode) avlNode.rightChild;
+            int rightHeight = 1;
+            if (rightChild != null)
+                rightHeight = height(rightChild);
+
+            return height == leftHeight + 1 || height == rightHeight + 1;
+        }
+
+        return true;
+    }
+
     private class AVLNode extends Node {
 
-        AVLNode(T key) {
-            super(key);
+        private AVLNode(Key key, Value value) {
+            super(key, value);
         }
     }
 }

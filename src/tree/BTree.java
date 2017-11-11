@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T> {
+public class BTree<Key extends Comparable<? super Key>, Value> extends BenchmarkableTree<Key, Value> {
 
     /**
      * Número máximo de filhos que um nó pode ter (grau da árvore).
@@ -39,38 +39,38 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     }
 
     @Override
-    public void insert(T value) {
+    public void insert(Key key, Value value) {
         if (root == null) {
             root = new BNode();
-            root.addKey(value);
+            root.addKey(key);
             return;
         }
 
         BNode node = root;
         while (true) {
             if (node.children.size() == 0) {
-                node.addKey(value);
+                node.addKey(key);
                 if (node.keys.size() <= maxKeySize) break;
                 split(node);
                 break;
             }
 
             comparisons++;
-            if (value.compareTo(node.getKey(0)) <= 0) {
+            if (key.compareTo(node.getKey(0)) <= 0) {
                 node = node.getChild(0);
                 continue;
             }
 
             int last = node.keys.size() - 1;
             comparisons++;
-            if (value.compareTo(node.getKey(last)) > 0) {
+            if (key.compareTo(node.getKey(last)) > 0) {
                 node = node.getChild(last + 1);
                 continue;
             }
 
             for (int i = 1; i < node.keys.size(); i++)
-                if (value.compareTo(node.getKey(i - 1)) > 0
-                        && value.compareTo(node.getKey(i)) <= 0) {
+                if (key.compareTo(node.getKey(i - 1)) > 0
+                        && key.compareTo(node.getKey(i)) <= 0) {
                     comparisons += 2; // Por causa do &&
                     node = node.getChild(i);
                     break;
@@ -82,7 +82,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         BNode node = nodeToSplit;
         int keys = node.keys.size();
         int medianIndex = keys / 2;
-        T medianValue = node.getKey(medianIndex);
+        Key medianValue = node.getKey(medianIndex);
         copies++;
         BNode left = new BNode();
         for (int i = 0; i < medianIndex; i++)
@@ -120,12 +120,13 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     }
 
     @Override
-    public T search(T value) {
-        BNode foundNode = getNode(value);
-        return foundNode != null ? value : null;
+    public Value search(Key value) {
+//        BNode foundNode = getNode(value);
+//        return foundNode != null ? value : null;
+        return null;
     }
 
-    private BNode getNode(T value) {
+    private BNode getNode(Key value) {
         BNode node = root;
         while (node != null) {
             comparisons++;
@@ -142,7 +143,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
             }
 
             for (int i = 0; i < keys; i++) {
-                T currentValue = node.getKey(i);
+                Key currentValue = node.getKey(i);
                 comparisons++;
                 if (currentValue.compareTo(value) == 0)
                     return node;
@@ -167,14 +168,14 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
     }
 
     @Override
-    public boolean remove(T value) {
+    public boolean remove(Key value) {
         BNode node = getNode(value);
         return node != null && remove(value, node);
     }
 
-    private boolean remove(T value, BNode node) {
+    private boolean remove(Key value, BNode node) {
         int index = node.keys.indexOf(value);
-        T removed = node.removeKey(value);
+        Key removed = node.removeKey(value);
         if (node.children.size() == 0) {
             if (node.parent != null && node.keys.size() < minKeySize)
                 combine(node);
@@ -183,7 +184,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         } else {
             BNode lesser = node.getChild(index);
             BNode greatest = getGreatestNode(lesser);
-            T replaceValue = removeGreatestValue(greatest);
+            Key replaceValue = removeGreatestValue(greatest);
             copies++;
             node.addKey(replaceValue);
             if (greatest.parent != null && greatest.keys.size() < minKeySize)
@@ -207,10 +208,10 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         }
         copies++;
         if (leftNeighbor != null && leftNeighborSize > minKeySize) {
-            T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
+            Key removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
             int prev = getIndexOfNextValue(parent, removeValue);
-            T parentValue = parent.removeKey(prev);
-            T neighborValue = leftNeighbor.removeKey(leftNeighbor.keys.size() - 1);
+            Key parentValue = parent.removeKey(prev);
+            Key neighborValue = leftNeighbor.removeKey(leftNeighbor.keys.size() - 1);
             node.addKey(parentValue);
             parent.addKey(neighborValue);
             if (leftNeighbor.children.size() > 0)
@@ -223,23 +224,23 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
                 rightNeighborSize = rightNeighbor.keys.size();
             }
             if (rightNeighbor != null && rightNeighborSize > minKeySize) {
-                T removeValue = rightNeighbor.getKey(0);
+                Key removeValue = rightNeighbor.getKey(0);
                 int prev = getIndexOfPreviousValue(parent, removeValue);
-                T parentValue = parent.removeKey(prev);
-                T neighborValue = rightNeighbor.removeKey(0);
+                Key parentValue = parent.removeKey(prev);
+                Key neighborValue = rightNeighbor.removeKey(0);
                 node.addKey(parentValue);
                 parent.addKey(neighborValue);
                 if (rightNeighbor.children.size() > 0)
                     node.addChild(rightNeighbor.removeChild(0));
 
             } else if (leftNeighbor != null && parent.keys.size() > 0) {
-                T removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
+                Key removeValue = leftNeighbor.getKey(leftNeighbor.keys.size() - 1);
                 int prev = getIndexOfNextValue(parent, removeValue);
-                T parentValue = parent.removeKey(prev);
+                Key parentValue = parent.removeKey(prev);
                 parent.removeChild(leftNeighbor);
                 node.addKey(parentValue);
                 for (int i = 0; i < leftNeighbor.keys.size(); i++) {
-                    T value = leftNeighbor.getKey(i);
+                    Key value = leftNeighbor.getKey(i);
                     node.addKey(value);
                 }
                 for (int i = 0; i < leftNeighbor.children.size(); i++) {
@@ -253,13 +254,13 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
                     root = node;
                 }
             } else if (rightNeighbor != null && parent.keys.size() > 0) {
-                T removeValue = rightNeighbor.getKey(0);
+                Key removeValue = rightNeighbor.getKey(0);
                 int prev = getIndexOfPreviousValue(parent, removeValue);
-                T parentValue = parent.removeKey(prev);
+                Key parentValue = parent.removeKey(prev);
                 parent.removeChild(rightNeighbor);
                 node.addKey(parentValue);
                 for (int i = 0; i < rightNeighbor.keys.size(); i++) {
-                    T value = rightNeighbor.getKey(i);
+                    Key value = rightNeighbor.getKey(i);
                     node.addKey(value);
                 }
                 for (int i = 0; i < rightNeighbor.children.size(); i++) {
@@ -277,7 +278,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         }
     }
 
-    private int getIndexOfPreviousValue(BNode node, T value) {
+    private int getIndexOfPreviousValue(BNode node, Key value) {
         for (int i = 1; i < node.keys.size(); i++) {
             comparisons++;
             if (node.getKey(i).compareTo(value) >= 0)
@@ -286,7 +287,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         return node.keys.size() - 1;
     }
 
-    private int getIndexOfNextValue(BNode node, T value) {
+    private int getIndexOfNextValue(BNode node, Key value) {
         for (int i = 0; i < node.keys.size(); i++) {
             comparisons++;
             if (node.getKey(i).compareTo(value) >= 0)
@@ -302,7 +303,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         return aux;
     }
 
-    private T removeGreatestValue(BNode node) {
+    private Key removeGreatestValue(BNode node) {
         return node.keys.size() > 0 ? node.removeKey(node.keys.size() - 1) : null;
     }
 
@@ -311,14 +312,19 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
 
     }
 
+    @Override
+    public boolean validate() {
+        return false;
+    }
+
     private int height(BNode node) {
         if (node == null) return 0;
         if (node.getChild(0) == null) return 1;
         return 1 + height(node.getChild(0));
     }
 
-    public List<T> levelOrderTraversal() {
-        List<T> elements = new ArrayList<>();
+    public List<Key> levelOrderTraversal() {
+        List<Key> elements = new ArrayList<>();
         if (root == null) return elements; // Árvore vazia, lista deve retornar vazia
         int height = height(root); // Obtém altura da árvore calculando altura da raiz
         for (int i = 1; i <= height; i++)
@@ -326,7 +332,7 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
         return elements;
     }
 
-    private void traverseLevel(BNode node, int level, List<T> elements) {
+    private void traverseLevel(BNode node, int level, List<Key> elements) {
         if (node != null) {
             if (level == 1)
                 elements.addAll(node.keys);
@@ -339,25 +345,25 @@ public class BTree<T extends Comparable<? super T>> extends BenchmarkableTree<T>
 
     private class BNode implements Comparable<BNode> {
 
-        private ArrayList<T> keys = new ArrayList<>();
+        private ArrayList<Key> keys = new ArrayList<>();
         private ArrayList<BNode> children = new ArrayList<>();
         private BNode parent;
 
-        private T getKey(int index) {
+        private Key getKey(int index) {
             return index < keys.size() ? keys.get(index) : null;
         }
 
-        private void addKey(T value) {
+        private void addKey(Key value) {
             keys.add(value);
-            keys.sort(T::compareTo);
+            keys.sort(Key::compareTo);
         }
 
-        private T removeKey(T value) {
+        private Key removeKey(Key value) {
             int index = keys.indexOf(value);
             return index >= 0 ? keys.remove(index) : null;
         }
 
-        private T removeKey(int index) {
+        private Key removeKey(int index) {
             return index < keys.size() ? keys.remove(index) : null;
         }
 

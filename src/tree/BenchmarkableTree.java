@@ -1,6 +1,12 @@
 package tree;
 
-public abstract class BenchmarkableTree<T extends Comparable<? super T>> implements ITree<T> {
+/**
+ * Classe abstrata que define métodos para análise das estruturas
+ * de árvore.
+ * @param <Key> Tipo das chaves que identificam os dados guardados
+ * @param <Value> Tipo dos dados a serem guardados pelos nós da árvore
+ */
+public abstract class BenchmarkableTree<Key, Value> implements ITree<Key, Value> {
 
     /**
      * Soma do número de comparações feitas na árvore.
@@ -29,6 +35,9 @@ public abstract class BenchmarkableTree<T extends Comparable<? super T>> impleme
         return System.currentTimeMillis() - timeStarted;
     }
 
+    /**
+     * Inicia as variáveis para análise da árvore.
+     */
     public final void start() {
         this.comparisons = 0;
         this.copies = 0;
