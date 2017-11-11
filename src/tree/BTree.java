@@ -381,12 +381,6 @@ public class BTree<Key extends Comparable<? super Key>, Value> extends Benchmark
         return true;
     }
 
-    private int height(BNode node) {
-        if (node == null) return 0;
-        if (node.getChild(0) == null) return 1;
-        return 1 + height(node.getChild(0));
-    }
-
     private class BNode implements Comparable<BNode> {
 
         private ArrayList<Entry> entries = new ArrayList<>();
@@ -431,16 +425,15 @@ public class BTree<Key extends Comparable<? super Key>, Value> extends Benchmark
             return index < children.size() ? children.get(index) : null;
         }
 
-        private boolean addChild(BNode child) {
-            if (child == null) return false;
+        private void addChild(BNode child) {
+            if (child == null) return;
             child.parent = this;
             children.add(child);
             children.sort(BNode::compareTo);
-            return true;
         }
 
-        private boolean removeChild(BNode child) {
-            return children.remove(child);
+        private void removeChild(BNode child) {
+            children.remove(child);
         }
 
         private BNode removeChild(int index) {
