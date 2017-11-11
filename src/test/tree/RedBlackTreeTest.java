@@ -10,7 +10,7 @@ public class RedBlackTreeTest extends SearchTreeTest {
 
     @Override
     protected int getAmountOfElements() {
-        return 10;
+        return 10000;
     }
 
     @Override

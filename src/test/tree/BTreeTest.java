@@ -15,7 +15,7 @@ public class BTreeTest extends SearchTreeTest {
 
     @Override
     protected int getAmountOfElements() {
-        return 100000;
+        return 10000;
     }
 
     @Override
