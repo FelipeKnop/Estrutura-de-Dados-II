@@ -211,7 +211,7 @@ public abstract class BinarySearchTree<Key extends Comparable<? super Key>, Valu
      * false caso contrário
      */
     @Override
-    public final boolean remove(Key key) {
+    public boolean remove(Key key) {
         Node nodeToRemove = getNode(key); // Procura o nó que contém o valor recebido
         return nodeToRemove != null && removeNode(nodeToRemove) != null; // Se for encontrado, chama função que o remove
     }
@@ -312,13 +312,13 @@ public abstract class BinarySearchTree<Key extends Comparable<? super Key>, Valu
                 root.parent = null; // Atualiza o nó raiz
         } else {
             comparisons++;
-            if (parent.leftChild != null && (parent.leftChild.key.compareTo(nodeToRemove.key) == 0)) {
+            if (parent.leftChild != null && nodeToRemove.key!=null && (parent.leftChild.key.compareTo(nodeToRemove.key) == 0)) {
                 parent.leftChild = replacementNode;
                 if (replacementNode != null)
                     replacementNode.parent = parent;
             } else {
                 comparisons++;
-                if (parent.rightChild != null && (parent.rightChild.key.compareTo(nodeToRemove.key) == 0)) {
+                if (parent.rightChild != null && nodeToRemove.key!=null && (parent.rightChild.key.compareTo(nodeToRemove.key) == 0)) {
                     parent.rightChild = replacementNode;
                     if (replacementNode != null)
                         replacementNode.parent = parent;
