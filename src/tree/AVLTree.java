@@ -2,16 +2,6 @@ package tree;
 
 public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinarySearchTree<Key, Value> {
 
-    /**
-     * Casos de balanceamento dos nós da árvore.
-     */
-    private enum Balance {
-        LL, // Left-Left, nó é filho à esquerda de um filho à esquerda
-        LR, // Left-Right, nó é filho à direita de um filho à esquerda
-        RL, // Right-Left, nó é filho à esquerda de um filho à direita
-        RR // Right-Right, nó é filho à direita de um filho à direita
-    }
-
     private int height(Node node) {
         if (node == null) return 0; // Nós que não existem têm altura 0
         return 1 + Math.max(height(node.leftChild), height(node.rightChild));
@@ -42,7 +32,9 @@ public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinaryS
 
         newNode = (AVLNode) newNode.parent;
         while (newNode != null) {
+            int h1 = height(newNode);
             rebalance(newNode); // Sobe todos os níveis da árvore até a raiz rebalanceando para cada nó pai
+            if (height(newNode) == h1) break; // Se a altura antes e depois de rebalancear for igual, para
             newNode = (AVLNode) newNode.parent;
         }
 
@@ -54,34 +46,31 @@ public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinaryS
      * de seu nó raiz. Para saber se o rebalanceamente deve ser efetuado e
      * como, é calculado o fator de balanceamento do nó recebido, assim
      * enquadrando a situação em um dos casos de rebalanceamento da AVL;
-     * @param head Nó raiz da árvore ou subárvore
+     * @param node Nó raiz da árvore ou subárvore
      */
-    private void rebalance(AVLNode head) {
-        int balanceFactor = getBalanceFactor(head);
-        if (balanceFactor > 1 || balanceFactor < -1) { // Nó não está balanceado
-            AVLNode child;
-            Balance balance;
-            if (balanceFactor < 0) { // Altura da subárvore à esquerda é maior
-                child = (AVLNode) head.leftChild;
-                balanceFactor = getBalanceFactor(child);
-                balance = balanceFactor < 0 ? Balance.LL : Balance.LR; // Altura da subárvore à esquerda do filho à esquerda é maior
-            } else { // Altura da subárvore à direita é maior
-                child = (AVLNode) head.rightChild;
-                balanceFactor = getBalanceFactor(child);
-                balance = balanceFactor < 0 ? Balance.RL : Balance.RR; // Altura da subárvore à esquerda do filho à esquerda é maior
+    private void rebalance(AVLNode node) {
+        int balanceFactor = getBalanceFactor(node);
+        if (balanceFactor == -2) { // Altura da subárvore à esquerda é maior
+            AVLNode leftLeft = (AVLNode) node.leftChild.leftChild;
+            int left = height(leftLeft);
+            AVLNode leftRight = (AVLNode) node.leftChild.rightChild;
+            int right = height(leftRight);
+            if (left >= right) { // Altura da subárvore à esquerda do filho à esquerda é maior
+                rotateRight(node);
+            } else { // Altura da subárvore à direita do filho à esquerda é maior
+                rotateLeft(node.leftChild);
+                rotateRight(node);
             }
-
-            switch (balance) {
-                case LR: // Left-Right: faz rotação para a esquerda e depois para a direita
-                    rotateLeft(head.leftChild); // Falta de "break" para que caia no próximo case, com a rotação à direita
-                case LL: // Left-Left: faz rotação para a direita
-                    rotateRight(head);
-                    break;
-                case RL: // Right-Left: faz rotação para a direita e depois para a esquerda
-                    rotateRight(head.rightChild); // Falta de "break" para que caia no próximo case, com a rotação à esquerda
-                case RR: // Right-Right: faz rotação para a esquerda
-                    rotateLeft(head);
-                    break;
+        } else if (balanceFactor == 2) { // Altura da subárvore à direita é maior
+            AVLNode rightRight = (AVLNode) node.rightChild.rightChild;
+            int right = height(rightRight);
+            AVLNode rightLeft = (AVLNode) node.rightChild.leftChild;
+            int left = height(rightLeft);
+            if (right >= left) { // Altura da subárvore à direita do filho à direita é maior
+                rotateLeft(node);
+            } else { // Altura da subárvore à esquerda do filho à direita é maior
+                rotateRight(node.rightChild);
+                rotateLeft(node);
             }
         }
     }
@@ -103,7 +92,9 @@ public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinaryS
         replaceNode(nodeToRemove, replacementNode); // Substitui o nó
 
         while (node != null) {
+            int h1 = height(node);
             rebalance(node); // Sobe todos os níveis da árvore até a raiz rebalanceando para cada nó pai
+            if (height(node) == h1) break; // Se a altura antes e depois de rebalancear for igual, para
             node = (AVLNode) node.parent;
         }
 
