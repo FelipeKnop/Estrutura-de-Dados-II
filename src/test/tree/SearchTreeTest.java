@@ -9,8 +9,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Classe abstrata que implementa os métodos de teste de árvores de busca.
@@ -47,10 +46,10 @@ public abstract class SearchTreeTest {
     public final void insertTest() {
         BenchmarkableTree<Integer, Integer> searchTree = getNewSearchTree();
 
-        for (Integer number : ELEMENTS)
+        for (Integer number : ELEMENTS) {
             searchTree.insert(number, number);
-
-        assertTrue(searchTree.validate());
+            assertTrue(searchTree.validate());
+        }
     }
 
     /**
@@ -105,13 +104,13 @@ public abstract class SearchTreeTest {
         BenchmarkableTree<Integer, Integer> searchTree = getNewSearchTree();
 
         for (Integer number : ELEMENTS)
-            assertEquals(searchTree.remove(number), false);
+            assertFalse(searchTree.remove(number));
 
         for (Integer number : ELEMENTS)
             searchTree.insert(number, number);
 
         for (Integer number : ELEMENTS) {
-            assertEquals(searchTree.remove(number), true);
+            assertTrue(searchTree.remove(number));
             assertTrue(searchTree.validate());
         }
     }
@@ -121,7 +120,7 @@ public abstract class SearchTreeTest {
      * retornado pela função {@link #getAmountOfElements()} em ordem aleatória.
      * @return Lista de inteiros
      */
-    private final List<Integer> getIntegerList() {
+    private List<Integer> getIntegerList() {
         List<Integer> list =  IntStream.range(0, getAmountOfElements()).boxed().collect(Collectors.toList());
         Collections.shuffle(list, new Random(42));
         return list;
