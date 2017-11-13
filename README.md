@@ -31,3 +31,9 @@ https://www.dropbox.com/s/07zflza2hj6njzj/tweets.txt?dl=0
 - [x] DoubleHashingMethod
 - [x] SeparateChainingMethod
 - [x] CoalescedChainingMethod
+
+## Árvores de Busca
+- [x] AVLTree
+- [x] RedBlackTree
+- [x] SplayTree
+- [x] B Tree
