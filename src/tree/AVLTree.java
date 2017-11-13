@@ -34,7 +34,7 @@ public class AVLTree<Key extends Comparable<? super Key>, Value> extends BinaryS
         while (newNode != null) {
             int h1 = height(newNode);
             rebalance(newNode); // Sobe todos os níveis da árvore até a raiz rebalanceando para cada nó pai
-            if (height(newNode) != h1) break; // Se a altura antes e depois de rebalancear for igual, para
+            if (height(newNode) == h1) break; // Se a altura antes e depois de rebalancear for igual, para
             newNode = (AVLNode) newNode.parent;
         }
 

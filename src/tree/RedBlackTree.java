@@ -198,7 +198,7 @@ public class RedBlackTree<Key extends Comparable<? super Key>, Value> extends Bi
      * */
     private void removeCase2(RedBlackNode doubleBlack){
         RedBlackNode brother = getBrother(doubleBlack);
-        if(brother.color==RED){
+        if(brother != null && brother.color==RED){
             ((RedBlackNode)doubleBlack.parent).color = RED;
             brother.color = BLACK;
             if(doubleBlack == doubleBlack.parent.leftChild){
@@ -215,7 +215,7 @@ public class RedBlackTree<Key extends Comparable<? super Key>, Value> extends Bi
      * */
     private void removeCase3(RedBlackNode doubleBlack){
         RedBlackNode brother = getBrother(doubleBlack);
-        if(((RedBlackNode)doubleBlack.parent).color==BLACK && brother.color==BLACK && (brother.leftChild==null || ((RedBlackNode)brother.leftChild).color==BLACK) && (brother.rightChild==null || ((RedBlackNode)brother.rightChild).color==BLACK)){
+        if(((RedBlackNode)doubleBlack.parent).color==BLACK && brother != null && brother.color==BLACK && (brother.leftChild==null || ((RedBlackNode)brother.leftChild).color==BLACK) && (brother.rightChild==null || ((RedBlackNode)brother.rightChild).color==BLACK)){
             brother.color = RED;
             removeCase1((RedBlackNode) doubleBlack.parent);
         }else
@@ -227,7 +227,7 @@ public class RedBlackTree<Key extends Comparable<? super Key>, Value> extends Bi
      * */
     private void removeCase4(RedBlackNode doubleBlack){
         RedBlackNode brother = getBrother(doubleBlack);
-        if(((RedBlackNode)doubleBlack.parent).color==RED && brother.color==BLACK && (brother.leftChild==null || ((RedBlackNode)brother.leftChild).color==BLACK) && (brother.rightChild==null || ((RedBlackNode)brother.rightChild).color==BLACK)){
+        if(((RedBlackNode)doubleBlack.parent).color==RED && brother != null && brother.color==BLACK && (brother.leftChild==null || ((RedBlackNode)brother.leftChild).color==BLACK) && (brother.rightChild==null || ((RedBlackNode)brother.rightChild).color==BLACK)){
             brother.color = RED;
             ((RedBlackNode)doubleBlack.parent).color = BLACK;
         }else
@@ -240,7 +240,7 @@ public class RedBlackTree<Key extends Comparable<? super Key>, Value> extends Bi
      * */
     private void removeCase5(RedBlackNode doubleBlack){
         RedBlackNode brother = getBrother(doubleBlack);
-        if(brother.color==BLACK){
+        if(brother != null && brother.color==BLACK){
             if(doubleBlack==doubleBlack.parent.leftChild && (brother.rightChild==null || ((RedBlackNode)brother.rightChild).color==BLACK) && (brother.leftChild!=null && ((RedBlackNode)brother.leftChild).color==RED)){
                 brother.color = RED;
                 ((RedBlackNode)brother.leftChild).color = BLACK;
@@ -261,14 +261,16 @@ public class RedBlackTree<Key extends Comparable<? super Key>, Value> extends Bi
      * */
     private void removeCase6(RedBlackNode doubleBlack){
         RedBlackNode brother = getBrother(doubleBlack);
-        brother.color = ((RedBlackNode)doubleBlack.parent).color;
-        ((RedBlackNode)doubleBlack.parent).color = BLACK;
-        if(doubleBlack == doubleBlack.parent.leftChild){
-            ((RedBlackNode)brother.rightChild).color = BLACK;
-            rotateLeft(doubleBlack.parent);
-        }else{
-            ((RedBlackNode)brother.leftChild).color = BLACK;
-            rotateRight(doubleBlack.parent);
+        if(brother!=null) {
+            brother.color = ((RedBlackNode) doubleBlack.parent).color;
+            ((RedBlackNode) doubleBlack.parent).color = BLACK;
+            if (doubleBlack == doubleBlack.parent.leftChild) {
+                ((RedBlackNode) brother.rightChild).color = BLACK;
+                rotateLeft(doubleBlack.parent);
+            } else {
+                ((RedBlackNode) brother.leftChild).color = BLACK;
+                rotateRight(doubleBlack.parent);
+            }
         }
     }
 

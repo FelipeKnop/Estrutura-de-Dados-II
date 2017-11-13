@@ -36,41 +36,41 @@ public class Parte1 {
     }
 
     private static void insercao(int[] nValues, TweetFileReader tweetFileReader) {
-        //System.out.println("-------------- Árvore AVL --------------");
-        //BenchmarkTreeStructure.benchmarkInsertTweets(new AVLTree<>(), nValues, tweetFileReader);
+        System.out.println("-------------- Árvore AVL --------------");
+        BenchmarkTreeStructure.benchmarkInsertTweets(new AVLTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore Vermelho e Preta --------------");
         BenchmarkTreeStructure.benchmarkInsertTweets(new RedBlackTree<>(), nValues, tweetFileReader);
-        /*System.out.println("\n\n-------------- Árvore Splay --------------");
+        System.out.println("\n\n-------------- Árvore Splay --------------");
         BenchmarkTreeStructure.benchmarkInsertTweets(new SplayTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B - Grau 4 --------------");
         BenchmarkTreeStructure.benchmarkInsertTweets(new BTree<>(4), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B - Grau 5 --------------");
-        BenchmarkTreeStructure.benchmarkInsertTweets(new BTree<>(5), nValues, tweetFileReader);*/
+        BenchmarkTreeStructure.benchmarkInsertTweets(new BTree<>(5), nValues, tweetFileReader);
     }
 
     private static void busca(int[] nValues, TweetFileReader tweetFileReader) {
-        //System.out.println("\n\n-------------- Árvore AVL --------------");
-        //BenchmarkTreeStructure.benchmarkSearchTweets(new AVLTree<>(), nValues, tweetFileReader);
+        System.out.println("\n\n-------------- Árvore AVL --------------");
+        BenchmarkTreeStructure.benchmarkSearchTweets(new AVLTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore Vermelho e Preta --------------");
         BenchmarkTreeStructure.benchmarkSearchTweets(new RedBlackTree<>(), nValues, tweetFileReader);
-        /*System.out.println("\n\n-------------- Árvore Splay --------------");
+        System.out.println("\n\n-------------- Árvore Splay --------------");
         BenchmarkTreeStructure.benchmarkSearchTweets(new SplayTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B - Grau 4 --------------");
         BenchmarkTreeStructure.benchmarkSearchTweets(new BTree<>(4), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B - Grau 5 --------------");
-        BenchmarkTreeStructure.benchmarkSearchTweets(new BTree<>(5), nValues, tweetFileReader);*/
+        BenchmarkTreeStructure.benchmarkSearchTweets(new BTree<>(5), nValues, tweetFileReader);
     }
 
     private static void remocao(int[] nValues, TweetFileReader tweetFileReader) {
-        //System.out.println("\n\n-------------- Árvore AVL --------------");
+        System.out.println("\n\n-------------- Árvore AVL --------------");
         //BenchmarkTreeStructure.benchmarkRemoveTweets(new AVLTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore Vermelho e Preta --------------");
         BenchmarkTreeStructure.benchmarkRemoveTweets(new RedBlackTree<>(), nValues, tweetFileReader);
-        /*System.out.println("\n\n-------------- Árvore Splay --------------");
+        System.out.println("\n\n-------------- Árvore Splay --------------");
         BenchmarkTreeStructure.benchmarkRemoveTweets(new SplayTree<>(), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B  - Grau 4 --------------");
         BenchmarkTreeStructure.benchmarkRemoveTweets(new BTree<>(4), nValues, tweetFileReader);
         System.out.println("\n\n-------------- Árvore B  - Grau 5 --------------");
-        BenchmarkTreeStructure.benchmarkRemoveTweets(new BTree<>(5), nValues, tweetFileReader);*/
+        BenchmarkTreeStructure.benchmarkRemoveTweets(new BTree<>(5), nValues, tweetFileReader);
     }
 }
