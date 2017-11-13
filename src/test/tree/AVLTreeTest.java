@@ -10,7 +10,7 @@ public class AVLTreeTest extends SearchTreeTest {
 
     @Override
     protected int getAmountOfElements() {
-        return 1000;
+        return 1000000;
     }
 
     @Override

@@ -1,0 +1,42 @@
+
+
+-------------- Árvore Vermelho e Preta --------------
+
+
+--- Inserção ---
+
+N: 1000
+	Número médio de comparações: 22688
+	Número médio de cópias de registros: 584
+	Tempo médio gasto: 1 milisegundos
+
+N: 5000
+	Número médio de comparações: 143405
+	Número médio de cópias de registros: 2926
+	Tempo médio gasto: 3 milisegundos
+
+N: 10000
+	Número médio de comparações: 312206
+	Número médio de cópias de registros: 5823
+	Tempo médio gasto: 6 milisegundos
+
+N: 50000
+	Número médio de comparações: 1854268
+	Número médio de cópias de registros: 29162
+	Tempo médio gasto: 60 milisegundos
+
+N: 100000
+	Número médio de comparações: 3961569
+	Número médio de cópias de registros: 58237
+	Tempo médio gasto: 128 milisegundos
+
+N: 500000
+	Número médio de comparações: 22703896
+	Número médio de cópias de registros: 291921
+	Tempo médio gasto: 944 milisegundos
+
+N: 1000000
+	Número médio de comparações: 47901072
+	Número médio de cópias de registros: 587837
+	Tempo médio gasto: 2050 milisegundos
+
