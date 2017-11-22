@@ -1,5 +1,7 @@
 package compression;
 
+import java.io.File;
+
 /**
  * Interface que define o comportamento dos algoritmos de compressão.
  */
@@ -7,10 +9,10 @@ public interface CompressionAlgorithm {
 
     /**
      * Função abstrata (deve ser implementada por cada classe) que
-     * recebe uma array de bytes contendo um conteúdo qualquer e
-     * retorna uma nova array de bytes com o conteúdo comprimido.
-     * @param content Conteúdo a ser comprimido
-     * @return Conteúdo comprimido
+     * recebe um arquivo com um conteúdo qualquer e sobrescreve o
+     * arquivo com o conteúdo comprimido.
+     * @param file Arquivo que contém o que deve ser
+     *                    comprimido e recebe o novo conteúdo
      */
-    byte[] compress(byte[] content);
+    void compress(File file);
 }

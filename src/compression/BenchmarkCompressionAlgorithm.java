@@ -3,9 +3,10 @@ package compression;
 import business.TweetFileReader;
 import models.Tweet;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 import static business.BenchmarkHelper.AMOUNT_OF_SETS;
@@ -32,6 +33,7 @@ public class BenchmarkCompressionAlgorithm {
     public static void benchmarkCompressionAlgorithm(CompressionAlgorithm compressionAlgorithm,
                                                      int[] nValues, TweetFileReader tweetFileReader) {
         assert tweetFileReader != null;
+        File file = createFile();
         for (int n : nValues) {
             System.out.println("N: " + n);
             Tweet[][] tweetArrays = generateTweetArrays(n, tweetFileReader.getTweets());
@@ -39,42 +41,92 @@ public class BenchmarkCompressionAlgorithm {
             double compressionRatioSum = 0;
             long fileSizeSum = 0;
             for (Tweet[] tweets : tweetArrays) {
-                StringBuilder sb = new StringBuilder();
-                for (Tweet tweet : tweets)
-                    sb.append(tweet).append("\n");
-                byte[] content = sb.toString().getBytes();
-                long startTime = System.currentTimeMillis();
-                byte[] compressedContent = compressionAlgorithm.compress(content);
-                timeSpentSum += System.currentTimeMillis() - startTime;
-                compressionRatioSum += content.length / compressedContent.length;
-                fileSizeSum += getFileSize(compressedContent);
+                clearFile(file);
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                    for (Tweet tweet : tweets)
+                        bw.write(tweet.toString() + "\n");
+                    long startTime = System.currentTimeMillis();
+                    long fileSize = getFileSize(file);
+                    compressionAlgorithm.compress(file);
+                    long compressedFileSize = getFileSize(file);
+                    timeSpentSum += System.currentTimeMillis() - startTime;
+                    compressionRatioSum += fileSize / compressedFileSize;
+                    fileSizeSum += compressedFileSize;
+                } catch (IOException e) {
+                    System.out.println("Falha ao escrever no arquivo temporário.");
+                    System.out.println(e.getMessage());
+                    System.exit(0);
+                }
             }
             System.out.println("\tTaxa de compressão média: " + (compressionRatioSum / AMOUNT_OF_SETS));
             System.out.println("\tTamanho médio do arquivo em disco: " + (fileSizeSum / AMOUNT_OF_SETS) + " bytes");
             System.out.println(String.format("\tTempo médio gasto: %d milisegundos\n", (timeSpentSum / AMOUNT_OF_SETS)));
         }
+        deleteFile(file.toPath());
     }
 
     /**
-     * Função que recebe uma array de bytes, escreve esse conteúdo
-     * em um arquivo e retorna o tamanho de tal arquivo.
-     * @param content Conteúdo a ser escrito
-     * @return Tamanho do arquivo com conteúdo escrito
+     * Cria um arquivo temporário para ser utilizado pelos algoritmos
+     * de compressão a serem analisados.
+     * @return Arquivo temporário criado
      */
-    private static long getFileSize(byte[] content) {
+    private static File createFile() {
         try {
-            Path tempDir = Files.createTempDirectory("temp");
-            Path tempFile = Files.createTempFile(tempDir, "tempCompression", ".tmp");
-            Files.write(tempFile, content, StandardOpenOption.WRITE);
-            long fileSize = Files.size(tempFile);
-            Files.deleteIfExists(tempFile);
-            Files.deleteIfExists(tempDir);
-            return fileSize;
+            Path filePath = Paths.get("tempCompression.tmp");
+            deleteFile(filePath);
+            Path tempFile = Files.createFile(Paths.get("tempCompression.tmp"));
+            return tempFile.toFile();
         } catch (IOException e) {
             System.out.println("Falha ao criar o arquivo temporário.");
             System.out.println(e.getMessage());
             System.exit(0);
+            return null;
         }
-        return 0;
+    }
+
+    /**
+     * Limpa o conteúdo do arquivo recebido.
+     * @param file Arquivo a ser limpado
+     */
+    private static void clearFile(File file) {
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Falha ao limpar o arquivo temporário.");
+            System.out.println(e.getMessage());
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Retorna o tamanho em bytes do arquivo recebido.
+     * @param file Arquivo
+     * @return Um long que corresponde ao tamanho em bytes do arquivo
+     */
+    private static long getFileSize(File file) {
+        try {
+            return Files.size(file.toPath());
+        } catch (IOException e) {
+            System.out.println("Falha ao obter o tamanho do arquivo temporário.");
+            System.out.println(e.getMessage());
+            System.exit(0);
+            return 0;
+        }
+    }
+
+    /**
+     * Deleta o arquivo recebido.
+     * @param path Caminho do arquivo a ser deletado
+     */
+    private static void deleteFile(Path path) {
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            System.out.println("Falha ao deletar o arquivo temporário.");
+            System.out.println(e.getMessage());
+            System.exit(0);
+        }
     }
 }

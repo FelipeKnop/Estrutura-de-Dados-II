@@ -1,10 +1,12 @@
 package compression;
 
+import java.io.File;
+
 public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
 
     // TODO
     @Override
-    public byte[] compress(byte[] content) {
-        return content;
+    public void compress(File file) {
+
     }
 }
