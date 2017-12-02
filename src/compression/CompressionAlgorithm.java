@@ -7,10 +7,10 @@ public interface CompressionAlgorithm {
 
     /**
      * Função abstrata (deve ser implementada por cada classe) que
-     * recebe uma array de bytes contendo um conteúdo qualquer e
+     * recebe uma String contendo um conteúdo qualquer e
      * retorna uma nova array de bytes com o conteúdo comprimido.
      * @param content Conteúdo a ser comprimido
      * @return Conteúdo comprimido
      */
-    byte[] compress(byte[] content);
+    byte[] compress(String content);
 }
