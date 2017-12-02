@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
 
-    private static final int WINDOW_SIZE = 20;
+    private static final int WINDOW_SIZE = 15;
     private static final int BUFFER_SIZE = 15;
 
     @Override
