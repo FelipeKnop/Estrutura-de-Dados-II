@@ -2,16 +2,13 @@ package compression;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-
 public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
 
-    private static final int WINDOW_SIZE = 15;
-    private static final int BUFFER_SIZE = 7;
+    private static final int WINDOW_SIZE = 63;
+    private static final int BUFFER_SIZE = 3;
 
     @Override
-    public byte[] compress(String content) {
-        ArrayList<Boolean> output = new ArrayList<>();
+    public void compress(String content, BinaryOutputStream out) {
         int i = 0;
         while (i < content.length()) {
             Pair<Integer, Integer> match = findLongestMatch(content, i);
@@ -20,32 +17,18 @@ public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
                 int bestMatchDistance = match.getKey();
                 int bestMatchLength = match.getValue();
 
-                output.add(true);
-                output.addAll(fromBytes((char) (bestMatchDistance >> 4)));
-                output.addAll(fromBytes((char) (((bestMatchDistance & 0xf) << 4) | bestMatchLength)));
+                out.write(true);
+                out.write(bestMatchDistance, 6);
+                out.write(bestMatchLength, 2);
 
                 i += bestMatchLength;
             } else {
-                output.add(false);
-                output.addAll(fromBytes(content.charAt(i)));
+                out.write(false);
+                out.write(content.charAt(i));
 
                 i++;
             }
         }
-
-        for (i = output.size() % 8; i < 8; i++)
-            output.add(false);
-
-        return toByteArray(output);
-    }
-
-    private byte[] toByteArray(ArrayList<Boolean> list) {
-        byte[] result = new byte[list.size() / 8];
-        for (int i = 0; i < result.length; i++)
-            for (int j = 0; j < 8; j++)
-                if (list.get(i * 8 + j))
-                    result[i] |= (128 >> j);
-        return result;
     }
 
     private Pair<Integer, Integer> findLongestMatch(String content, int position) {
@@ -76,13 +59,5 @@ public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
             return new Pair<>(bestMatchDistance, bestMatchLength);
 
         return null;
-    }
-
-    private ArrayList<Boolean> fromBytes(char c) {
-        ArrayList<Boolean> result = new ArrayList<>();
-        String binaryString = Integer.toBinaryString((int) c);
-        for (char bit : binaryString.toCharArray())
-            result.add(bit == '1');
-        return result;
     }
 }
