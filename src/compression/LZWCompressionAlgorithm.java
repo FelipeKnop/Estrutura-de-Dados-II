@@ -22,18 +22,18 @@ public class LZWCompressionAlgorithm implements CompressionAlgorithm {
         int tam = content.length();
         while(i < tam)
         {
-            reader = oldReader + content.charAt(i);
-            if (reader.length() > 1)
-            {
-                if(!dicionario.containsKey(reader))
-                {
-                    dicionario.put(reader,255+count);
-                    count++;
-                    output.write (dicionario.get(oldReader));
-                    oldReader  = "" + content.charAt(i);
-                }
-                else oldReader = reader;
 
+            if( content.charAt(i)<=255 ) {   //Verifica se caracter pertence a valores basicos da tabela ASCII
+                reader = oldReader + content.charAt(i);
+                if (reader.length() > 1) {
+                    if (!dicionario.containsKey(reader)) {
+                        dicionario.put(reader, 255 + count);
+                        count++;
+                        output.write(dicionario.get(oldReader));
+                        oldReader = "" + content.charAt(i);
+                    } else oldReader = reader;
+
+                }
             }
            i++;
 
