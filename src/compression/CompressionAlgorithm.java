@@ -7,10 +7,11 @@ public interface CompressionAlgorithm {
 
     /**
      * Função abstrata (deve ser implementada por cada classe) que
-     * recebe uma String contendo um conteúdo qualquer e
-     * retorna uma nova array de bytes com o conteúdo comprimido.
+     * recebe uma String contendo um conteúdo qualquer e um
+     * {@link BinaryOutputStream} que receberá o resultado da
+     * compressão.
      * @param content Conteúdo a ser comprimido
-     * @return Conteúdo comprimido
+     * @param out BinaryOutputStream que escreve no arquivo
      */
-    byte[] compress(String content);
+    void compress(String content, BinaryOutputStream out);
 }
