@@ -7,7 +7,7 @@ public class LZWCompressionAlgorithm implements CompressionAlgorithm {
 
     // TODO
     @Override
-    public byte[] compress(String content) {
+    public void compress(String content, BinaryOutputStream output) {
         char c ;
         //Iniciando dicionario com caracteres basicos da tabela ASCII
         Map<String,Integer>  dicionario = new HashMap<>();
@@ -18,7 +18,6 @@ public class LZWCompressionAlgorithm implements CompressionAlgorithm {
         }
         String oldReader="" + content.charAt(0);
         String reader = "" ;
-        String output = "";
         int count = 1, i = 1;
         int tam = content.length();
         while(i < tam)
@@ -30,8 +29,8 @@ public class LZWCompressionAlgorithm implements CompressionAlgorithm {
                 {
                     dicionario.put(reader,255+count);
                     count++;
-                    output = output +  dicionario.get(oldReader);
-                    oldReader  = "" + reader.charAt(reader.length()-1);
+                    output.write (dicionario.get(oldReader));
+                    oldReader  = "" + content.charAt(i);
                 }
                 else oldReader = reader;
 
@@ -40,6 +39,6 @@ public class LZWCompressionAlgorithm implements CompressionAlgorithm {
 
         }
 
-        return output.getBytes();
+
     }
 }
