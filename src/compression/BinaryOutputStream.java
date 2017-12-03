@@ -96,7 +96,7 @@ public class BinaryOutputStream {
     }
 
     /**
-     * Escreve o int de r bits no arquivo de saída.
+     * Escreve os últimos r bits do int no arquivo de saída.
      * @param x int a ser escrito
      * @param r quantidade de bits relevantes do int
      */

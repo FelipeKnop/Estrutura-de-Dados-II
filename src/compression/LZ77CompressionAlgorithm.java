@@ -61,8 +61,8 @@ public class LZ77CompressionAlgorithm implements CompressionAlgorithm {
                 int bestMatchLength = match.getValue();
 
                 out.write(true); // Escreve a flag 1
-                out.write(bestMatchDistance << 2, 6); // Escreve os 6 últimos bits da distância
-                out.write(bestMatchLength << 6, 2); // Escreve os 2 últimos bits do comprimento
+                out.write(bestMatchDistance, 6); // Escreve os 6 últimos bits da distância
+                out.write(bestMatchLength, 2); // Escreve os 2 últimos bits do comprimento
 
                 i += bestMatchLength;
             } else {
