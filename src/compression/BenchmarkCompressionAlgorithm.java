@@ -3,6 +3,9 @@ package compression;
 import business.TweetFileReader;
 import models.Tweet;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,15 +63,27 @@ public class BenchmarkCompressionAlgorithm {
         for (Tweet[] tweets : tweetArrays) {
             ExecutorService executor = Executors.newCachedThreadPool(); // Cria o executor de Threads
             executor.submit(() -> { // Executa o bloco de código a seguir em outra Thread
+                File tempFile = createTempFile();
+                BinaryOutputStream out = null;
+                try {
+                    out = new BinaryOutputStream(new BufferedOutputStream(new FileOutputStream(tempFile)));
+                } catch (FileNotFoundException e) {
+                    System.out.println("Falha ao escrever no arquivo temporário.");
+                    System.out.println(e.getMessage());
+                    System.exit(0);
+                }
                 StringBuilder sb = new StringBuilder();
                 for (Tweet tweet : tweets)
                     sb.append(tweet).append("\n");
                 String content = sb.toString();
                 long startTime = System.currentTimeMillis();
-                byte[] compressedContent = compressionAlgorithm.compress(content);
+                long contentSize = content.getBytes().length;
+                compressionAlgorithm.compress(content, out);
+                out.close();
+                long compressedFileSize = getFileSize(tempFile);
                 timeSpentSum[0] += System.currentTimeMillis() - startTime;
-                compressionRatioSum[0] += (double) content.getBytes().length / compressedContent.length;
-                fileSizeSum[0] += compressedContent.length;
+                compressionRatioSum[0] += (double) contentSize / compressedFileSize;
+                fileSizeSum[0] += compressedFileSize;
                 countDownLatch.countDown();
 
                 if (countDownLatch.getCount() == 0) { // Se já tiverem sido processados todos os conjuntos de Tweets
@@ -81,6 +96,32 @@ public class BenchmarkCompressionAlgorithm {
                     callback.run();
                 }
             });
+        }
+    }
+
+    private static File createTempFile() {
+        try {
+            Path tempDir = Files.createTempDirectory("temp");
+            File tempFile = Files.createTempFile(tempDir, "tempCompression", ".tmp").toFile();
+            tempFile.deleteOnExit();
+            tempDir.toFile().deleteOnExit();
+            return tempFile;
+        } catch (IOException e) {
+            System.out.println("Falha ao criar o arquivo temporário.");
+            System.out.println(e.getMessage());
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private static long getFileSize(File file) {
+        try {
+            return Files.size(file.toPath());
+        } catch (IOException e) {
+            System.out.println("Falha ao accessar o arquivo temporário.");
+            System.out.println(e.getMessage());
+            System.exit(0);
+            return 0;
         }
     }
 }
