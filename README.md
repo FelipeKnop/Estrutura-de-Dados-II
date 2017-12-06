@@ -37,3 +37,9 @@ https://www.dropbox.com/s/07zflza2hj6njzj/tweets.txt?dl=0
 - [x] RedBlackTree
 - [x] SplayTree
 - [x] B Tree
+
+## Algoritmos de Compressão
+- [x] LZ77
+- [x] LZ78
+- [x] LZW
+- [x] Huffman
